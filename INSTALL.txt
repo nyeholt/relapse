@@ -10,5 +10,6 @@ Installation
 -- the site_domain
 -- the site_context
 -- the smtp server
+- Unzip lib/Zend.zip to the root directory if you don't have the Zend framework installed (v 1.8.1 is known to work...)
 - Run the 'create_admin.php' script 'php scripts/create_admin.php' which will create an admin user with the password "admin"
 - Navigate and login
