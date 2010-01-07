@@ -1,0 +1,37 @@
+.timetable table {
+		border-collapse: collapse;
+		border: 0px;
+		font-size: 8px;
+	}
+.timetable td {
+	border: 1px solid black;
+	height: 100px;
+	width: 5px;
+	background-color: #DFBBA7;
+}
+
+.timetable td.taken {
+	border: 1px solid black;
+	height: 100px;
+	width: 5px;
+	background-color: #CF7240;
+}
+
+.timetable td.time {
+	width: 10px;
+	
+}
+
+.timetable td.time-numbers {
+	height: 10px;
+	text-align: center;
+	width: 20px;
+}
+
+.timetable td.locked-slot {
+	 background-color: #444411;
+}
+
+.timetable td.selected-slot {
+	 background-color: #44ff33;
+}

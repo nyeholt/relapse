@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript" src="shadedborder.js"></script>
+
+<style type="text/css">
+/* <![CDATA[ */
+
+html { font-family:sans-serif; background:url(back.jpg); }
+html, body { margin:0; padding:0; }
+p { margin:5px 0; }
+.headfoot { background:#444; text-align:right; color:#ddd;
+            padding:10px; margin:0; }
+.headfoot h1 { font-size:1.3em; padding:0; margin:0; }
+.headfoot a { color:#fff; }
+
+/* For the first shadowed border */
+#shadowed-border { padding:20px; width:80%; margin:20px auto; }
+#shadowed-border .sb-inner { background:#ccc; }
+#shadowed-border .sb-border { background:#fff; }
+
+/* The tabs */
+#tabs { overflow:hidden; padding:0; margin:20px auto 0 auto; width:400px; }
+* html #tabs { height:1%; }
+#tabs .tab { float:left; color:#000; list-style:none; padding:0; margin-left:5px; }
+* html #tabs .tab { display:inline-block; }
+#tabs .tab a { display:block; float:left; text-decoration:none; padding:5px; color:#000; }
+#tabs .tab .sb-inner { background:#ccc; }
+#tabs .tab:hover .sb-inner { background:#eee; }
+#tabs .tab .sb-border { background:#fff; }
+#tabs-content { background:#ccc; width:380px; margin:-1px auto 20px auto; padding:10px; 
+                border:1px solid #fff; }
+
+/* The links */
+#links { color:#4c2; padding:20px; margin:20px; width:400px; margin:0 auto; }
+#links .sb-inner { background:#444; }
+#links a { color:#9f2; }
+#links a .sb-shadow { background:transparent; }
+#links a:hover .sb-shadow { background:#777; }
+
+/* Partial stuff */
+#partial { overflow:hidden; width:500px; margin:20px auto; }
+* html .partial { height:1%; }
+.partial-class { float:left; width:30px; height:30px; padding:10px; 
+                 margin-left:10px; color:#4c2; }
+.partial-class .sb-inner { background:#444; }
+.partial-class .sb-border { background:#fff; }
+
+#change-border { color:#fff; padding:20px; margin:20px auto; width:300px; }
+.change-border0 .sb-inner { background:#444; }
+.change-border1 .sb-inner { background:#888; }
+
+/* ]]> */
+</style>
+
+<script language="javascript" type="text/javascript">
+  var t = new Date().getTime();
+  var shadowedBorder = RUZEE.ShadedBorder.create({ corner:8, shadow:16, border:2 });
+  var tabBorder = RUZEE.ShadedBorder.create({ corner:8, edges:"tlr", border:1 });
+  var linksBorder = RUZEE.ShadedBorder.create({ corner:10 });
+  var linkBorder = RUZEE.ShadedBorder.create({ shadow:4 });
+  var changeBorders = [
+    RUZEE.ShadedBorder.create({ corner:20 }),
+    RUZEE.ShadedBorder.create({ corner:10, shadow:20 })
+  ];
+  
+  var partialIDs = ["tl", "tr", "bl", "br", "tlr", "blr", "tbl", "tbr"];
+  var partialBorders = {};
+  for (var i=0; i<partialIDs.length; ++i) {
+    partialBorders[partialIDs[i]] = RUZEE.ShadedBorder.create({
+        corner:10, border:2, edges:partialIDs[i] });
+  }
+  var calcTime = "Calculation time: " + ((new Date().getTime() - t) / 1000.0) + "s";
+</script>
+
+</head>
+<body>
+  <div class="headfoot">
+    <h1><a href="http://www.ruzee.com/blog/shadedborder">
+      RUZEE.ShadedBorder</a> Examples</h1>
+  </div>
+
+  <div id="shadowed-border" class="sb">
+    <script type="text/javascript">
+      document.write('<div onload="alert(\'ok\');"></div>');
+    </script>
+    <p>This shadowed border has a width of 80% and hence scales with the size of
+       your browser window. Try it out ;-) And now some Lorem ipsum:</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+       sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+  </div>
+
+  <ul id="tabs">
+    <li class="tab sb"><a href="#">Tab 1</a></li>
+    <li class="tab sb"><a href="#">Tab 2</a></li>
+    <li class="tab sb"><a href="#">And a third tab</a></li>
+  </ul>
+  <div id="tabs-content">
+    Tabs that change the color when hovered over (hover works on all supported browser
+    but Internet Explorer 6.0).
+  </div>
+
+  <div id="links" class="sb">
+    <p>
+    Links that "glow" when hovered over - this is alpha code...
+    It doesn't work in IE6 and Opera and looks strange in Safari.
+    This is some text with some <a href="#" class="sbi"><span>links</span></a>. 
+    Don't get bored by the content but hover over the links ...
+    This is some text with some <a href="#" class="sbi"><span>links</span></a>. 
+    Don't get bored by the content but hover over the links ...
+    </p>
+  </div>
+  
+  <div id="partial">
+    <div class="partial-class sb" id="tl"><div>tl</div></div>
+    <div class="partial-class sb" id="tr"><div>tr</div></div>
+    <div class="partial-class sb" id="bl"><div>bl</div></div>
+    <div class="partial-class sb" id="br"><div>br</div></div>
+    <div class="partial-class sb" id="tlr"><div>tlr</div></div>
+    <div class="partial-class sb" id="blr"><div>blr</div></div>
+    <div class="partial-class sb" id="tbl"><div>tbl</div></div>
+    <div class="partial-class sb" id="tbr"><div>tbr</div></div>
+  </div>
+
+  <div id="change-border" class="sb">
+    <button onclick="changeBorder()">Change this border</button>
+    <div>Some Text</div>
+    Text that gets hidden - you can do nothing about it...
+    <div>And some more text</div>
+  </div>
+
+  <div class="headfoot">  
+    <div id="calcTime"></div>
+    <div id="renderTime"></div>
+  </div>
+  
+  <script language="javascript" type="text/javascript">
+  if (!window.$) {
+    window.$ = function(id) { return document.getElementById(id); }
+  }
+  
+  var currentChangeBorder=0;
+  
+  function changeBorder() {
+    currentChangeBorder = (currentChangeBorder + 1) % changeBorders.length;
+    $('change-border').className = 'sb change-border' + currentChangeBorder;
+    changeBorders[currentChangeBorder].render('change-border');
+  }
+  
+  var t = new Date().getTime();
+  shadowedBorder.render('shadowed-border');
+  
+  var tabs = $('tabs').getElementsByTagName("li");
+  for (var i=0; i < tabs.length; ++i) {
+    tabBorder.render(tabs[i]);
+  }
+  linksBorder.render('links');
+  linkBorder.render($('links').getElementsByTagName('a'));
+
+  for (id in partialBorders) {
+    partialBorders[id].render(id);
+  }
+
+  changeBorder();
+  
+  $('calcTime').innerHTML = calcTime;
+  $('renderTime').innerHTML = "Render time: " + ((new Date().getTime() - t) / 1000.0) + "s";
+  </script>
+
+</body>
+</html>

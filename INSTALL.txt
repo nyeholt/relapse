@@ -1,0 +1,14 @@
+
+Installation
+============
+
+- Extract the .zip file to a web accessible directory
+- Import the data/schema.sql file to a MySQL database
+- Change the user-config.php file and set 
+-- the database details
+-- the from_email
+-- the site_domain
+-- the site_context
+-- the smtp server
+- Run the 'create_admin.php' script 'php scripts/create_admin.php' which will create an admin user with the password "admin"
+- Navigate and login
