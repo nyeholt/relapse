@@ -21,18 +21,18 @@ $user_config = array (
       array (
         'host' => 'localhost',
         'username' => 'root',
-        'password' => '',
+        'password' => 'w0rd',
         'dbname' => 'relapsetesting',
         'profiler' => true,
       ),
     ),
-    'AlfrescoFileService' => 
-    array(
-        // 'replace' => 'FileService',
-        // 'alfresco_url' => 'http://localhost:8080/alfresco/api',
-        'alfresco_user' => 'admin',
-        'alfresco_pass' => 'admin',
-    ),
+//    'AlfrescoFileService' =>
+//    array(
+//        // 'replace' => 'FileService',
+//        // 'alfresco_url' => 'http://localhost:8080/alfresco/api',
+//        'alfresco_user' => 'admin',
+//        'alfresco_pass' => 'admin',
+//    ),
     /*'LdapAuthComponent' => 
     array(
         'host' => 'localhost',

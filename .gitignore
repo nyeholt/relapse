@@ -1,5 +1,7 @@
 data/
+simpletest/
 user-config.php
 Zend/
 sessions/
 nbproject/
+testing/*.log

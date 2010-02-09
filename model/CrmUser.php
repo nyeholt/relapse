@@ -2,9 +2,6 @@
 
 class CrmUser extends User 
 {
-    const FOCUS_RND = "R'n'D";
-    const FOCUS_SERVICES = 'Services';
-    const FOCUS_MANAGEMENT = 'Management';
 
     /**
      * When did this user start with the company?
@@ -13,14 +10,13 @@ class CrmUser extends User
      */
     public $startdate;
     
-    
     /**
      * A user may have a contact associated with them
      *
      * @var int
      */
     public $contactid;
-    
+
     public function __construct()
     {
         parent::__construct();

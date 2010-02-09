@@ -68,7 +68,14 @@ class AuthComponent implements Configurable, Authenticator
         
         return false;
     }
-    
+
+	/**
+	 * Authenticates a user against the ticket they have
+	 *
+	 * @param String $username
+	 * @param String $ticket
+	 * @return boolean
+	 */
     public function authenticateTicket($username, $ticket)
     {
     	foreach ($this->authenticators as $authClass) {

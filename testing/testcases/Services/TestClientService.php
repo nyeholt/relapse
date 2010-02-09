@@ -12,7 +12,7 @@ class TestClientService extends UnitTestCase
         /* @var $clientService ClientService */
         
         $params['title'] = 'Client';
-        
+
         $client = $clientService->saveClient($params);
         
         $project = $clientService->getClientSupportProject($client);

@@ -9,11 +9,11 @@ class TestUserService extends UnitTestCase
      */
     public function testGetUsers()
     {
-        $dbService = Zend_Registry::get('DbService');
+        $dbService = za()->getService('DbService');
         /* @var $dbService DbService */
         $dbService->delete('crmuser');
         
-        $userService = Zend_Registry::get('UserService');
+        $userService = za()->getService('UserService');
         /* @var $userService UserService */
         
         $params['username'] = 'admin';
@@ -34,16 +34,34 @@ class TestUserService extends UnitTestCase
         
         $this->assertEqual(2, count($users));
     }
-    
+
+	public function testAuthenticateUser()
+	{
+		$dbService = za()->getService('DbService');
+        /* @var $dbService DbService */
+        $dbService->delete('crmuser');
+
+        $userService = za()->getService('UserService');
+        /* @var $userService UserService */
+
+        $params['username'] = 'admin';
+        $params['email'] = 'nyeholt@gmail.com';
+        $params['password'] = 'admin';
+        $newUser = $userService->createUser($params);
+
+		
+	}
+
+
     public function testGetAuthorities()
     {
-        $dbService = Zend_Registry::get('DbService');
+        $dbService = za()->getService('DbService');
         /* @var $dbService DbService */
         $dbService->delete('usergroup');
         $dbService->delete('groupmember');
         
-        $groupService = Zend_Registry::get('GroupService');
-        $userService = Zend_Registry::get('UserService');
+        $groupService = za()->getService('GroupService');
+        $userService = za()->getService('UserService');
         /* @var $userService UserService */
         
         $params = array();
@@ -140,7 +158,7 @@ class TestUserService extends UnitTestCase
     
     public function testLeaveCalculation()
     {
-        $userService = Zend_Registry::get('UserService');
+        $userService = za()->getService('UserService');
         /* @var $userService UserService */
         
         $users = $userService->getUserList();

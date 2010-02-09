@@ -34,13 +34,21 @@ class User extends Bindable implements NovemberUser
 	public $id = 0;
 	public $username = 'Anonymous';
 	public $password;
+
+	public $salt;
+	
 	public $ticket;
+
 	public $role = User::ROLE_GUEST;
+
 	public $email;
+
 	public $created;
+	
 	public $lastlogin;
 
 	public $firstname;
+	
 	public $lastname;
 	
 	/**
@@ -175,7 +183,26 @@ class User extends Bindable implements NovemberUser
     	$format = $this->dateformat ? $this->dateformat : 'F jS, Y';
         return date($format, strtotime($date));
     }
-    
+	
+	/**
+	 * Generate and set a salted password value for this user object
+	 *
+	 * @param String $rawPassword 
+	 *			The raw password for the user that needs to be salted before
+	 *			storage
+	 */
+	public function generateSaltedPassword($rawPassword)
+	{
+		$this->salt = sha1(uniqid(rand(), true));
+		$this->password = sha1($rawPassword.$this->salt);
+	}
+
+    /**
+	 *
+	 * @param Datetime $date
+	 *			The date to format
+	 * @return String
+	 */
     public function wordedDate($date)
     {
     	$format = $this->longdateformat ? $this->longdateformat : 'F jS, Y';

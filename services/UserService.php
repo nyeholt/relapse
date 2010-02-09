@@ -166,12 +166,15 @@ class UserService implements Configurable
         if (isset($params['password'])) {
             $newPass = $params['password'];
         }
-        
-        $params['password'] = md5($params['password']);
+
         $params['role'] = $role;
         // Create a user with initial information
         $user = $userType;
         $user = new $user();
+
+		$user->generateSaltedPassword($params['password']);
+		unset($params['password']);
+
         $user->bind($params);
 
         $validator = new ModelValidator();
@@ -214,7 +217,8 @@ class UserService implements Configurable
         $newPass = null;
         if (isset($params['password'])) {
             $newPass = $params['password'];
-            $params['password'] = md5($params['password']);
+			$userToEdit->generateSaltedPassword($params['password']);
+			unset($params['password']);
         }
 
         $userToEdit->bind($params);

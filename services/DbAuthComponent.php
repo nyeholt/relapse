@@ -12,7 +12,7 @@ class DbAuthComponent implements Authenticator
      * @var DbService
      */
     public $dbService;
-    
+
     /**
 	 * Given a username and password,
 	 * validates the user and returns the 
@@ -24,17 +24,20 @@ class DbAuthComponent implements Authenticator
 	 */
 	public function authenticate($username, $password, $userClass='User')
 	{
-		$fields = array('username' => $username, 'password' => md5($password));
+		$fields = array('username' => $username);
 		$user = $this->dbService->getByField($fields, $userClass);
 		if ($user != null && $user->id) {
-			return $user;
+			// check the salted password
+			$storedPass = sha1($password.$user->salt);
+			if ($storedPass == $user->password) {
+				return $user;
+			}
 		}
 		return false;
 	}
 
     public function updateUser($user, $newPassword=null)
     {
-
     }
 	
 	public function authenticateTicket($username, $ticket)
