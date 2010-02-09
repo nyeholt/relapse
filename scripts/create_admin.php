@@ -30,9 +30,8 @@ $user = $userService->getUserByField('username', 'admin');
 if (!$user) {
 	$params = array(
 		'username'=>'admin',
-		'email'=>'nyeholt@gmail.com',
+		'email'=>'admin@admin.com',
 		'password'=>'admin',
-		
 	);
 	$userService->createUser($params, true, User::ROLE_ADMIN);
 }

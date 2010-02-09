@@ -3,10 +3,6 @@
 include_once 'extensions/filemanager/model/File.php';
 include_once 'extensions/filemanager/exceptions/FileExistsException.php';
 
-require_once('Alfresco/Service/Repository.php');
-require_once('Alfresco/Service/Session.php');
-include_once 'Alfresco/Service/SpacesStore.php';
-include_once 'Alfresco/Service/ContentData.php';
 
 class AlfrescoFileService implements Configurable
 {
@@ -31,6 +27,12 @@ class AlfrescoFileService implements Configurable
 
     public function configure($config)
     {
+
+		require_once('Alfresco/Service/Repository.php');
+		require_once('Alfresco/Service/Session.php');
+		include_once 'Alfresco/Service/SpacesStore.php';
+		include_once 'Alfresco/Service/ContentData.php';
+
         $this->alfrescoUrl = ifset($config, 'alfresco_url');
 
         if (!empty($this->alfrescoUrl)) {

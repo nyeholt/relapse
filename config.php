@@ -1,5 +1,5 @@
 <?php
-ini_set('memory_limit', '16M');
+ini_set('memory_limit', '24M');
 define('APP_DIR', dirname(__FILE__));
 
 if (!defined('BASE_DIR')) {

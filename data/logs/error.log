@@ -1,3 +1,0 @@
-[27-Nov-2009 15:57:02] PHP Warning:  include_once(Zend/Loader.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory in /home/marcus/www/relapse/index.php on line 12
-[27-Nov-2009 15:57:02] PHP Warning:  include_once() [<a href='function.include'>function.include</a>]: Failed opening 'Zend/Loader.php' for inclusion (include_path='.:/usr/share/php:/usr/share/pear') in /home/marcus/www/relapse/index.php on line 12
-[27-Nov-2009 15:57:02] PHP Fatal error:  Class 'Zend_Loader' not found in /home/marcus/www/relapse/index.php on line 16

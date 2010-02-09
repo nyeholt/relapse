@@ -1,2 +1,5 @@
-data
+data/
 user-config.php
+Zend/
+sessions/
+nbproject/
