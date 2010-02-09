@@ -34,8 +34,6 @@ class ProjectService
     
     /**
      * @var ItemLinkService
-     * 
-     * 
      */
     public $itemLinkService;
     
@@ -68,15 +66,16 @@ class ProjectService
 
         if (!$proj->ownerid || $proj->ownerid == ' ') {
             // create a default project for this item.
-            $projectGroup = $this->groupService->getGroupByField('title', $proj->title.' Project Group');
-            if ($projectGroup) {
-                $proj->ownerid = $projectGroup->id;
-            } else {
-                $newGroup = $this->groupService->createGroup(array('title' => $proj->title.' Project Group'));
-                $proj->ownerid = $newGroup->id;
-            }
-
-            $this->saveProject($proj);
+//            $projectGroup = $this->groupService->getGroupByField('title', $proj->title.' Project Group');
+//            if ($projectGroup) {
+//                $proj->ownerid = $projectGroup->id;
+//            } else {
+//
+//                $newGroup = $this->groupService->createGroup(array('title' => $proj->title.' Project Group'));
+//                $proj->ownerid = $newGroup->id;
+//            }
+//
+//            $this->saveProject($proj);
         }
 
         return $proj;

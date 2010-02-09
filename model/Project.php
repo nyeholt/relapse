@@ -69,7 +69,8 @@ class Project extends Bindable
     public $updated;
     public $created;
     public $creator;
-    
+	public $modifier;
+	
     /**
      * The date when the Free Guarantee Period started
      */

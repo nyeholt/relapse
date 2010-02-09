@@ -488,6 +488,9 @@ class DbService implements Configurable
             $select->where($key . ' = ?', $value);
         }
 
+		/* @var $select Zend_Db_Select */
+		$select->order('id desc');
+
         $obj = $this->fetchObject($select, $type, $authRole);
 
         return $obj;
@@ -626,6 +629,9 @@ class DbService implements Configurable
         $refObj = new ReflectionObject($object);
         if ($refObj->hasProperty('updated')) {
             $object->updated = date('Y-m-d H:i:s', time());
+        }
+		if ($refObj->hasProperty('modifier')) {
+            $object->modifier = za()->getUser()->getUsername();
         }
 
         if (get_class($object) == 'stdClass') {

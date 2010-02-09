@@ -5,18 +5,14 @@ ini_set('display_errors', 'On');
 ini_set('error_reporting', E_ALL | E_NOTICE);
 ini_set('error_log', dirname(__FILE__).'/error.log');
 
-// This is where the common library of helpers is located for Zend Framework things.
-// At the moment it's a global path just so it's available for all ZF apps
-// $globalLib = 'd:/www/common-php-lib';
-$generalIncludes = 'd:/www/includes';
+include_once dirname(__FILE__).'/config.php';
+
+set_include_path(get_include_path().PATH_SEPARATOR.APP_DIR);
 
 require_once('simpletest/unit_tester.php');
 require_once('simpletest/reporter.php');
 require_once('simpletest/mock_objects.php');
 
-include_once dirname(__FILE__).'/config.php';
-
-set_include_path(get_include_path().PATH_SEPARATOR.$generalIncludes.PATH_SEPARATOR.APP_DIR);
 
 include_once 'Zend/Loader.php';
 

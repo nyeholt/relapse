@@ -71,6 +71,12 @@ class IssueService
      * @var TrackerService
      */
     public $trackerService;
+
+	/**
+	 *
+	 * @var VersioningService
+	 */
+	public $versioningService;
     
     public function getIssue($id)
     {
@@ -149,16 +155,16 @@ class IssueService
     public function getIssueHistory($issue)
     {
     	if ($issue == null) return array();
-    	
-        $items = $this->trackerService->getEntries(array('actionname='=>'history', 'actionid='=>'Issue-'.$issue->id));
+
+		$items = $this->versioningService->getVersionsFor($issue);
         $issues = new ArrayObject();
 
         foreach ($items as $entry) {
-            $issue = @unserialize($entry->entrydata);
+            $issue = $entry->item;
             if ($issue != null) {
                 // Set the modifiedby value
-                $issue->modifiedby = $entry->user;
-                $issue->lastchanged = $entry->created; 
+                $issue->modifiedby = $entry->creator;
+                $issue->lastchanged = $entry->created;
                 $issues[] = $issue;
             }
         }
@@ -216,8 +222,7 @@ class IssueService
         // If there's an existing one, save it in the history
         if ($existingId) {
             $oldIssue = $this->getIssue($existingId);
-            
-            $this->trackerService->track('history', 'Issue-'.$existingId, null, null, serialize($oldIssue));
+            $this->versioningService->createVersion($oldIssue);
         }
 
         // If saving a new one, we want to
@@ -358,7 +363,7 @@ class IssueService
         $oldStatus = $oldIssue->status;
         
         $this->log->debug("Notifying ".$issue->creator." of status update");
-        $this->trackerService->track('history', 'Issue-'.$issue->id, null, null, "Notifying ".$issue->creator." of status update from $oldStatus to ".$issue->status);
+        $this->trackerService->track('issue-status-change', 'Issue-'.$issue->id, null, null, "Notifying ".$issue->creator." of status update from $oldStatus to ".$issue->status);
         $msg = new TemplatedMessage('issue-status-changed.php', array('model'=>$issue, 'oldStatus'=>$oldStatus));
         $this->notificationService->notifyUser("Request updated", $issue->creator, $msg);
     }
