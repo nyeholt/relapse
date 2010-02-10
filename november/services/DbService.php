@@ -21,20 +21,12 @@ include_once dirname(dirname(__FILE__)).'/exceptions/AccessDeniedException.php';
 
 class DbService implements Configurable
 {
-    private static $CACHE_FILE = '__type_cache.php';
     /**
      * Where are we proxying calls to?
      *
      * @var Zend_Db_Adapter_Abstract
      */
     private $proxied;
-
-    /**
-     * A map of all the properties to save for given types
-     *
-     * @var unknown_type
-     */
-    private $typeMap;
 
     /**
      * Keep track of how deep in a transaction we are. If
@@ -66,90 +58,14 @@ class DbService implements Configurable
      */
     public $itemLinkService;
 
+	/**
+	 * @var TypeManager
+	 */
+	public $typeManager;
+
     public function configure($config)
     {
         $this->proxied = Zend_Db::factory($config['db_type'], $config['db_params']);
-
-        try {
-            Zend_Loader::loadFile(self::$CACHE_FILE, 'data/cache', true);
-            global $__TYPE_CACHE;
-            if (isset($__TYPE_CACHE)) {
-                $this->typeMap = $__TYPE_CACHE;
-            } else {
-                $this->typeMap = array();
-            }
-        } catch (Zend_Exception $e) {
-            // So create the cache dammit!
-        }
-
-    }
-
-    /**
-     * Creates the cache type each time there's a new
-     * type called.
-     *
-     * @param unknown_type $type
-     */
-    protected function cacheType($type)
-    {
-        $info = new ReflectionClass($type);
-        $properties = $info->getProperties();
-        $toMap = array();
-        foreach ($properties as $property) {
-            // If it's public, then we'll use it
-            /* @var $property ReflectionProperty  */
-            if ($property->isPublic() && $property->getName() != 'id' && $property->getName() != 'constraints' && $property->getName() != 'requiredFields' && $property->getName() != 'searchableFields') {
-                $propType = $this->getTypeForProperty($property);
-                if ($propType == "unmapped") continue;
-                $toMap[$property->getName()] = $propType;
-            }
-        }
-
-        $this->typeMap[$type] = $toMap;
-        $code = '<?php
-        global $__TYPE_CACHE;
-        $__TYPE_CACHE = '.var_export($this->typeMap, true).';
-        ?>';
-        $cacheFile = APP_DIR.'/data/cache/'.self::$CACHE_FILE;
-        $fp = fopen($cacheFile, "w");
-        if ($fp) {
-            fwrite($fp, $code);
-            fclose($fp);
-        }
-    }
-
-    /**
-     * Get the type map for a given class.
-     */
-    protected function getTypeMap($class)
-    {
-        if (!isset($this->typeMap[$class])) {
-            $this->cacheType($class);
-            if (!isset($this->typeMap[$class])) {
-                throw new Exception("Tried getting row for unmapped type $class");
-            }
-        }
-
-        return $this->typeMap[$class];
-    }
-
-    /**
-     * Get the type for a property definition
-     *
-     * Checks the @doccomment field of the property to see if
-     * the user has type hinted at all by using @var <type>
-     */
-    protected function getTypeForProperty(ReflectionProperty $property)
-    {
-        $comment = $property->getDocComment();
-        $type = "unknown";
-        if (mb_strlen($comment)) {
-            // use a regex to find what we're after.
-            if (preg_match("/@var ([\w\d_]+)/", $comment, $matches)) {
-                $type = mb_strtolower($matches[1]);
-            }
-        }
-        return $type;
     }
 
     /**
@@ -309,14 +225,14 @@ class DbService implements Configurable
     {
         $tmp = new ArrayObject();
         $this->includeType($class);
-        $map = $this->getTypeMap($class);
+        $map = $this->typeManager->getTypeMap($class);
         
         $class = strtolower($class);
         if ($sql == null) {
             $sql = $this->select();
             $sql->from($class, '*');
         }
-        
+
         if (!is_null($authRole)) {
             $itemtype = $class;
             $currentUser = za()->getUser()->getUsername();
@@ -336,7 +252,9 @@ class DbService implements Configurable
             $obj = $this->unwrapRowToObject($obj, $row, $map);
             
             za()->inject($obj);
-            $tmp->append($obj);
+
+			$tmp[$obj->id] = $obj;
+            // $tmp->append($obj);
         }
 
         return $tmp;
@@ -395,7 +313,7 @@ class DbService implements Configurable
         $row = $stmt->fetch(Zend_Db::FETCH_ASSOC);
         if (!$row) return null;
 
-        $map = $this->getTypeMap($class);
+        $map = $this->typeManager->getTypeMap($class);
         
 		$obj = $this->unwrapRowToObject($obj, $row, $map);
         
@@ -489,6 +407,7 @@ class DbService implements Configurable
         }
 
 		/* @var $select Zend_Db_Select */
+		// ensures that if we have several objects, we only get the most recent
 		$select->order('id desc');
 
         $obj = $this->fetchObject($select, $type, $authRole);
@@ -525,14 +444,8 @@ class DbService implements Configurable
     public function getRowFrom($object)
     {
         $class = get_class($object);
-        if (!isset($this->typeMap[$class])) {
-            $this->cacheType($class);
-            if (!isset($this->typeMap[$class])) {
-                throw new Exception("Tried getting row for unmapped type $class");
-            }
-        }
 
-        $fields = $this->getTypeMap($class);
+        $fields = $this->typeManager->getTypeMap($class);
 
         $row = array();
         foreach ($fields as $name => $type) {
@@ -637,12 +550,17 @@ class DbService implements Configurable
         if (get_class($object) == 'stdClass') {
             throw new Exception("Cannot save stdClass");
         }
+
         $success = false;
         if ($object->id) {
             $success = $this->updateObject($object);
         } else {
             $success = $this->createObject($object);
         }
+
+		if ($success && method_exists($object, 'saved')) {
+			$object->saved();
+		}
 
         if ($success) {
 			if ($this->searchService != null) {
@@ -667,13 +585,15 @@ class DbService implements Configurable
             $where = $this->quoteInto('id = ?', $object->id);
         }
 
-        if (method_exists($object, 'update')) {
-            $object->update();
-        }
-
         $table = strtolower(get_class($object));
         $row = $this->getRowFrom($object);
-        return $this->update($table, $row, $where);
+
+		if (method_exists($object, 'update')) {
+            $object->update();
+        }
+        $ret = $this->update($table, $row, $where);
+
+		return $ret;
     }
 
     /**

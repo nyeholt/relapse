@@ -42,6 +42,11 @@ class Feature extends Bindable
      */
     public $parentpath;
 
+	/**
+	 * Which project does the feature belong to
+	 *
+	 * @var int
+	 */
     public $projectid;
     
     public $sortorder = 0;
@@ -57,18 +62,49 @@ class Feature extends Bindable
      * @var unmapped
      */
     public $projectService;
+
+	/**
+	 *
+	 * @var unmapped
+	 */
+	public $versioningService;
     
     /**
      * @var unmapped
      */
     public $itemLinkService;
-    
+
     public function __construct()
     {
         $this->created = date('Y-m-d H:i:s');
         $this->childFeatures = new ArrayObject();
     }
-    
+
+	/**
+	 * Whenever a feature is saved, it should create a new version of
+	 * itself as well as the project it is associated with, regardless if 
+	 * it's a new feature or an existing one
+	 */
+	public function saved()
+	{
+		// we need to make sure that the previous state's estimate has
+		// changed before we go about changing it
+		$mostRecent = $this->versioningService->getMostRecentVersion($this);
+		$parent = $this->projectService->getProject($this->projectid);
+		if ($mostRecent) {
+			if ($mostRecent->item->estimated != $this->estimated) {
+				$this->versioningService->createVersion($parent);
+				$this->versioningService->createVersion($this);
+			}
+		} else {
+			// create a version
+			$this->versioningService->createVersion($parent);
+			$this->versioningService->createVersion($this);
+		}
+		
+		
+	}
+
     /**
 	 * Gets the hierarchy of this task
 	 * 
