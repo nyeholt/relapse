@@ -300,7 +300,7 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 	<div id="group-users">
 		<form action="<?php echo build_url('project', 'updategroup')?>" method="post">
 		<input type="hidden" name="id" value="<?php echo $this->project->id?>" />
-		<input type="hidden" name="groupid" value="<?php echo $this->group->id?>" />
+		<input type="hidden" name="groupid" value="<?php echo $this->group ? $this->group->id : 0 ?>" />
 			<p>
 			<label for="group-users">Users</label>
 			<select name="groupusers[]" multiple="multiple" size="10" id="group-users">

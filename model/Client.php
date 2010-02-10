@@ -11,6 +11,7 @@ class Client extends Bindable
     public $updated;
     public $created;
     public $creator;
+	public $modifier;
     
     public $billingaddress;
     public $postaladdress;
@@ -60,5 +61,39 @@ class Client extends Bindable
     {
     	return $this->issueService->getIssues(array('issue.clientid=' => $this->id, 'status <> '=> Issue::STATUS_CLOSED));
     }
+}
+
+/**
+ * Version class for versions
+ */
+class ClientVersion extends Client
+{
+	/**
+	 * The original record's ID
+	 *
+	 * @var int
+	 */
+	public $recordid;
+	public $validfrom;
+	public $label;
+
+	/**
+     * Gets all the projects for this client
+     */
+    public function getProjects()
+    {
+    	return array();
+    }
+
+    /**
+     * Get all the issues for a given client
+     */
+    public function getIssues()
+    {
+    	return array();
+    }
+
+	public function created() {}
+	public function update() {}
 }
 ?>

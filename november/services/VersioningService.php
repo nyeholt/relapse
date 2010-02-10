@@ -41,22 +41,34 @@ class VersioningService
 	 */
 	public function createVersion($object, $label='')
 	{
+		// make sure that there's a versioning table available for this object
+		$versionType = get_class($object).'Version';
+		if (!class_exists($versionType)) {
+			throw new Exception("Attempting to create a version for a non-versionable object");
+		}
+
 		if (!$object) {
 			throw new Exception("Cannot create a version of an empty object");
 		}
 		// see if there's a previous object version, if so load it
 		// so we have an appropriate 'from' time
 		$lastVersion = $this->getMostRecentVersion($object);
-		$from = '2000-01-01 00:00:01';
+		$from = date('Y-m-d H:i:s');
 		if ($lastVersion) {
 			$from = date('Y-m-d H:i:s', strtotime($lastVersion->created) + 1);
 		}
 
-		$newVersion = new ObjectVersion();
-		$newVersion->objectid = $object->id;
-		$newVersion->objecttype = get_class($object);
+		$newVersion = new $versionType();
+		$properties = $object->unBind();
+
+		unset($properties['id']);
+		unset($properties['created']);
+		unset($properties['creator']);
+
+		$newVersion->bind($properties);
+
+		$newVersion->recordid = $object->id;
 		$newVersion->validfrom = $from;
-		$newVersion->item = $object; // this gets serialised automatically
 		$newVersion->label = $label;
 
 		return $this->dbService->saveObject($newVersion);
@@ -69,7 +81,8 @@ class VersioningService
 	 */
 	public function getMostRecentVersion($object)
 	{
-		return $this->dbService->getByField(array('objectid' => $object->id, 'objecttype' => get_class($object)), 'ObjectVersion');
+		$table = get_class($object).'Version';
+		return $this->dbService->getByField(array('recordid' => $object->id), $table);
 	}
 
 	/**
@@ -81,23 +94,29 @@ class VersioningService
 	 *
 	 * @param ArrayObject $objects
 	 */
-	public function getVersionsFor($object, $from=null, $to=null, $label = '')
+	public function getVersionsFor($object, $from=null, $to=null, $filter = array())
 	{
-		if (!is_array($object) || !$object instanceof ArrayAccess) {
+		$type = null;
+
+		if (is_object($object) && (!is_array($object) || !$object instanceof ArrayAccess)) {
 			$object = array($object);
+		} else if (is_string($object)) {
+			$type = $object;
 		}
 
 		$ids = array();
-		$type = '';
 
-		foreach ($object as $obj) {
-			$ids[] = $obj->id;
-			$type = get_class($obj);
+		if (!$type) {
+			foreach ($object as $obj) {
+				$ids[] = $obj->id;
+				$type = get_class($obj);
+			}
 		}
 
+		$table = mb_strtolower($type.'Version');
 		$select = $this->dbService->select();
         /* @var $select Zend_Db_Select */
-		$select->from('objectversion', '*')->where('objecttype = ?', $type);
+		$select->from($table, '*');
 		
 		if ($from) {
 			// From means versions that were created after this date
@@ -107,13 +126,14 @@ class VersioningService
 		if ($to) {
 			$select->where('validfrom < ?', $to);
 		}
-        if ($label) {
-			$select->where('label = ?', $label);
+
+		if (count($ids)) {
+			$filter['recordid'] = $ids;
 		}
 
-		$this->dbService->applyWhereToSelect(array('objectid' => $ids), $select);
+		$this->dbService->applyWhereToSelect($filter, $select);
 
-		$versions = $this->dbService->fetchObjects('ObjectVersion', $select);
+		$versions = $this->dbService->fetchObjects($type.'Version', $select);
 
 		return $versions;
 	}
@@ -129,9 +149,47 @@ class VersioningService
 	 * @param datetime $to
 	 * @param string $label
 	 */
-	public function getVersionedObjectsAt($objects, $from=null, $to=null, $label = '')
+	public function getVersionedObjectsAt($objects, $from=null, $to=null, $filter = array())
 	{
-		$versions = $this->getVersionsFor($objects);
+		$versions = $this->getVersionsFor($objects, $from, $to, $filter);
+
+		// now that we have all the versions, we need to go through and create
+		// a collection of the actual items, and make sure that if there's 'no'
+		// version, that we include the current object if it's acceptable
+
+		// if $objects is a collection, then we need to see if there are any
+		// objects in there that fit in the 'from' and 'to' if they weren't
+		// found in the list of versions
+		if (is_object($objects) && (!is_array($objects) || !$objects instanceof ArrayAccess)) {
+			$objects = array($objects->id => $objects);
+
+			foreach ($objects as $object) {
+				$has = false;
+				foreach ($versions as $v) {
+					if ($v->recordid == $object->id) {
+						$has = true;
+						break;
+					}
+				}
+
+				if (!$has) {
+					// if the current object's created date is less than the 'to'
+					// date, then it's safe to use as it existed in the range
+					$created = strtotime($object->created);
+					$toStr = strtotime($to);
+					if ($created < $to) {
+						$versions[$object->id] = $object;
+					}
+				}
+			}
+		} else if (is_string($objects)) {
+			$type = $object;
+		}
+
+
+		// else we need to see if there are any objects that exist in the 'live'
+		// tables also
+		
 	}
 }
 ?>

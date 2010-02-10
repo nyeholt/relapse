@@ -4,6 +4,8 @@ class Feature extends Bindable
     public $id;
     public $created;
     public $updated;
+	public $creator;
+	public $modifier;
     
     public $title;
     public $description;
@@ -68,6 +70,12 @@ class Feature extends Bindable
 	 * @var unmapped
 	 */
 	public $versioningService;
+
+	/**
+	 *
+	 * @var unmapped
+	 */
+	public $dbService;
     
     /**
      * @var unmapped
@@ -85,24 +93,31 @@ class Feature extends Bindable
 	 * itself as well as the project it is associated with, regardless if 
 	 * it's a new feature or an existing one
 	 */
-	public function saved()
+	public function created()
 	{
-		// we need to make sure that the previous state's estimate has
-		// changed before we go about changing it
-		$mostRecent = $this->versioningService->getMostRecentVersion($this);
 		$parent = $this->projectService->getProject($this->projectid);
-		if ($mostRecent) {
-			if ($mostRecent->item->estimated != $this->estimated) {
-				$this->versioningService->createVersion($parent);
-				$this->versioningService->createVersion($this);
-			}
-		} else {
-			// create a version
-			$this->versioningService->createVersion($parent);
-			$this->versioningService->createVersion($this);
+		if ($parent) {
+			$this->versioningService->createVersion($parent, 'featureupdate');
 		}
-		
-		
+		$this->versioningService->createVersion($this);
+	}
+
+	/**
+	 * When updated, make sure to see whether to create a new version
+	 */
+	public function update()
+	{
+		$parent = $this->projectService->getProject($this->projectid);
+		// load the current state
+		$current = $this->dbService->getById($this->id, 'Feature');
+		// $mostRecent = $this->versioningService->getMostRecentVersion($this);
+		if ($current->estimated != $this->estimated) {
+			if ($parent) {
+				$this->versioningService->createVersion($parent, 'featureupdate');
+			}
+
+			$this->versioningService->createVersion($current);
+		}
 	}
 
     /**
@@ -177,5 +192,42 @@ class Feature extends Bindable
  		}
  		return $percentageComplete;
     }
+}
+
+/**
+ * Class for mapping versions of the feature
+ */
+class FeatureVersion extends Feature
+{
+	/**
+	 * The original record's ID
+	 *
+	 * @var int
+	 */
+	public $recordid;
+
+	public $validfrom;
+	public $label;
+
+    public function saved()
+	{
+		// don't need to do anything special for a feature's version
+	}
+
+	/**
+     * Get all the tasks attached to this feature
+     *
+     * @return array
+     */
+    public function getTasks()
+    {
+    	if ($this->tasks == null) {
+    		$this->tasks = $this->itemLinkService->getLinkedItemsOfType($this, 'from', 'Task');
+    	}
+    	return $this->tasks;
+    }
+
+	public function created() {}
+	public function update() {}
 }
 ?>

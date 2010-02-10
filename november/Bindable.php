@@ -38,6 +38,29 @@ abstract class Bindable
             }
         }
     }
+
+	/**
+	 * UnBinds the object into an array of property => value
+	 *
+	 * @return array
+	 */
+	public function unBind()
+	{
+		$props = array();
+		$reflect = new ReflectionObject($this);
+        $properties = $reflect->getProperties();
+
+        foreach ($properties as $var) {
+            // Protected from alteration!
+			$key = $var->name;
+            if ($key == 'constraints' || $key == 'requiredFields' || $key == 'searchableFields' || $key == 'id') continue;
+			if ($reflect->getProperty($key)->isPublic()) {
+				$props[$key] = $this->$key;
+            }
+        }
+
+		return $props;
+	}
     
     /**
      * Classes are occasionally serialized, make sure that no services are 

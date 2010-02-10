@@ -11,7 +11,7 @@ class TestVersioning extends UnitTestCase
     {
         $dbService = za()->getService('DbService');
         /* @var $dbService DbService */
-        $dbService->delete('objectversion');
+        $dbService->delete('clientversion');
 		$dbService->delete('client');
 
         $versioningService = za()->getService('VersioningService');
@@ -25,13 +25,10 @@ class TestVersioning extends UnitTestCase
 		// version the client
 		$version = $versioningService->createVersion($client);
 
-		$this->assertEqual($client->id, $version->objectid);
-		$this->assertEqual(get_class($client), $version->objecttype);
-
-		$this->assertEqual($client->id, $version->item->id);
+		$this->assertEqual($client->id, $version->recordid);
+		$this->assertEqual(get_class($version), 'ClientVersion');
 
 		// create another version, make sure that it sets the correct 'from'
-		// date
 		$currentCreate = date('Y-m-d H:i:s', strtotime($version->created) + 1);
 		$newVersion = $versioningService->createVersion($client);
 		$this->assertEqual($currentCreate, $newVersion->validfrom);
@@ -49,7 +46,9 @@ class TestVersioning extends UnitTestCase
 
 		$versions = $versioningService->getVersionsFor($client, date('Y-m-d H:i:s', time() - 2));
 		$this->assertEqual(1, count($versions));
+
+		$allVersions = $versioningService->getVersionsFor('Client');
+		$this->assertEqual(3, count($allVersions));
 	}
-	
 }
 ?>

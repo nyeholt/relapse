@@ -261,7 +261,6 @@ class Project extends Bindable
 			'projectid =' => $this->id,
 		);
 
-
 		return $this->getTasksWhere($where, 0, $currentPage, $number, $user);
 	}
 
@@ -538,5 +537,20 @@ class Project extends Bindable
 		return round($diff / 60 / 60 / 24);
 	}
 	
+}
+
+class ProjectVersion extends Project
+{
+	/**
+	 * The original record's ID
+	 *
+	 * @var int
+	 */
+	public $recordid;
+	public $validfrom;
+	public $label;
+
+	public function created() {}
+	public function update() {}
 }
 ?>

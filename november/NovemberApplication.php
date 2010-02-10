@@ -37,6 +37,7 @@ include_once NOVEMBER_APP_DIR.'/services/SearchService.php';
 include_once NOVEMBER_APP_DIR.'/services/ScheduledTasksService.php';
 include_once NOVEMBER_APP_DIR.'/services/AccessService.php';
 include_once NOVEMBER_APP_DIR.'/services/CacheService.php';
+include_once NOVEMBER_APP_DIR.'/services/VersioningService.php';
 
 include_once NOVEMBER_APP_DIR.'/NovemberController.php';
 
@@ -343,9 +344,16 @@ class NovemberApplication
 		$this->injector->registerService($cacheService);
         $services[] = $cacheService;
     	if (isset($this->config['services']['CacheService'])) {
-            $authService->configure($this->config['services']['CacheService']);
+            $cacheService->configure($this->config['services']['CacheService']);
         }
-        
+
+		$service = new VersioningService();
+		$this->injector->registerService($service);
+        $services[] = $service;
+    	if (isset($this->config['services']['VersioningService'])) {
+            $service->configure($this->config['services']['VersioningService']);
+        }
+
         return $services;
     }
     

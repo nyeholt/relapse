@@ -90,6 +90,23 @@ class DbService implements Configurable
         return $this->proxied->$k;
     }
 
+	/**
+	 * Call a method on an object
+	 *
+	 * @param mixed $object
+	 * @param string $event
+	 * @return mixed
+	 */
+	protected function triggerObjectEvent($object, $event)
+	{
+		$args = func_get_args();
+		array_shift($args); array_shift($args);
+
+		if (method_exists($object, $event)) {
+			return call_user_func_array(array($object, $event), $args);
+		}
+	}
+
     /**
      * Start a transaction and track how many
      * are in progress
@@ -224,7 +241,7 @@ class DbService implements Configurable
     public function fetchObjects($class, $sql=null, $bind = array(), $authRole = null)
     {
         $tmp = new ArrayObject();
-        $this->includeType($class);
+        $this->typeManager->includeType($class);
         $map = $this->typeManager->getTypeMap($class);
         
         $class = strtolower($class);
@@ -349,7 +366,7 @@ class DbService implements Configurable
      */
     public function getObject($select, $type, $authRole=null)
     {
-        $this->includeType($type);
+        $this->typeManager->includeType($type);
 
         if (!is_null($authRole)) {
             $itemtype = strtolower($type);
@@ -376,7 +393,7 @@ class DbService implements Configurable
      */
     public function getById($id, $type, $authRole = null)
     {
-        $this->includeType($type);
+        $this->typeManager->includeType($type);
         $selecttype = strtolower($type);
         $select = $this->select();
         $select->
@@ -398,7 +415,7 @@ class DbService implements Configurable
      */
     public function getByField($fields, $type, $authRole = null)
     {
-        $this->includeType($type);
+        $this->typeManager->includeType($type);
         $select = $this->select();
         $select->from(strtolower($type), '*');
 
@@ -424,7 +441,7 @@ class DbService implements Configurable
      */
     public function getManyByFields($fields, $type)
     {
-        $this->includeType($type);
+        $this->typeManager->includeType($type);
         $select = $this->select();
         $select->from(strtolower($type), '*');
 
@@ -463,41 +480,6 @@ class DbService implements Configurable
         return $row;
     }
 
-    /**
-     * Ensure that a given type is actually included
-     *
-     * @param string $class
-     */
-    public function includeType($class)
-    {
-        if (empty($class)) throw new Exception("Cannot include null type");
-
-        $class = str_replace('.', '_', $class);
-
-        $dir         = 'model';
-        $file        = $class.'.php';
-
-        $source = $dir.DIRECTORY_SEPARATOR.$file;
-        if (!Zend_Loader::isReadable($source)) {
-            $extensions = za()->getExtensions();
-            foreach ($extensions as $extDir) {
-                $source = $extDir.DIRECTORY_SEPARATOR.'model'.DIRECTORY_SEPARATOR.$file;
-                if (Zend_Loader::isReadable($source)) {
-                    break;
-                }
-            }
-        }
-
-        try {
-            Zend_Loader::loadFile(basename($source), dirname($source), true);
-        } catch (Zend_Exception $ze) {
-            // ignore it, we'll just assume it was loaded elsewhere
-        }
-
-        if (!class_exists($class)) {
-            throw new Exception("Class $class not found in the model directory");
-        }
-    }
 
     /**
      * Saves an object with the given parameters.
@@ -510,8 +492,9 @@ class DbService implements Configurable
      */
     public function saveObject($params, $type='')
     {
+		$oldObject = null;
         if (is_array($params)) {
-            $this->includeType(ucfirst($type));
+            $this->typeManager->includeType(ucfirst($type));
  
             if (isset($params['id'])) {
                 $object = $this->getById((int) $params['id'], $type);
@@ -521,7 +504,6 @@ class DbService implements Configurable
             }
 
             /* @var $object Bindable */
-
             if ($object instanceof Bindable) {
                 $object->bind($params);
             } else {
@@ -552,16 +534,17 @@ class DbService implements Configurable
         }
 
         $success = false;
+
+		$this->triggerObjectEvent($object, 'beforeSave');
+
         if ($object->id) {
             $success = $this->updateObject($object);
         } else {
             $success = $this->createObject($object);
         }
 
-		if ($success && method_exists($object, 'saved')) {
-			$object->saved();
-		}
-
+		$this->triggerObjectEvent($object, 'saved');
+		
         if ($success) {
 			if ($this->searchService != null) {
 				$this->searchService->index($object);
@@ -588,9 +571,7 @@ class DbService implements Configurable
         $table = strtolower(get_class($object));
         $row = $this->getRowFrom($object);
 
-		if (method_exists($object, 'update')) {
-            $object->update();
-        }
+		$this->triggerObjectEvent($object, 'update');
         $ret = $this->update($table, $row, $where);
 
 		return $ret;
@@ -619,22 +600,17 @@ class DbService implements Configurable
         }
         $row = $this->getRowFrom($object);
         try {
-	        if (method_exists($object, 'create')) {
-	            $object->create();
-	        }
+			$this->triggerObjectEvent($object, 'create');
             $return = $this->insert($table, $row);
         	
             if ($return && $assignId) {
                 // Return the last insert ID
                 $object->id = $this->proxied->lastInsertId($table, 'id');
-	            if (method_exists($object, 'created')) {
-		            $object->created();
-		        }
+				$this->triggerObjectEvent($object, 'created');
+	            
                 return $object->id;
             }
-        	if (method_exists($object, 'created')) {
-	            $object->created();
-	        }
+			$this->triggerObjectEvent($object, 'created');
             return $return;
         } catch (Exception $e) {
             error_log("Caught: ".$e->getMessage());

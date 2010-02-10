@@ -49,6 +49,43 @@ class TypeManager implements Configurable
         }
     }
 
+
+    /**
+     * Ensure that a given type is actually included
+     *
+     * @param string $class
+     */
+    public function includeType($class)
+    {
+        if (empty($class)) throw new Exception("Cannot include null type");
+
+        $class = str_replace('.', '_', $class);
+
+        $dir         = 'model';
+        $file        = $class.'.php';
+
+        $source = $dir.DIRECTORY_SEPARATOR.$file;
+        if (!Zend_Loader::isReadable($source)) {
+            $extensions = za()->getExtensions();
+            foreach ($extensions as $extDir) {
+                $source = $extDir.DIRECTORY_SEPARATOR.'model'.DIRECTORY_SEPARATOR.$file;
+                if (Zend_Loader::isReadable($source)) {
+                    break;
+                }
+            }
+        }
+
+        try {
+            Zend_Loader::loadFile(basename($source), dirname($source), true);
+        } catch (Zend_Exception $ze) {
+            // ignore it, we'll just assume it was loaded elsewhere
+        }
+
+        if (!class_exists($class)) {
+            throw new Exception("Class $class not found in the model directory");
+        }
+    }
+
 	/**
      * Get the type map for a given class.
 	 *
