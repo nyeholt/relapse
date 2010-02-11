@@ -17,7 +17,7 @@
  * @license    New BSD License
  */
 
-class EmptyModel extends Bindable 
+class EmptyModel extends MappedObject
 {
 }
 ?>

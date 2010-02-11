@@ -1,5 +1,5 @@
 <?php
-class UserRole extends Bindable
+class UserRole extends MappedObject
 {
     const PERM_READ = 1;
     const PERM_WRITE = 2;
@@ -11,8 +11,6 @@ class UserRole extends Bindable
     
     const GROUP = 'group';
     const USER = 'user';
-    
-    public $id;
     
     public $authority;
     public $role;

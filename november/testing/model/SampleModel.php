@@ -17,7 +17,7 @@
  * @license    New BSD License
  */
 
-class SampleModel extends Bindable 
+class SampleModel extends MappedObject
 {
     public $variable;
     public $othervariable;

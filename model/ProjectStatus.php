@@ -2,17 +2,11 @@
 
 include_once 'model/Feature.php';
 include_once 'model/Task.php';
-class ProjectStatus extends Bindable
+class ProjectStatus extends MappedObject
 {
-    public $id;
     public $title;
     
     public $projectid;
-    
-    public $updated;
-    public $created;
-
-    public $creator;
     
     /**
      * The project manager's subjective view on stuff that's 

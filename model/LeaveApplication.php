@@ -1,14 +1,10 @@
 <?php
 
-class LeaveApplication extends Bindable
+class LeaveApplication extends MappedObject
 {
     const LEAVE_APPROVED = 'Approved';
     const LEAVE_DENIED = 'Denied';
     const LEAVE_PENDING = 'Pending';
-    
-    public $id;
-    public $created;
-    public $updated;
     
     public $username;
     public $from;

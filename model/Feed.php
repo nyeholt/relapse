@@ -1,11 +1,8 @@
 <?php
 
-class Feed extends Bindable 
+class Feed extends MappedObject
 {
-    public $id;
     public $title;
-    public $created;
-    public $updated;
     
     public $url;
     

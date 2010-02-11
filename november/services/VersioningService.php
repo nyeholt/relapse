@@ -131,6 +131,7 @@ class VersioningService
 			$filter['recordid'] = $ids;
 		}
 
+		$select->order('id DESC');
 		$this->dbService->applyWhereToSelect($filter, $select);
 
 		$versions = $this->dbService->fetchObjects($type.'Version', $select);
@@ -183,12 +184,12 @@ class VersioningService
 				}
 			}
 		} else if (is_string($objects)) {
-			$type = $object;
+			// else we need to see if there are any objects that exist in the 'live'
+			// tables that have existed before the 'to' date
 		}
 
 
-		// else we need to see if there are any objects that exist in the 'live'
-		// tables also
+		
 		
 	}
 }

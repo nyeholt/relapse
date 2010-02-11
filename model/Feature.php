@@ -1,12 +1,6 @@
 <?php
-class Feature extends Bindable 
+class Feature extends MappedObject
 {
-    public $id;
-    public $created;
-    public $updated;
-	public $creator;
-	public $modifier;
-    
     public $title;
     public $description;
     public $implementation;
@@ -179,7 +173,7 @@ class Feature extends Bindable
     public function getTasks()
     {
     	if ($this->tasks == null) {
-    		$this->tasks = $this->itemLinkService->getLinkedItemsOfType($this, 'from', 'Task');
+    		$this->tasks = $this->itemLinkService->getLinkedItemsOfType($this->me(), 'from', 'Task');
     	}
     	return $this->tasks;
     }
@@ -209,24 +203,14 @@ class FeatureVersion extends Feature
 	public $validfrom;
 	public $label;
 
-    public function saved()
+	public function me()
 	{
-		// don't need to do anything special for a feature's version
+		$dbService = za()->getService('DbService');
+		$type = substr(get_class($this), 0, strrpos(get_class($this), 'Version'));
+		return $dbService->getById($this->recordid, $type);
 	}
 
-	/**
-     * Get all the tasks attached to this feature
-     *
-     * @return array
-     */
-    public function getTasks()
-    {
-    	if ($this->tasks == null) {
-    		$this->tasks = $this->itemLinkService->getLinkedItemsOfType($this, 'from', 'Task');
-    	}
-    	return $this->tasks;
-    }
-
+	public function saved() {}
 	public function created() {}
 	public function update() {}
 }

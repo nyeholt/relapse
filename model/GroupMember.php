@@ -1,11 +1,8 @@
 <?php
 
-class GroupMember
+class GroupMember extends MappedObject
 {
-    public $id;
-    
     public $userid;
     public $groupid;
-
 }
 ?>

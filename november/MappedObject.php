@@ -17,8 +17,14 @@
  * @license    New BSD License
  */
 
-abstract class Bindable
+abstract class MappedObject
 {
+	public $id;
+	public $created;
+	public $updated;
+	public $creator;
+	public $modifier;
+
     /**
      * Bind all the variables into this object, 
      * but ONLY if it's already declared
@@ -60,6 +66,19 @@ abstract class Bindable
         }
 
 		return $props;
+	}
+
+	/**
+	 * A method to always get the appropriate 'this' reference for an object
+	 *
+	 * Helps in situations where a representative object is being used in place
+	 * of the real object
+	 *
+	 * @return MappedObject
+	 */
+	public function me()
+	{
+		return $this;
 	}
     
     /**

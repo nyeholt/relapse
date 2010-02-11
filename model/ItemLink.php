@@ -1,8 +1,7 @@
 <?php
 
-class ItemLink extends Bindable 
+class ItemLink extends MappedObject
 {
-    public $id;
     public $fromid;
     public $fromtype;
     public $toid;

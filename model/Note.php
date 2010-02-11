@@ -1,10 +1,8 @@
 <?php
 
-class Note extends Bindable 
+class Note extends MappedObject
 {
-    public $id;
     public $userid;
-    public $created;
     public $title;
     public $note;
     

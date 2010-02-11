@@ -1,8 +1,7 @@
 <?php
 
-class UserTaskAssignment extends Bindable
+class UserTaskAssignment extends MappedObject
 {
-    public $id;
     public $userid;
     public $taskid;
 }

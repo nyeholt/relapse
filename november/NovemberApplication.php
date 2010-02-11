@@ -25,7 +25,7 @@ include_once NOVEMBER_APP_DIR.'/CompositeView.php';
 include_once NOVEMBER_APP_DIR.'/MasterView.php';
 include_once NOVEMBER_APP_DIR.'/InjectingDispatcher.php';
 
-include_once NOVEMBER_APP_DIR.'/Bindable.php';
+include_once NOVEMBER_APP_DIR.'/MappedObject.php';
 
 include_once NOVEMBER_APP_DIR.'/services/DbService.php';
 include_once NOVEMBER_APP_DIR.'/services/TypeManager.php';

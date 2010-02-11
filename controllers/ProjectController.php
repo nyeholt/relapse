@@ -250,7 +250,7 @@ class ProjectController extends BaseController
     /**
      * Override the edit action to supply some selectable relationships
      *
-     * @param Bindable $model
+     * @param MappedObject $model
      */
     protected function prepareForEdit($model=null)
     {

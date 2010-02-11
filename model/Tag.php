@@ -1,8 +1,7 @@
 <?php
 
-class Tag extends Bindable
+class Tag extends MappedObject
 {
-    public $id;
     public $tag;
     public $itemid;
     public $itemtype;

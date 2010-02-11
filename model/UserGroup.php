@@ -1,8 +1,7 @@
 <?php
 
-class UserGroup extends Bindable 
+class UserGroup extends MappedObject
 {
-    public $id;
     public $title;
     public $description;
     
@@ -12,9 +11,6 @@ class UserGroup extends Bindable
      * @var string
      */
     public $parentpath;
-    
-    public $updated;
-    public $created;
     
     public $constraints = array();
     public $requiredFields = array('title');

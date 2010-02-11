@@ -1,11 +1,7 @@
 <?php
 
-class ExpenseReport extends Bindable
+class ExpenseReport extends MappedObject
 {
-    public $id;
-    public $created;
-    public $updated;
-    
     public $title;
     
     public $username;

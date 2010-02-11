@@ -1,9 +1,7 @@
 <?php
 
-class Project extends Bindable 
+class Project extends MappedObject
 {
-    public $id;
-
     /**
      * Which project does this one belong to? 
      */
@@ -66,11 +64,6 @@ class Project extends Bindable
 
     public $deleted = 0;
     
-    public $updated;
-    public $created;
-    public $creator;
-	public $modifier;
-	
     /**
      * The date when the Free Guarantee Period started
      */

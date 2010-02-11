@@ -1,14 +1,10 @@
 <?php
 
-class Expense extends Bindable
+class Expense extends MappedObject
 {
     const APPROVED = 'Approved';
     const PENDING = 'Pending';
     const DENIED = 'Denied';
-    
-    public $id;
-    public $created;
-    public $updated;
     
     public $expensereportid;
     public $userreportid;

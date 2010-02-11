@@ -2,16 +2,10 @@
 
 include_once 'model/Issue.php';
 
-class Client extends Bindable 
+class Client extends MappedObject
 {
-    public $id;
     public $title;
     public $description;
-    
-    public $updated;
-    public $created;
-    public $creator;
-	public $modifier;
     
     public $billingaddress;
     public $postaladdress;
@@ -51,7 +45,7 @@ class Client extends Bindable
      */
     public function getProjects()
     {
-    	return $this->projectService->getProjectsForClient($this);
+    	return $this->projectService->getProjectsForClient($this->me());
     }
     
     /**
@@ -59,7 +53,7 @@ class Client extends Bindable
      */
     public function getIssues()
     {
-    	return $this->issueService->getIssues(array('issue.clientid=' => $this->id, 'status <> '=> Issue::STATUS_CLOSED));
+    	return $this->issueService->getIssues(array('issue.clientid=' => $this->me()->id, 'status <> '=> Issue::STATUS_CLOSED));
     }
 }
 
@@ -77,21 +71,12 @@ class ClientVersion extends Client
 	public $validfrom;
 	public $label;
 
-	/**
-     * Gets all the projects for this client
-     */
-    public function getProjects()
-    {
-    	return array();
-    }
-
-    /**
-     * Get all the issues for a given client
-     */
-    public function getIssues()
-    {
-    	return array();
-    }
+	public function me()
+	{
+		$dbService = za()->getService('DbService');
+		$type = substr(get_class($this), 0, strrpos(get_class($this), 'Version'));
+		return $dbService->getById($this->recordid, $type);
+	}
 
 	public function created() {}
 	public function update() {}

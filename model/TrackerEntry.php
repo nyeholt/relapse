@@ -1,14 +1,12 @@
 <?php
 
-class TrackerEntry extends Bindable
+class TrackerEntry extends MappedObject
 {
-    public $id;
 	public $user;
 	public $url;
 	public $actionname;
 	public $actionid;
 	public $remoteip;
-	public $created;
 	public $entrydata;
 	
 	public $constraints;

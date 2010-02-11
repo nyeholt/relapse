@@ -503,11 +503,11 @@ class DbService implements Configurable
                 za()->inject($object);
             }
 
-            /* @var $object Bindable */
-            if ($object instanceof Bindable) {
+            /* @var $object MappedObject */
+            if ($object instanceof MappedObject) {
                 $object->bind($params);
             } else {
-                throw new InvalidModelException(array("Class ".get_class($object)." must subclass Bindable to use saveObject"));
+                throw new InvalidModelException(array("Class ".get_class($object)." must subclass MappedObject to use saveObject"));
             }
 
             // Validate

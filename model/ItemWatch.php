@@ -4,12 +4,8 @@
  * Represents a watch that a user has on an item in the system.
  *
  */
-class ItemWatch extends Bindable 
+class ItemWatch extends MappedObject
 {
-    public $id;
-    public $created;
-    public $updated;
-
     public $itemid;
     public $itemtype;
     /**

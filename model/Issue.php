@@ -1,6 +1,6 @@
 <?php
 
-class Issue extends Bindable 
+class Issue extends MappedObject
 {
     const CLOSED_STATUS = 'Closed';
     const STATUS_CLOSED = 'Closed';
@@ -9,7 +9,6 @@ class Issue extends Bindable
     
     const SEVERITY_ONE = "Severity 1";
     
-    public $id;
     public $title;
     
     /** Reproduction steps */
@@ -33,9 +32,6 @@ class Issue extends Bindable
     public $severity = 'Severity 3';
     public $issuetype;
     public $status = 'New';
-    public $created;
-    public $updated;
-    public $creator;
     
     public $category;
 
@@ -134,7 +130,7 @@ class Issue extends Bindable
      */
     public function getTasks()
     {
-    	return $this->itemLinkService->getLinkedItems($this);
+    	return $this->itemLinkService->getLinkedItems($this->me());
     }
     
     /**
@@ -144,7 +140,7 @@ class Issue extends Bindable
      */
     public function getNotes()
     {
-    	return $this->notificationService->getNotesFor($this);
+    	return $this->notificationService->getNotesFor($this->me());
     }
     
     /**
@@ -154,7 +150,7 @@ class Issue extends Bindable
      */
     public function getHistory()
     {
-    	return $this->issueService->getIssueHistory($this);
+    	return $this->issueService->getIssueHistory($this->me());
     }
     
     /**
@@ -175,8 +171,22 @@ class Issue extends Bindable
 				$oldest = $issue->status;
 			}
     	}
-    	if ($oldest == null) $oldest = $this->status; 
+    	if ($oldest == null) $oldest = $this->status;
     	return $oldest;
     }
+}
+
+class IssueVersion extends Issue
+{
+	public $recordid;
+	public $validfrom;
+	public $label;
+
+	public function me()
+	{
+		$dbService = za()->getService('DbService');
+		$type = substr(get_class($this), 0, strrpos(get_class($this), 'Version'));
+		return $dbService->getById($this->recordid, $type);
+	}
 }
 ?>
