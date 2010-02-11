@@ -28,6 +28,7 @@ include_once NOVEMBER_APP_DIR.'/InjectingDispatcher.php';
 include_once NOVEMBER_APP_DIR.'/Bindable.php';
 
 include_once NOVEMBER_APP_DIR.'/services/DbService.php';
+include_once NOVEMBER_APP_DIR.'/services/TypeManager.php';
 
 include_once NOVEMBER_APP_DIR.'/services/Authenticator.php';
 include_once NOVEMBER_APP_DIR.'/services/AuthComponent.php';
@@ -301,6 +302,13 @@ class NovemberApplication
         }
         $this->injector->registerService($dbService);
         $services[] = $dbService;
+
+		$service = new TypeManager();
+        if (isset($this->config['services']['TypeManager'])) {
+            $service->configure(ifset($this->config['services'], 'TypeManager', array()));
+        }
+        $this->injector->registerService($service);
+        $services[] = $service;
         
         $service = new SearchService();
         if (isset($this->config['services']['SearchService'])) {

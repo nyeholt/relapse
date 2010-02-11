@@ -27,7 +27,6 @@ OF SUCH DAMAGE.
  */
 class VersioningService
 {
-    
 	/**
 	 *
 	 * @var DbService
@@ -47,10 +46,10 @@ class VersioningService
 		}
 		// see if there's a previous object version, if so load it
 		// so we have an appropriate 'from' time
-		$lastVersion = $this->dbService->getByField(array('objectid' => $object->id, 'objecttype' => get_class($object)), 'ObjectVersion');
+		$lastVersion = $this->getMostRecentVersion($object);
 		$from = '2000-01-01 00:00:01';
 		if ($lastVersion) {
-			$from = $lastVersion->created;
+			$from = date('Y-m-d H:i:s', strtotime($lastVersion->created) + 1);
 		}
 
 		$newVersion = new ObjectVersion();
@@ -61,6 +60,16 @@ class VersioningService
 		$newVersion->label = $label;
 
 		return $this->dbService->saveObject($newVersion);
+	}
+
+	/**
+	 * Gets the most recent version of a particular object
+	 *
+	 * @param object $object
+	 */
+	public function getMostRecentVersion($object)
+	{
+		return $this->dbService->getByField(array('objectid' => $object->id, 'objecttype' => get_class($object)), 'ObjectVersion');
 	}
 
 	/**
@@ -93,7 +102,6 @@ class VersioningService
 		if ($from) {
 			// From means versions that were created after this date
 			$select->where('created > ?', $from);
-
 			// $select->where('validfrom > ?', $from);
 		}
 		if ($to) {
@@ -105,7 +113,25 @@ class VersioningService
 
 		$this->dbService->applyWhereToSelect(array('objectid' => $ids), $select);
 
-		return $this->dbService->fetchObjects('ObjectVersion', $select);
+		$versions = $this->dbService->fetchObjects('ObjectVersion', $select);
+
+		return $versions;
+	}
+
+	/**
+	 * Gets a collection of objects (not versions, but the raw objects) that
+	 * existed at a particular point in time. If there's nothing in the version
+	 * history, the current state object is used if it was created before the
+	 * 'to' date
+	 *
+	 * @param mixed $objects
+	 * @param datetime $from
+	 * @param datetime $to
+	 * @param string $label
+	 */
+	public function getVersionedObjectsAt($objects, $from=null, $to=null, $label = '')
+	{
+		$versions = $this->getVersionsFor($objects);
 	}
 }
 ?>

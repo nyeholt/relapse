@@ -32,7 +32,7 @@ class TestVersioning extends UnitTestCase
 
 		// create another version, make sure that it sets the correct 'from'
 		// date
-		$currentCreate = $version->created;
+		$currentCreate = date('Y-m-d H:i:s', strtotime($version->created) + 1);
 		$newVersion = $versioningService->createVersion($client);
 		$this->assertEqual($currentCreate, $newVersion->validfrom);
 

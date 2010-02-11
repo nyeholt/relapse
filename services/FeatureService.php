@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Portal to accessing features in a system
+ */
 class FeatureService
 {
     /**
@@ -43,7 +47,13 @@ class FeatureService
             return $this->itemLinkService->getLinkedItemsOfType($parent, 'from', 'Feature', array(), 'sortorder asc');
         }
     }
-    
+
+	/**
+	 * Get features with a particular where clause
+	 *
+	 * @param array $where
+	 * @return ArrayObject
+	 */
     public function getFeatures($where = array())
     {
         return $this->dbService->getObjects('Feature', $where);
@@ -129,13 +139,17 @@ class FeatureService
         return $features;
     }
     
-    
+    /**
+	 * Saves an existing feature
+	 *
+	 * @param Feature $feature
+	 */
     public function saveFeature(Feature $feature)
     {
     	$this->trackerService->track('save-feature', $feature->id);
         $this->dbService->saveObject($feature);
     }
-    
+
     /**
      * Delete a feature and all sub features.
      */
