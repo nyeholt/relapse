@@ -33,13 +33,23 @@ class Client extends MappedObject
      * @var unmapped
      */
     public $issueService;
+
+	/**
+	 * @var unmapped
+	 */
+	public $versioningService;
     
     public function __construct()
     {
         $this->constraints['relationship'] = new CVLValidator(array("Other", "Partner", "Lead", "Opportunity", "Customer", "Dead", "Supplier", "Press", "Recruitment Agent"));
         $this->created = date('Y-m-d H:i:s', time());
     }
-    
+
+	public function created()
+	{
+		$this->versioningService->createVersion($this);
+	}
+
     /**
      * Gets all the projects for this client
      */

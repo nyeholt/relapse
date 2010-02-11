@@ -290,7 +290,8 @@ class ClientService
      */
     public function saveClient($params)
     {
-    	$this->trackerService->track('create-client', ifset($params, 'id', 0));
+		$id = is_array($params) ? ifset($params, 'id', 0) : $params->id;
+    	$this->trackerService->track('save-client', $id);
         return $this->dbService->saveObject($params, 'Client');
     }
     

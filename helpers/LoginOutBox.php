@@ -16,9 +16,9 @@ class Helper_LoginOutBox extends NovemberHelper
 		?>
 			<div id="loggedin">
 				<p>Welcome, <?php $this->view->o($user->getUsername()); ?>
-				
-				<br />
-				<a href="<?php echo build_url('user', 'logout'); ?>" title="Logout">Logout</a>
+				&nbsp;&nbsp;&nbsp;
+
+				<a href="<?php echo build_url('index'); ?>" title="Home">Home</a>
 				<?php if ($user->role == User::ROLE_EXTERNAL): ?>
 					&nbsp;|&nbsp;
 					<a href="<?php echo build_url('user', 'edit'); ?>">Change Settings</a>
@@ -32,6 +32,7 @@ class Helper_LoginOutBox extends NovemberHelper
 					&nbsp;|&nbsp;
 					<a href="<?php echo build_url('timesheet', 'index', array('username'=>$user->getUsername())); ?>">View Time</a>
 				<?php endif; ?>
+				<a href="<?php echo build_url('user', 'logout'); ?>" title="Logout">Logout</a>
 			</div>
 		<?php
 		}

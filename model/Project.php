@@ -138,6 +138,11 @@ class Project extends MappedObject
      */
     public $groupService;
 
+	/**
+	 * @var unmapped
+	 */
+	public $versioningService;
+
     public function __construct()
     {
         $this->created = date('Y-m-d H:i:s');
@@ -146,6 +151,11 @@ class Project extends MappedObject
         $this->manager = za()->getUser()->getUsername();
         $this->durationfgp = za()->getConfig('free_support_period', 90);
     }
+
+	public function created()
+	{
+		$this->versioningService->createVersion($this);
+	}
     
     /**
      * Gets the hierarchy to this project

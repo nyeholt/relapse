@@ -89,21 +89,15 @@ $config['plugins'] = array(
     array (
       'master_layout' => 
       array (
-        'default_layout' => 'new-layout.php',
+        'default_layout' => 'relapse-layout.php',
       ),
       'external' => 
       array (
-        'default_layout' => 'new-external-layout.php',
-      ),
-      'expenses' => 
-      array (
-        'default_layout' => 'new-expenses-layout.php',
+        'default_layout' => 'relapse-external-layout.php',
       ),
       'layout_path' => 'views/layouts',
     ),
 	'FlashPlugin' => array(),
-	
-	// 'NoRoutePlugin' => array(),
 );
 
 // Include the user config to allow for overrides

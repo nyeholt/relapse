@@ -22,6 +22,13 @@ OF SUCH DAMAGE.
 
 /**
  * A versioning service to store serialised representations of versioned objects
+ *
+ * Versions are stored using a 'validfrom'; this date range
+ * 'validfrom' -> 'created' for the version indicates when this version
+ * represented the 'live' state for the object. So the 'created' time of the
+ * version doesn't represent when this version was first created from a 'live'
+ * perspective, but when the version was taken (ie the time the new object
+ * became the 'live' representation)
  * 
  * @author Marcus Nyeholt <marcus@silverstripe.com.au>
  */
@@ -36,10 +43,10 @@ class VersioningService
 	/**
 	 * Creates a new version of the passed in object
 	 * 
-	 * @param object $object
+	 * @param MappedObject $object
 	 * @return ObjectVersion
 	 */
-	public function createVersion($object, $label='')
+	public function createVersion(MappedObject $object, $label='')
 	{
 		// make sure that there's a versioning table available for this object
 		$versionType = get_class($object).'Version';
@@ -50,6 +57,8 @@ class VersioningService
 		if (!$object) {
 			throw new Exception("Cannot create a version of an empty object");
 		}
+
+
 		// see if there's a previous object version, if so load it
 		// so we have an appropriate 'from' time
 		$lastVersion = $this->getMostRecentVersion($object);
@@ -59,7 +68,10 @@ class VersioningService
 		}
 
 		$newVersion = new $versionType();
-		$properties = $object->unBind();
+		// when creating a version, we want to load the existing state from
+		// the DB so that we're being accurate.
+		$current = $this->dbService->getById($object->me()->id, get_class($object));
+		$properties = $current->unBind();
 
 		unset($properties['id']);
 		unset($properties['created']);
@@ -79,10 +91,10 @@ class VersioningService
 	 *
 	 * @param object $object
 	 */
-	public function getMostRecentVersion($object)
+	public function getMostRecentVersion(MappedObject $object)
 	{
 		$table = get_class($object).'Version';
-		return $this->dbService->getByField(array('recordid' => $object->id), $table);
+		return $this->dbService->getByField(array('recordid' => $object->me()->id), $table);
 	}
 
 	/**
@@ -90,7 +102,7 @@ class VersioningService
 	 *
 	 * This is a useful way of getting a complete history of the state of objects
 	 * at a particular time. To get a snapshot of the 'valid' objects for
-	 * a given time, use the 'getVersionsAt' method
+	 * a given time, use the 'getVersionedObjects' method
 	 *
 	 * @param ArrayObject $objects
 	 */
@@ -140,57 +152,47 @@ class VersioningService
 	}
 
 	/**
-	 * Gets a collection of objects (not versions, but the raw objects) that
-	 * existed at a particular point in time. If there's nothing in the version
-	 * history, the current state object is used if it was created before the
-	 * 'to' date
+	 * Gets a collection of objects that existed at a particular point in time
 	 *
 	 * @param mixed $objects
 	 * @param datetime $from
 	 * @param datetime $to
 	 * @param string $label
 	 */
-	public function getVersionedObjectsAt($objects, $from=null, $to=null, $filter = array())
+	public function getObjectSnapshot($type, $date, $filter = array())
 	{
-		$versions = $this->getVersionsFor($objects, $from, $to, $filter);
+		$versionType = $type.'Version';
 
-		// now that we have all the versions, we need to go through and create
-		// a collection of the actual items, and make sure that if there's 'no'
-		// version, that we include the current object if it's acceptable
+		$filter = array();
 
-		// if $objects is a collection, then we need to see if there are any
-		// objects in there that fit in the 'from' and 'to' if they weren't
-		// found in the list of versions
-		if (is_object($objects) && (!is_array($objects) || !$objects instanceof ArrayAccess)) {
-			$objects = array($objects->id => $objects);
+		$filter['validfrom < '] = $date;
+		$filter['created > '] = $date;
+		
+		$versions = $this->dbService->getObjects($versionType, $filter);
 
-			foreach ($objects as $object) {
-				$has = false;
-				foreach ($versions as $v) {
-					if ($v->recordid == $object->id) {
-						$has = true;
-						break;
-					}
-				}
+		// because we're after a snapshot, it might be the case that there
+		// are some objects that are 'live' that haven't had a version created
+		// in the period we're interested in. So we're looking for objects
+		// that were created BEFORE the date we're interested in, but don't
+		// have a date in the 'valid' range
 
-				if (!$has) {
-					// if the current object's created date is less than the 'to'
-					// date, then it's safe to use as it existed in the range
-					$created = strtotime($object->created);
-					$toStr = strtotime($to);
-					if ($created < $to) {
-						$versions[$object->id] = $object;
-					}
-				}
-			}
-		} else if (is_string($objects)) {
-			// else we need to see if there are any objects that exist in the 'live'
-			// tables that have existed before the 'to' date
+		$ids = array();
+		foreach ($versions as $v) {
+			$ids[] = $v->recordid;
 		}
 
+		$filter = array('created < ' => $date);
+		if (count($ids)) {
+			$filter['id NOT'] = $ids;
+		}
 
-		
-		
+		$live = $this->dbService->getObjects($type, $filter);
+
+		foreach ($live as $liveObject) {
+			$liveObject->recordid = $liveObject->id;
+			$versions[] = $liveObject;
+		}
+		return $versions;
 	}
 }
 ?>
