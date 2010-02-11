@@ -1,4 +1,3 @@
-
 ;(function($) {
 
 	/**
@@ -6,14 +5,15 @@
 	 *
 	 * Components that are interested in it can call 
 	 *
-	 * LateralMinds.Urls.getAction('key') 
+	 *
+	 * Urls.getAction('key')
 	 *
 	 * which will return any value associated with that key. This should be used when a component is being initialised to see
 	 * if there's any init data that component should use
 	 *
 	 * Calling
 	 * 
-	 * LateralMinds.Urls.setAction('key', 'value'[, boolean forceTrigger])
+	 * Urls.setAction('key', 'value'[, boolean forceTrigger])
 	 * 
 	 * will change the current URL to have #key=value appended to it (making that url bookmarkable somewhat). Note that
 	 * this does NOT trigger any functionality already attached as listeners for that action (@see listForOpen). 
@@ -23,14 +23,14 @@
 	 * Components can register to the handler to be notified when a certain action comes up if the user changes URL without navigating
 	 * away from the page (for example, clicking a back button)
 	 *
-	 * LateralMinds.Urls.listenForOpen('action', callback, scope);
-	 * LateralMinds.Urls.listenForClose('action', callback, scope);
+	 * UrlHandler.listenForOpen('action', callback, scope);
+	 * Urls.listenForClose('action', callback, scope);
 	 * 
 	 * The callback will be called with the value corresponding to the 'action' in the URL whenever 'action' newly
 	 * appears in the URL (a timer regularly checks the state of the URL and can detect when it's changed). 
 	 * 
 	 */ 
-	LateralMinds.UrlHandler = function () {
+	UrlHandler = function () {
 		this.inited = false;
 		// parse any URL arguments
 		this.arguments = null;
@@ -50,7 +50,7 @@
 		this.inited = true;
 	}
 
-	LateralMinds.UrlHandler.prototype = {
+	UrlHandler.prototype = {
 		/**
 		 * Get a list of all the actions in the URL at the moment
 		 */
@@ -179,7 +179,7 @@
 		}
 	}
 
-	LateralMinds.Urls = new LateralMinds.UrlHandler();
-	setInterval(function() { LateralMinds.Urls.checkHash(); }, 100);
+	window.UrlListener = new UrlHandler();
+	setInterval(function() { UrlListener.checkHash(); }, 100);
 
 })(jQuery);
