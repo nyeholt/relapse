@@ -267,7 +267,7 @@ class NovemberController extends Zend_Controller_Action
             if ((int) $this->_getParam('id')) {
                 $this->view->model = $this->getModel(); //  $this->dbService->getById((int)$this->_getParam('id'), $modelType);
             } else {
-                $this->dbService->includeType($modelType);
+                $this->dbService->typeManager->includeType($modelType);
                 $this->view->model = new $modelType();
                 za()->inject($this->view->model);
             }

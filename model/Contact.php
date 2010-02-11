@@ -1,12 +1,7 @@
 <?php
 
-class Contact extends Bindable 
+class Contact extends MappedObject
 {
-    public $id;
-    public $created;
-    public $updated;
-    public $creator;
-    
     public $firstname;
     public $lastname;
     public $title;

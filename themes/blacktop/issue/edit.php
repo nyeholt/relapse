@@ -291,9 +291,9 @@
 		    <tr class="<?php echo $index++ % 2 == 0 ? 'even' : 'odd'?>">
 		        <td><?php $this->o($oldIssue->title) ?></td>
 		        <td><?php $this->o($oldIssue->status) ?></td>
-		        <td style="text-align: center"><?php $this->o($oldIssue->updated) ?></td>
-		        <td style="text-align: center"><?php $this->o($oldIssue->lastchanged) ?></td>
-		        <td><?php $this->o($oldIssue->modifiedby) ?></td>
+		        <td style="text-align: center"><?php $this->o($oldIssue->validfrom) ?></td>
+		        <td style="text-align: center"><?php $this->o($oldIssue->created) ?></td>
+		        <td><?php $this->o($oldIssue->creator) ?></td>
 		    </tr>
 		    <?php endforeach; ?>
 		    </tbody>

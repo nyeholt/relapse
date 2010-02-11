@@ -116,7 +116,7 @@ class External_ProjectController extends NovemberController
     /**
      * Override the edit action to supply some selectable relationships
      *
-     * @param Bindable $model
+     * @param MappedObject $model
      */
     public function editAction($model=null)
     {

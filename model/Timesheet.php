@@ -5,12 +5,8 @@
  * as belonging to it, and shows the amount of time 
  * for those records.  
  */
-class Timesheet extends Bindable
+class Timesheet extends MappedObject
 {
-    public $id;
-    public $created;
-    public $updated;
-    
     public $title;
     public $projectid;
     public $clientid;

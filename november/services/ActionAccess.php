@@ -1,9 +1,7 @@
 <?php
 
-class ActionAccess extends Bindable
+class ActionAccess extends MappedObject
 {
-    public $id;
-    
     public $username;
     public $module;
     public $controller;

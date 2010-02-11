@@ -157,19 +157,8 @@ class IssueService
     	if ($issue == null) return array();
 
 		$items = $this->versioningService->getVersionsFor($issue);
-        $issues = new ArrayObject();
-
-        foreach ($items as $entry) {
-            $issue = $entry->item;
-            if ($issue != null) {
-                // Set the modifiedby value
-                $issue->modifiedby = $entry->creator;
-                $issue->lastchanged = $entry->created;
-                $issues[] = $issue;
-            }
-        }
-
-        return $issues;
+        
+        return $items;
     }
     
     /**

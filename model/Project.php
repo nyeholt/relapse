@@ -1,9 +1,7 @@
 <?php
 
-class Project extends Bindable 
+class Project extends MappedObject
 {
-    public $id;
-
     /**
      * Which project does this one belong to? 
      */
@@ -66,11 +64,6 @@ class Project extends Bindable
 
     public $deleted = 0;
     
-    public $updated;
-    public $created;
-    public $creator;
-	public $modifier;
-	
     /**
      * The date when the Free Guarantee Period started
      */
@@ -145,6 +138,11 @@ class Project extends Bindable
      */
     public $groupService;
 
+	/**
+	 * @var unmapped
+	 */
+	public $versioningService;
+
     public function __construct()
     {
         $this->created = date('Y-m-d H:i:s');
@@ -153,6 +151,11 @@ class Project extends Bindable
         $this->manager = za()->getUser()->getUsername();
         $this->durationfgp = za()->getConfig('free_support_period', 90);
     }
+
+	public function created()
+	{
+		$this->versioningService->createVersion($this);
+	}
     
     /**
      * Gets the hierarchy to this project
@@ -260,7 +263,6 @@ class Project extends Bindable
 		$where = array(
 			'projectid =' => $this->id,
 		);
-
 
 		return $this->getTasksWhere($where, 0, $currentPage, $number, $user);
 	}
@@ -538,5 +540,20 @@ class Project extends Bindable
 		return round($diff / 60 / 60 / 24);
 	}
 	
+}
+
+class ProjectVersion extends Project
+{
+	/**
+	 * The original record's ID
+	 *
+	 * @var int
+	 */
+	public $recordid;
+	public $validfrom;
+	public $label;
+
+	public function created() {}
+	public function update() {}
 }
 ?>

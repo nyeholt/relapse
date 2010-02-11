@@ -1,12 +1,5 @@
-<h2>Editing <?php $this->o($this->model->username) ?> </h2>
 
-<script type="text/javascript">
-<!--
-$().ready(function() {
-	$("#edit-user-container").tabs({ fxFade: true, fxSpeed: 'fast' });
-});
-//-->
-</script>
+<h2>Editing <?php $this->o($this->model->username) ?> </h2>
 
 <div id="edit-user-container">
 	<ul class="tab-options">
@@ -137,10 +130,6 @@ $().ready(function() {
 	
 	<div id="expenses">
 		<?php $this->dispatch('expense', 'listforuser', array('username'=>$this->model->username))?>
-	</div>
-
-	<div id="reviews">
-		<?php $this->dispatch('performancereview', 'list', array('username'=>$this->model->username))?>
 	</div>
 
 	<?php endif; ?>

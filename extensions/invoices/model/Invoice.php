@@ -1,10 +1,6 @@
 <?php
-class Invoice extends Bindable 
+class Invoice extends MappedObject
 {
-    public $id;
-    public $created;
-    public $updated;
-    
     public $title;
     
     public $timesheetid;

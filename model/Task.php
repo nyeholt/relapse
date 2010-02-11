@@ -6,9 +6,8 @@
  * Changes:
  * * ALTER TABLE `task` ADD `dependency` VARCHAR( 255 ) NOT NULL AFTER `projectid` ;
  */
-class Task extends Bindable
+class Task extends MappedObject
 {
-	public $id;
 	public $description;
 	public $projectid;
 	public $title;
@@ -40,10 +39,6 @@ class Task extends Bindable
 	/** This field is pulled down in some selects only */
 	private $projecttitle;
 	private $clienttitle;
-
-	public $updated;
-	public $created;
-	public $creator;
 
 	public $constraints = array();
 	public $requiredFields = array('title');

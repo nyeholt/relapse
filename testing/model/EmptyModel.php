@@ -1,6 +1,6 @@
 <?php
 
-class EmptyModel extends Bindable 
+class EmptyModel extends MappedObject
 {
 }
 ?>

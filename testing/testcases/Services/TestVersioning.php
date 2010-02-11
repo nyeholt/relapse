@@ -11,7 +11,7 @@ class TestVersioning extends UnitTestCase
     {
         $dbService = za()->getService('DbService');
         /* @var $dbService DbService */
-        $dbService->delete('objectversion');
+        $dbService->delete('clientversion');
 		$dbService->delete('client');
 
         $versioningService = za()->getService('VersioningService');
@@ -25,13 +25,10 @@ class TestVersioning extends UnitTestCase
 		// version the client
 		$version = $versioningService->createVersion($client);
 
-		$this->assertEqual($client->id, $version->objectid);
-		$this->assertEqual(get_class($client), $version->objecttype);
-
-		$this->assertEqual($client->id, $version->item->id);
+		$this->assertEqual($client->id, $version->recordid);
+		$this->assertEqual(get_class($version), 'ClientVersion');
 
 		// create another version, make sure that it sets the correct 'from'
-		// date
 		$currentCreate = date('Y-m-d H:i:s', strtotime($version->created) + 1);
 		$newVersion = $versioningService->createVersion($client);
 		$this->assertEqual($currentCreate, $newVersion->validfrom);
@@ -39,7 +36,7 @@ class TestVersioning extends UnitTestCase
 		// try fetching
 		$versions = $versioningService->getVersionsFor($client);
 		
-		$this->assertEqual(2, count($versions));
+		$this->assertEqual(3, count($versions));
 
 		// try from / to
 
@@ -49,7 +46,62 @@ class TestVersioning extends UnitTestCase
 
 		$versions = $versioningService->getVersionsFor($client, date('Y-m-d H:i:s', time() - 2));
 		$this->assertEqual(1, count($versions));
+
+		$allVersions = $versioningService->getVersionsFor('Client');
+
+		// we expect 4 because clients are versioned on creation
+		$this->assertEqual(4, count($allVersions));
 	}
-	
+
+	function testObjectSnapshot()
+	{
+		$dbService = za()->getService('DbService');
+        /* @var $dbService DbService */
+        $dbService->delete('clientversion');
+		$dbService->delete('client');
+
+        $versioningService = za()->getService('VersioningService');
+        /* @var $versioningService VersioningService */
+
+        $clientService = za()->getService('ClientService');
+        /* @var $clientService ClientService */
+        
+		$params['title'] = 'Client1';
+        $client1 = $clientService->saveClient($params);
+
+		$params['title'] = 'Client2';
+        $client2 = $clientService->saveClient($params);
+
+		$params['title'] = 'Client3';
+        $client3 = $clientService->saveClient($params);
+
+		sleep(2);
+		$beforeChanges = date('Y-m-d H:i:s');
+		sleep(2);
+		$client2->title = 'Client 2';
+		$versioningService->createVersion($client2);
+		$clientService->saveClient($client2);
+		sleep(2);
+		$client3->title = 'Client 3';
+		$versioningService->createVersion($client3);
+		$clientService->saveClient($client3);
+		sleep(2);
+		$spacesDate = date('Y-m-d H:i:s');
+		sleep(2);
+		$client2->title = 'Client Two';
+		$versioningService->createVersion($client2);
+		$clientService->saveClient($client2);
+		sleep(2);
+
+		$now = date('Y-m-d H:i:s');
+
+		$unchanged = $versioningService->getObjectSnapshot('Client', $beforeChanges);
+		$spacesVersions = $versioningService->getObjectSnapshot('Client', $spacesDate);
+		$nowVersions = $versioningService->getObjectSnapshot('Client', $now);
+
+		$this->assertEqual(3, count($unchanged));
+		$this->assertEqual(3, count($spacesVersions));
+		$this->assertEqual(3, count($nowVersions));
+	}
 }
 ?>

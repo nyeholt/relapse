@@ -1,13 +1,10 @@
 <?php
 
-class File extends Bindable 
+class File extends MappedObject
 {
-    public $id;
     public $filename;
     public $title;
     public $description;
-    public $created;
-    public $updated;
     public $isprivate; 
     
     public $path;

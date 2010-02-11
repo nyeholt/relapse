@@ -89,7 +89,6 @@ function viewNotes(id, type)
 
 function initialiseFeatureSorting(id)
 {
-    
     // Once loaded, we need to initialise the draggability of what we've loaded. 
     $('#feature-'+id+'-list').Sortable (
         {

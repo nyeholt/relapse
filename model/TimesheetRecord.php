@@ -1,11 +1,9 @@
 <?php
 
-class TimesheetRecord extends Bindable
+class TimesheetRecord extends MappedObject
 {
-    public $id;
     public $taskid;
     public $userid;
-    public $created;
 
     public $starttime;
     public $endtime;

@@ -1,0 +1,28 @@
+
+
+body { min-height: 1200px ; background: #66ccff; font-family: sans-serif; font-size: 10pt; }
+
+h2 { font-family: Verdana; font-size: 120%; font-weight: bold;}
+
+.std { border: 2px solid #000; background: #fff; padding: 1em; margin-bottom: 1em; }
+.clear { clear: both; }
+
+#wrap { width: 80%; margin: 0px auto; padding-top: 30px; }
+
+#top { }
+
+#search-box { width: 40%; float: right; }
+#top-left-block { width: 40%; }
+
+#top-menu { clear: both; }
+
+#content { clear: both; margin-top: 1em; }
+
+
+/** HOME PAGE STUFF **/
+.large-list a { font-size: 180%; font-weight: bold; color: #aaa; text-decoration: none; }
+
+
+/** Form fields **/
+input, select, textarea { font-size: 1em; padding: 0.4em; }
+option, select, input[type=text] { border: 1px solid #ddd; background: #fff url(input-bg.png) repeat-x scroll bottom; }

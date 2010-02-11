@@ -1,11 +1,7 @@
 <?php
 
-class Leave extends Bindable
+class Leave extends MappedObject
 {
-    public $id;
-    public $created;
-    public $updated;
-    
     public $username;
     public $leavetype;
     public $days;

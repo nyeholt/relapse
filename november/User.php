@@ -17,7 +17,7 @@
  * @license    New BSD License
  */
 
-class User extends Bindable implements NovemberUser 
+class User extends MappedObject implements NovemberUser
 {
 	const ROLE_ADMIN = 'Admin';
 	const ROLE_POWER = 'Power';
@@ -31,7 +31,6 @@ class User extends Bindable implements NovemberUser
 	
 	const LAST_LOGIN = '__LAST_LOGIN';
 	
-	public $id = 0;
 	public $username = 'Anonymous';
 	public $password;
 
@@ -43,8 +42,6 @@ class User extends Bindable implements NovemberUser
 
 	public $email;
 
-	public $created;
-	
 	public $lastlogin;
 
 	public $firstname;

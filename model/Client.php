@@ -2,15 +2,10 @@
 
 include_once 'model/Issue.php';
 
-class Client extends Bindable 
+class Client extends MappedObject
 {
-    public $id;
     public $title;
     public $description;
-    
-    public $updated;
-    public $created;
-    public $creator;
     
     public $billingaddress;
     public $postaladdress;
@@ -38,19 +33,29 @@ class Client extends Bindable
      * @var unmapped
      */
     public $issueService;
+
+	/**
+	 * @var unmapped
+	 */
+	public $versioningService;
     
     public function __construct()
     {
         $this->constraints['relationship'] = new CVLValidator(array("Other", "Partner", "Lead", "Opportunity", "Customer", "Dead", "Supplier", "Press", "Recruitment Agent"));
         $this->created = date('Y-m-d H:i:s', time());
     }
-    
+
+	public function created()
+	{
+		$this->versioningService->createVersion($this);
+	}
+
     /**
      * Gets all the projects for this client
      */
     public function getProjects()
     {
-    	return $this->projectService->getProjectsForClient($this);
+    	return $this->projectService->getProjectsForClient($this->me());
     }
     
     /**
@@ -58,7 +63,32 @@ class Client extends Bindable
      */
     public function getIssues()
     {
-    	return $this->issueService->getIssues(array('issue.clientid=' => $this->id, 'status <> '=> Issue::STATUS_CLOSED));
+    	return $this->issueService->getIssues(array('issue.clientid=' => $this->me()->id, 'status <> '=> Issue::STATUS_CLOSED));
     }
+}
+
+/**
+ * Version class for versions
+ */
+class ClientVersion extends Client
+{
+	/**
+	 * The original record's ID
+	 *
+	 * @var int
+	 */
+	public $recordid;
+	public $validfrom;
+	public $label;
+
+	public function me()
+	{
+		$dbService = za()->getService('DbService');
+		$type = substr(get_class($this), 0, strrpos(get_class($this), 'Version'));
+		return $dbService->getById($this->recordid, $type);
+	}
+
+	public function created() {}
+	public function update() {}
 }
 ?>
