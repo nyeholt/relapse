@@ -3,14 +3,14 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 10, 2010 at 01:26 AM
+-- Generation Time: Feb 11, 2010 at 03:06 PM
 -- Server version: 5.1.37
 -- PHP Version: 5.2.10-2ubuntu6.4
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Database: 'relapse'
+-- Database: 'relapsetesting'
 --
 
 -- --------------------------------------------------------
@@ -56,6 +56,7 @@ CREATE TABLE `client` (
   id int(11) NOT NULL AUTO_INCREMENT,
   updated datetime DEFAULT NULL,
   creator varchar(64) NOT NULL,
+  modifier varchar(64) NOT NULL,
   title varchar(255) DEFAULT NULL,
   description text,
   postaladdress text,
@@ -68,7 +69,35 @@ CREATE TABLE `client` (
   relationship varchar(64) DEFAULT NULL,
   deleted int(11) DEFAULT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table 'clientversion'
+--
+
+CREATE TABLE clientversion (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  updated datetime DEFAULT NULL,
+  creator varchar(64) NOT NULL,
+  modifier varchar(64) NOT NULL,
+  recordid int(11) NOT NULL,
+  validfrom datetime NOT NULL,
+  label varchar(32) NOT NULL,
+  title varchar(255) DEFAULT NULL,
+  description text,
+  postaladdress text,
+  billingaddress text,
+  website varchar(255) DEFAULT NULL,
+  email varchar(64) DEFAULT NULL,
+  phone varchar(32) DEFAULT NULL,
+  fax varchar(16) DEFAULT NULL,
+  created datetime DEFAULT NULL,
+  relationship varchar(64) DEFAULT NULL,
+  deleted int(11) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -146,7 +175,7 @@ CREATE TABLE crmuser (
   lastname varchar(64) DEFAULT NULL,
   defaultmodule varchar(32) NOT NULL DEFAULT 'default',
   PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -291,6 +320,38 @@ CREATE TABLE feature (
   id int(11) NOT NULL AUTO_INCREMENT,
   created datetime DEFAULT NULL,
   updated datetime DEFAULT NULL,
+  creator varchar(64) NOT NULL,
+  modifier varchar(64) NOT NULL,
+  title varchar(255) DEFAULT NULL,
+  description text,
+  implementation text,
+  estimated float DEFAULT '0',
+  verification text,
+  parentpath varchar(255) DEFAULT NULL,
+  projectid int(11) DEFAULT NULL,
+  priority varchar(64) DEFAULT NULL,
+  milestone int(11) DEFAULT NULL,
+  sortorder int(11) DEFAULT '0',
+  hours float DEFAULT NULL,
+  complete int(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table 'featureversion'
+--
+
+CREATE TABLE featureversion (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  created datetime DEFAULT NULL,
+  updated datetime DEFAULT NULL,
+  creator varchar(64) NOT NULL,
+  modifier varchar(64) NOT NULL,
+  recordid int(11) NOT NULL,
+  validfrom datetime NOT NULL,
+  label varchar(32) NOT NULL,
   title varchar(255) DEFAULT NULL,
   description text,
   implementation text,
@@ -466,7 +527,7 @@ CREATE TABLE `leave` (
   lastleavecalculation datetime NOT NULL,
   leavetype varchar(16) NOT NULL,
   PRIMARY KEY (id)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -527,6 +588,26 @@ CREATE TABLE note (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table 'objectversion'
+--
+
+CREATE TABLE objectversion (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  created datetime NOT NULL,
+  updated datetime NOT NULL,
+  creator varchar(64) NOT NULL,
+  modifier varchar(64) NOT NULL,
+  validfrom datetime NOT NULL,
+  objectid int(11) NOT NULL,
+  objecttype varchar(32) NOT NULL,
+  item text NOT NULL,
+  label varchar(32) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table 'performancereview'
 --
 
@@ -568,6 +649,7 @@ CREATE TABLE project (
   created datetime DEFAULT NULL,
   creator varchar(64) NOT NULL,
   updated datetime DEFAULT NULL,
+  modifier varchar(64) NOT NULL,
   title varchar(255) NOT NULL,
   description text NOT NULL,
   enablereports tinyint(1) NOT NULL DEFAULT '0',
@@ -575,6 +657,8 @@ CREATE TABLE project (
   started datetime DEFAULT NULL,
   actualstart datetime DEFAULT NULL,
   completed datetime DEFAULT NULL,
+  startfgp datetime NOT NULL,
+  durationfgp int(4) NOT NULL,
   paiddate datetime DEFAULT NULL,
   clientid int(11) DEFAULT NULL,
   estimated float DEFAULT NULL,
@@ -613,6 +697,50 @@ CREATE TABLE projectstatus (
   enddate datetime DEFAULT NULL,
   `snapshot` text,
   dategenerated datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table 'projectversion'
+--
+
+CREATE TABLE projectversion (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  parentid int(11) NOT NULL DEFAULT '0',
+  ownerid int(11) DEFAULT NULL,
+  created datetime DEFAULT NULL,
+  creator varchar(64) NOT NULL,
+  updated datetime DEFAULT NULL,
+  modifier varchar(64) NOT NULL,
+  recordid int(11) NOT NULL,
+  validfrom datetime NOT NULL,
+  label varchar(32) NOT NULL,
+  title varchar(255) NOT NULL,
+  description text NOT NULL,
+  enablereports tinyint(1) NOT NULL DEFAULT '0',
+  due datetime DEFAULT NULL,
+  started datetime DEFAULT NULL,
+  actualstart datetime DEFAULT NULL,
+  completed datetime DEFAULT NULL,
+  startfgp datetime NOT NULL,
+  durationfgp int(4) NOT NULL,
+  paiddate datetime DEFAULT NULL,
+  clientid int(11) DEFAULT NULL,
+  estimated float DEFAULT NULL,
+  currenttime float NOT NULL DEFAULT '0',
+  taskestimate float DEFAULT '0',
+  featureestimate float DEFAULT '0',
+  budgeted float DEFAULT '0',
+  rate float DEFAULT NULL,
+  url varchar(255) NOT NULL,
+  deleted int(1) DEFAULT NULL,
+  manager varchar(64) DEFAULT NULL,
+  isprivate int(11) NOT NULL DEFAULT '0',
+  nextrelease varchar(32) NOT NULL,
+  svnurl varchar(255) NOT NULL,
+  ismilestone int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -774,4 +902,3 @@ CREATE TABLE usertaskassignment (
   taskid int(11) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
