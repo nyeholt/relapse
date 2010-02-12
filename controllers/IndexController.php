@@ -52,7 +52,7 @@ class IndexController extends BaseController
         
         $this->renderView('index/index.php');
     }
-    
+
     public function bookmarkAction()
     {
         $feed = $this->deliciousService->getFeed(self::FEED_URL);

@@ -32,6 +32,7 @@ class Helper_LoginOutBox extends NovemberHelper
 					&nbsp;|&nbsp;
 					<a href="<?php echo build_url('timesheet', 'index', array('username'=>$user->getUsername())); ?>">View Time</a>
 				<?php endif; ?>
+				|
 				<a href="<?php echo build_url('user', 'logout'); ?>" title="Logout">Logout</a>
 			</div>
 		<?php

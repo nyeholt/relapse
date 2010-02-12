@@ -1,3 +1,4 @@
+<div class="std">
 <h2><?php echo count($this->results)?> results for "<?php $this->o($this->query); ?>"</h2>
 <br/>
 <ul>
@@ -15,3 +16,4 @@ for ($i = $start; isset($this->results[$i]) && $i < $finish; $i++) {
 <p>
 <?php $this->pager(count($this->results), $this->perPage, 'page', array('query'=>$this->query)); ?>
 </p>
+</div>

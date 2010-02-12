@@ -236,10 +236,23 @@ class TaskController extends BaseController
 	        }
         }
 
-
-        $this->redirect('task', 'edit', array('id'=>$model->id));
+		if ($this->_getParam('_ajax')) {
+			$this->redirect('task', 'taskactions', array('id'=>$model->id));
+		} else {
+			$this->redirect('task', 'edit', array('id'=>$model->id));
+		}
+        
     }
-    
+
+	/**
+	 * Display a list of actions that can be taken for a particular task
+	 */
+	public function taskActionsAction()
+	{
+		$this->view->model = $this->byId();
+		$this->renderRawView('task/task-actions.php');
+	}
+
     /**
      * Returns details about a particular task.
      *
@@ -248,7 +261,7 @@ class TaskController extends BaseController
     {
         $this->view->task = $this->projectService->getTask((int) $this->_getParam('id'));
     }
-    
+
     /**
      * Complete a task
      *
@@ -258,7 +271,7 @@ class TaskController extends BaseController
         $task = $this->byId();
         $this->projectService->completeTask($task, za()->getUser());
     }
-    
+
     /**
      * Delete the specified task
      *
@@ -270,6 +283,7 @@ class TaskController extends BaseController
         if (!$this->projectService->deleteTask($task)) {
            $this->flash("Failed deleting ".$task->title); 
         }
+
         $this->redirect('project', 'view', array('id'=>$task->projectid, '#tasks'));
     }
 
@@ -283,6 +297,7 @@ class TaskController extends BaseController
         if (!isset($_FILES['importfile']) && !isset($_FILES['importfile']['tmp_name'])) {
             throw new Exception("Import file not found");
         }
+
         if (!$project) {
             throw new Exception("Invalid project");
         }
@@ -291,7 +306,11 @@ class TaskController extends BaseController
         
         $this->redirect('project', 'view', array('id'=>$project->id, '#tasks'));
     }
-    
+
+	/**
+	 * Exports a task in either GanttProject or MSProject format
+	 * 
+	 */
     public function exportAction()
     {
         $project = $this->byId(null, 'Project');

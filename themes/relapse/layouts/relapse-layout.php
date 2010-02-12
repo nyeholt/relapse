@@ -39,6 +39,7 @@
 	<?php $this->script(resource('jq-plugins/jquery.jeditable.js')); ?>
 
 	<?php $this->script(resource('general.js')); ?>
+	<?php $this->script(theme_resource('relapse.js')); ?>
 
 	<style type="text/css">
 	</style>
@@ -69,14 +70,16 @@
 		
    		<div id="top-left-block" class="std">
    			<div id="session-info">
-	    		<?php echo $this->loginOutBox(); ?>
+	    		
 		   	</div>
    		</div>
 
 		<div class="clear"></div>
 	</div>
 
-	<div id="top-menu" class="std"></div>
+	<div id="top-menu" class="std">
+		<?php echo $this->loginOutBox(); ?>
+	</div>
 
 	<div id="content">
 		<div id="ajax-loading" style="position: absolute; top: 15px; right: 15px; display: none;">
@@ -105,8 +108,6 @@
 					<li><a href="<?php echo build_url('timesheet', 'filterSummary'); ?>">Summary Report</a></li>
 						<li><a href="<?php echo build_url('leave', 'list'); ?>">Leave</a></li>
 						<li><a href="<?php echo build_url('index','index',null, false, 'expenses');?>">Expenses</a></li>
-			    		<li><a href="<?php echo build_url('event');?>">Events</a></li>
-			    		<li><a href="<?php echo build_url('mailout');?>">Mailouts</a></li>
 						<li><a href="<?php echo build_url('admin');?>">Helpdesk Admin</a></li>					
 					</ul>
 				</div>

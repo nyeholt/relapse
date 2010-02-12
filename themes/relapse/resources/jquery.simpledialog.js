@@ -68,28 +68,36 @@
 			var winH = $(window).height();
 			var winW = $(window).width();
 
-			//Set the popup window to center  
-			$me.css('height', options.height);
+			//Set the popup window to center
+			if (options.height) {
+				$me.css('height', options.height);
+			}
+
 			$me.css('width', options.width);
 
 			$me.css('top',  options.top + $(window).scrollTop());
 			$me.css('left', winW/2-$me.width()/2);  
 
-			if ($me.find('div.close').length == 0) {
-				$me.wrapInner('<div class="content">');
-				$me.append('<div class="close" ></div>');
-				
-				$me.find('div.close').click(function(){
+			if ($me.find('div.dialogClose').length == 0) {
+				$me.wrapInner('<div class="dialogContent" />');
+				$me.prepend('<div class="dialogClose" >X</div>');
+
+				$me.find('div.dialogClose').click(function(){
 					$('body').find('select, input').css('visibility', 'visible');
 					closeDialog();
 				});	
 			}
 
-			$me.find('div.title').remove();
-			if (options.title != undefined) {
-				$me.prepend('<div class="title">'+options.title +'</div>');	
+			if ($me.find('.dialogContent').length == 0) {
+				// make sure there's a dialog content class
+				$me.wrapInner('<div class="dialogContent" />');
 			}
-			
+
+			$me.find('div.dialogTitle').remove();
+			if (options.title != undefined) {
+				$me.find('div.dialogClose').after('<div class="dialogTitle">'+options.title +'</div>');
+			}
+
 			// hack for IE6
 			$('body').find('select, input').css('visibility', 'hidden');
 			$('body').find('.simpleDialog select, .simpleDialog input').css('visibility', 'visible');
@@ -103,12 +111,21 @@
 			simpleDialogStack.push($me);
 
 			$me.show();
+
+			// if we have a url to load, do so now
+			if (options.url) {
+				$me.find('.dialogContent').html('<div style="width: 80%; margin: 0px auto;"><img src="ajax-loading.gif" /></div>');
+				$me.find('.dialogContent').load(settings.url, {_ajax: 1}, function () {
+					if (options.dialogLoaded) {
+						options.dialogLoaded.apply(this, arguments);
+					}
+				});
+			}
 		});
 	}
-	
+
 	$.fn.simpleDialog.defaults = {
 		width: 600,
-		height: 400,
 		top: 80,
 		modal: true	// is this dialog locked open (as in, the dialog has to handle closing itself)
 	};

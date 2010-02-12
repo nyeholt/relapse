@@ -276,7 +276,12 @@ class NovemberController extends Zend_Controller_Action
         }
 
         $this->prepareForEdit($this->view->model);
-        $this->renderView($this->_request->getControllerName().'/edit.php');
+		if ($this->_getParam('_ajax')) {
+			$this->view->viaajax = 1;
+			$this->renderRawView($this->_request->getControllerName().'/edit.php');
+		} else {
+			$this->renderView($this->_request->getControllerName().'/edit.php');
+		}
     }
     
     /**

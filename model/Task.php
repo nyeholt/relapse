@@ -62,7 +62,7 @@ class Task extends MappedObject
 	public function __construct()
 	{
 		$this->created = date('Y-m-d H:i:s');
-		$this->constraints['category'] = new CVLValidator(array('Billable', 'Unbillable', 'Support', 'Free Support', 'Alfresco Support', 'Leave'));
+		$this->constraints['category'] = new CVLValidator(array('Billable', 'Unbillable', 'Support', 'Free Support'));
 	}
 
 	/**

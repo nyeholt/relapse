@@ -25,8 +25,8 @@ class Helper_ProjectSelector extends NovemberHelper
         $html = '<span id="projectSelector-'.$forField.'"><select class="input" name="'.$forField.'" id="'.$forField.'">';
         if ($empty) {
         	$html  .= '<option value=""> </option>';
-        
         }
+
         foreach ($projects as $project) {
         	/* @var $project Project */
 			$html .= $this->iterateSubProjects($project, $select, $value,0,$showmilestones);

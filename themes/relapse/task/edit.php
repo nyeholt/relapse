@@ -26,7 +26,7 @@
 		<legend>Task Info</legend>
 		<?php $this->textInput('Task Title', 'title') ?>
 		<?php $this->textInput('Description', 'description', true); ?>
-		<?php $this->valueList('Category', 'category', 'task-form', $this->categories) ?>
+		<?php $this->selectList('Category', 'category', $this->categories, '', '', '', false, true) ?>
 	    <?php $this->selectList('Assigned To', 'userid', $this->projectUsers, $this->u()->getUsername(), 'username', 'username', 5)?>
 	</fieldset>
 	<fieldset class="additionalDetails">
@@ -47,8 +47,8 @@
 
 	    <?php $this->selectList('Client', 'clientid', $this->clients, $this->project->clientid, 'id', 'title') ?>
 	    <p>
-	    <label for="project">Project:</label>
-	    <?php $this->projectSelector('projectid', $this->projects, 'milestone') ?>
+	    <label for="project">Milestone:</label>
+	    <?php $this->projectSelector('projectid', $this->projects, 'milestone', false, $this->project->id) ?>
 	    </p>
 	    
 	    <p>
@@ -98,6 +98,85 @@
 	</form>
 
 	<?php if ($this->model->id): ?>
+	<fieldset>
+		<legend>Requests</legend>
+		<?php if (count($this->issues)): ?>
+		<ul>
+			<?php foreach ($this->issues as $issue): ?>
+			<li>
+			<?php
+			$percentageComplete = 0;
+			if ($issue->elapsed != 0 && $issue->estimated != 0) {
+				$percentageComplete = ceil($issue->elapsed / $issue->estimated * 100);
+			}
+			?>
+			<?php $this->percentageBar($percentageComplete)?>
+			<?php
+				$unlinkUrl = build_url('task', 'removeLinkFrom', array('id' => $this->model->id, 'fromid' => $issue->id, 'fromtype' => 'Issue'));
+			?>
+			<a href="#" onclick="if (confirm('Really remove link?')) location.href='<?php echo $unlinkUrl?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
+
+			<a href="<?php echo build_url('issue', 'edit', array('id' => $issue->id))?>"><?php $this->o($issue->title)?></a>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+		<?php endif; ?>
+		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform">
+			<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
+			<input type="hidden" name="fromtype" value="Issue" />
+
+			<p>
+				<select name="fromid">
+				<?php foreach ($this->selectableRequests as $selectable): ?>
+					<option value="<?php echo $selectable->id ?>"><?php $this->o($selectable->title)?></option>
+				<?php endforeach; ?>
+				</select>
+				<input type="submit" value="Add" class="abutton" />
+			</p>
+		</form>
+	</fieldset>
+
+
+
+	<fieldset>
+		<legend>Features</legend>
+		<?php if (count($this->features)): ?>
+		<ul>
+			<?php foreach ($this->features as $feature): ?>
+			<li>
+			<?php
+			$percentageComplete = 0;
+			if ($feature->estimated != 0 && $feature->hours != 0) {
+				$percentageComplete = ceil($feature->hours / ($feature->estimated * za()->getConfig('day_length', 8)) * 100);
+			}
+			?>
+			<?php $this->percentageBar($percentageComplete)?>
+
+			<!-- unlink this feature -->
+			<?php
+				$unlinkUrl = build_url('task', 'removeLinkFrom', array('id' => $this->model->id, 'fromid' => $feature->id, 'fromtype' => 'Feature'));
+			?>
+			<a href="#" onclick="if (confirm('Really remove link?')) location.href='<?php echo $unlinkUrl?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
+			<a href="<?php echo build_url('feature', 'edit', array('id' => $feature->id))?>"><?php $this->o($feature->title)?></a>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+		<?php endif; ?>
+		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform">
+			<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
+			<input type="hidden" name="fromtype" value="Feature" />
+
+			<p>
+				<select name="fromid">
+				<?php foreach ($this->selectableFeatures as $selectable): ?>
+					<option value="<?php echo $selectable->id ?>"><?php $this->o($selectable->title)?></option>
+				<?php endforeach; ?>
+				</select>
+				<input type="submit" value="Add" class="abutton" />
+			</p>
+		</form>
+	</fieldset>
+
 	<fieldset>
 		<legend>Notes</legend>
 		<?php $deleteStyle = isset($this->existingWatch) ? 'inline' : 'none' ?>

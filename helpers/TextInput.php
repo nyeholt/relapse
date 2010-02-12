@@ -11,7 +11,7 @@ class Helper_TextInput extends NovemberHelper
 	 * $defaultValue - will be put in value field if model has not value
 	 * $postFixLabel - only on multiple=false will be printed directly after the input field (for % signs etc.)
 	 */
-    public function TextInput($label, $forField, $multiple=false, $extra='', $defaultValue='',$postFixLabel='')
+    public function TextInput($label, $forField, $multiple=false, $extra='', $defaultValue='', $postFixLabel='')
     {
         $value = isset($this->view->model->$forField) ? $this->view->model->$forField : $defaultValue;
         
