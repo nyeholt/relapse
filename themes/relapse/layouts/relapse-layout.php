@@ -78,6 +78,13 @@
 	</div>
 
 	<div id="top-menu" class="std">
+		<?php if (za()->getUser()->hasRole(User::ROLE_POWER)): ?>
+		<div id="admin-links">
+			<a href="<?php echo build_url('timesheet', 'filterSummary'); ?>">Summary Report</a> |
+			<a href="<?php echo build_url('leave', 'list'); ?>">Leave</a> |
+			<a href="<?php echo build_url('admin');?>">Admin</a>
+		</div>
+		<?php endif; ?>
 		<?php echo $this->loginOutBox(); ?>
 	</div>
 
@@ -98,23 +105,6 @@
 			</div>
 		</div>
 
-		<div id="right">
-			<?php if (za()->getUser()->hasRole(User::ROLE_USER)): ?>
-			
-				<?php if (za()->getUser()->hasRole(User::ROLE_POWER)): ?>
-				<div class="box">
-					<h2>Admin ... </h2>
-					<ul>
-					<li><a href="<?php echo build_url('timesheet', 'filterSummary'); ?>">Summary Report</a></li>
-						<li><a href="<?php echo build_url('leave', 'list'); ?>">Leave</a></li>
-						<li><a href="<?php echo build_url('index','index',null, false, 'expenses');?>">Expenses</a></li>
-						<li><a href="<?php echo build_url('admin');?>">Helpdesk Admin</a></li>					
-					</ul>
-				</div>
-	            <?php endif; ?>
-			
-			<?php endif; ?>
-		</div>
 	
 	</div>
 	<div id="footer" class="clear">

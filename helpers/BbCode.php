@@ -10,7 +10,7 @@ include_once 'lib/QuickerUbb.php';
 class Helper_BbCode extends NovemberHelper 
 {
     private $parser;
-    
+
     public function __construct()
     {
         $this->parser = new ubbParser();

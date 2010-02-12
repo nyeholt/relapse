@@ -3,6 +3,8 @@
 body { min-height: 1200px ; background: #66ccff; font-family: sans-serif; font-size: 10pt; }
 
 h2 { font-family: Verdana; font-size: 120%; font-weight: bold;}
+h3 { font-family: Verdana; font-size: 110%; font-weight: bold;}
+h4 { font-family: Verdana; font-weight: bold; }
 
 a { text-decoration: none; color: #66CC66; }
 
@@ -22,11 +24,18 @@ a { text-decoration: none; color: #66CC66; }
 
 
 /** HOME PAGE STUFF **/
-.largeDualList a { font-size: 20px; padding: 5px 2em; font-weight: bold; color: #666; text-decoration: none; }
+.largeDualList a, .largeList a { font-size: 20px; padding: 5px 2em; font-weight: bold; color: #666; text-decoration: none; }
 .block { display: block; }
 .largeDualList { width: 700px; margin: 0px auto; }
 .largeDualList li { display: block; float: left; width: 320px; margin: 10px; height: 36px; background: #efefef; }
+
+.largeList { width: 300px; }
+.largeList li { font-size: 20px; display: block; width: 280px; padding: 10px; height: 36px; background: #efefef; margin-bottom: 5px; }
+
 a.inlineAction { display: inline; padding: 5px 0;}
+
+#admin-links { float: right; }
+#admin-links li { float: left; }
 
 /** Form fields **/
 .simpleDialog { background: #efefef; max-height: 600px; overflow: auto; }
@@ -38,14 +47,31 @@ option, textarea, input[type=text], input[type=password] { border: 1px solid #dd
 .data-form input, .data-form select, .data-form textarea { width: 300px; }
 .data-form textarea, .data-form select, .data-form input[type=text] { font-size: 12pt }
 .data-form input[size], textarea[cols] { width: auto; }
-.data-form p { padding: 0.7em}
+.data-form p, .dataDetail p { padding: 0.7em; display: block; }
 .data-form .valuelisttext { width: 80px; }
 .data-form .valuelistselect { width: 210px; }
 .data-form input[type=submit], .data-form input[type=button] { width: auto; }
 .data-form .calendarInput { width: 100px }
-.data-form label { display: block; float: left; width: 150px; margin-right: 2em; }
+.data-form label, .dataDetail label { display: block; float: left; width: 100px; margin-right: 2em; }
 
 fieldset { margin-bottom: 1em; background-color: #ffffdc; }
 fieldset { border-bottom: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #fff; border-left: 1px solid #fff; }
 legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80%; width: 10%; border: 1px solid #000; }
 
+/** TABLES **/
+.item-table { width: 100%; margin: 0; padding: 0; border-collapse: collapse; border: 1px solid #99BBE8; }
+.item-table tr.odd { background-color:#efefef; }
+.item-table tr.even { background-color:#fff; }
+.item-table thead { background-color: #CCFFCC; }
+.item-table th {text-align: center;}
+.item-table th, .item-table td { padding: 4px;}
+
+/** PAGES **/
+#parent-links { float: right; display: block; width: 140px; }
+.hierarchy-breadcrumb { display: inline; }
+.dataDetail { font-size: 8pt; }
+.inner-column { float: left; width: 45%; margin-right: 4%; }
+
+.project-tree {	padding: 1em; border: 1px solid #000; background-color: #fff; min-width: 400px; }
+
+.top-margin { margin-top: 1em; }
