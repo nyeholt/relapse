@@ -70,18 +70,16 @@
 			<?php $this->percentageBar($percentageComplete, 2, '#0045FF')?>
 			<h3><?php $this->o($childProject->title)?> (due <?php $this->o(date('F jS Y', strtotime($childProject->due)))?>, <?php $this->o($totalComplete)?> of <?php $this->o($totalTasks)?> completed)
 			<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
-			<a href="<?php echo build_url('task', 'edit', array('projectid'=>$childProject->id))?>"><img src="<?php echo resource('images/add.png'); ?>" /></a>
+			<a href="#" onclick="javascript: $('#dialogdiv').simpleDialog({title: 'Create new task', modal: false, url: '<?php echo build_url('task', 'edit', array('projectid'=>$childProject->id))?>'}); return false;"><img src="<?php echo resource('images/add.png'); ?>" /></a>
 			<?php endif; ?>
 			<a href="<?php echo build_url('project', 'view', array('id'=>$childProject->id))?>"><img src="<?php echo resource('images/eye.png'); ?>" /></a>
 			</h3>
-
 			<p>
 			<?php $this->bbCode($childProject->description) ?>
 			</p>
-
 			<div>
-			<h4><a href="#" onclick="$('.milestone-feature-listing').toggle(); return false;">Features</a></h4>
-			<div class="milestone-feature-listing">
+			<h4><a href="#" onclick="$('#milestone-feature-listing-<?php  echo $childProject->id?>').toggle(); return false;">Features</a></h4>
+			<div id="milestone-feature-listing-<?php echo $childProject->id?>">
 				<?php $featureEstimate = 0; ?>
 				<ul>
 					<?php foreach ($childProject->getFeatures() as $feature): ?>
@@ -103,10 +101,9 @@
 			</div>
 			</div>
 
-			
-			<h4 class="top-margin"><a href="#" onclick="$('.project-task-summary').toggle(); return false;">Tasks</a></h4>
-			
-			<ul class="project-task-summary" style="display:none;">
+			<h4 class="top-margin"><a href="#" onclick="$('#project-task-summary-<?php  echo $childProject->id?>').toggle(); return false;">Tasks</a></h4>
+
+			<ul id="project-task-summary-<?php  echo $childProject->id?>" style="display:none;">
 			<?php
 			$completed = 0;
 			$estimated = 0;

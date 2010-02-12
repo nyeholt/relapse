@@ -42,4 +42,3 @@
 		<div class="clear"></div>
 	</div>
 </div>
-<div class="std dialog" id="dialogdiv"></div>
