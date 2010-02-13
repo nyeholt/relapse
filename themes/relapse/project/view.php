@@ -32,8 +32,12 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 	</div>
 </div>
 
+<?php if (count($this->issues)): ?>
+<?php include dirname(__FILE__).'/../issue/issue-list.php'; ?>
+<?php endif; ?>
+
 <?php include dirname(__FILE__).'/milestone-list.php'; ?>
-<?php include dirname(__FILE__).'/request-list.php'; ?>
+
 <?php // include dirname(__FILE__).'/user-list.php'; ?>
 
 

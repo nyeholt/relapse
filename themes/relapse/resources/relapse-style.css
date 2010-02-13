@@ -75,3 +75,6 @@ legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80
 .project-tree {	padding: 1em; border: 1px solid #000; background-color: #fff; min-width: 400px; }
 
 .top-margin { margin-top: 1em; }
+
+.abutton { background: #9d4; border: 1px solid #ccc; min-width: 80px; padding: 0.4em; font-size: 10pt; font-weight: bold; color: #666; }
+.abutton:hover { background: #9f4; }

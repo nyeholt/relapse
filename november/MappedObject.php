@@ -60,7 +60,7 @@ abstract class MappedObject
             // Protected from alteration!
 			$key = $var->name;
             if ($key == 'constraints' || $key == 'requiredFields' || $key == 'searchableFields' || $key == 'id') continue;
-			if ($reflect->getProperty($key)->isPublic()) {
+			if ($reflect->getProperty($key)->isPublic() && !endswith($key, 'Service') && ($key != 'log')) {
 				$props[$key] = $this->$key;
             }
         }

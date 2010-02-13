@@ -49,7 +49,7 @@
 			<?php foreach ($openTask->userid as $username): ?>
 			<span>[<?php $this->o($username)?>]</span>
 			<?php endforeach; ?>
-			<a href="<?php echo build_url('task', 'edit', array('id'=>$openTask->id))?>"><?php $this->o($openTask->title)?></a>
+			<a href="#" onclick="$('#dialogdiv').simpleDialog({title: 'Create new task', modal: false, url: '<?php echo build_url('task', 'edit', array('id'=>$openTask->id)) ?>'}); return false;"><?php $this->o($openTask->title)?></a>
 			</li>
 		<?php endforeach; ?>
 		</ul><br/>
@@ -117,7 +117,7 @@
 				<?php foreach ($openTask->userid as $username): ?>
 				<span>[<?php $this->o($username)?>]</span>
 				<?php endforeach; ?>
-				<a href="<?php echo build_url('task', 'edit', array('id'=>$openTask->id))?>"><?php $this->o($openTask->title)?></a>
+				<a href="#" onclick="$('#dialogdiv').simpleDialog({title: 'Edit task', modal: false, url: '<?php echo build_url('task', 'edit', array('id'=>$openTask->id)) ?>'}); return false;"><?php $this->o($openTask->title)?></a>
 				</li>
 			<?php endforeach; ?>
 			</ul><br/>

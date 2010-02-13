@@ -237,7 +237,7 @@ class TaskController extends BaseController
         }
 
 		if ($this->_getParam('_ajax')) {
-			$this->redirect('task', 'taskactions', array('id'=>$model->id));
+			$this->redirect('task', 'taskactions', array('id'=>$model->id, 'new' => (!($this->_getParam('id') > 0))));
 		} else {
 			$this->redirect('task', 'edit', array('id'=>$model->id));
 		}

@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('.btn').each(function(){
+	$('.abutton').each(function(){
 		var b = $(this);
 		var tt = b.text() || b.val();
 		if ($(':submit,:button',this)) {

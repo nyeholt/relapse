@@ -4,6 +4,14 @@ include_once 'model/Issue.php';
 
 class IssueController extends BaseController 
 {
+	public static $list_fields = array(
+		'id' => 'ID',
+		'title' => 'Title',
+		'status' => 'Status',
+		'userid' => 'User',
+		'updated' => 'Updated',
+	);
+
     /**
      * The project service
      *
@@ -65,6 +73,35 @@ class IssueController extends BaseController
             $this->renderView('issue/list.php');
         }
     }
+
+	public function listAction()
+	{
+		if ($this->_getParam('json')) {
+			$issues = $this->getIssueList(array('status <>'=>Issue::CLOSED_STATUS));
+			$asArr = array();
+			foreach ($issues as $issue) {
+				$cell = array();
+				foreach (self::$list_fields as $name => $display) {
+					$cell[] = $issue->$name;
+				}
+				$row = array(
+					'id' => $issue->id,
+					'cell' => $cell,
+				);
+				$asArr[] = $row;
+			}
+			$obj = new stdClass();
+			$obj->page = ifset($this->_getAllParams(), $this->view->pagerName, 1);
+			$obj->total = $this->view->totalCount;
+			$obj->rows = $asArr;
+
+			$this->getResponse()->setHeader('Content-type', 'text/x-json');
+			$json = Zend_Json::encode($obj);
+			echo $json;
+		} else {
+			$this->indexAction();
+		}
+	}
     
     public function csvExportAction()
     {
@@ -273,12 +310,12 @@ class IssueController extends BaseController
         $project = $this->projectService->getProject((int) $this->_getParam('projectid'));
         $where = array('projectid='=>$project->id);
         $this->bindIssueListViewData($where);
-        
+
         $this->view->model = $project; 
         $this->view->attachedToType = 'projectid';
-        
+
         $this->view->minimal = true; 
-        
+
         $this->renderRawView('issue/list.php'); //ajax-issue-list.php');
     }
     
@@ -310,7 +347,20 @@ class IssueController extends BaseController
      */
     private function bindIssueListViewData($where=array())
     {
-        $sortDir = $this->_getParam('dir', 'down');
+        $this->view->issues = $this->getIssueList($where);
+        $this->view->type = 'list';
+        
+    }
+
+	/**
+	 * Generates the appropriate query for returning a list of issues
+	 *
+	 * @param array $where
+	 * @return arrayobject
+	 */
+	protected function getIssueList($where=array())
+	{
+		$sortDir = $this->_getParam('dir', 'down');
 
         if ($sortDir == 'up') {
             $sortDir = 'asc';
@@ -319,38 +369,38 @@ class IssueController extends BaseController
             $sortDir = 'desc';
             $issueParams = array('dir' => 'down');
         }
-        
+
         $mineOnly = $this->_getParam('mineOnly');
         if ($mineOnly) {
             $where['issue.userid='] = za()->getUser()->getUsername();
             $issueParams['mineOnly'] = $mineOnly;
         }
-        
+
         $filter = $this->_getParam('titletext');
     	if (mb_strlen($filter) >= 2) {
         	// add some filtering to the query
 			$where['issue.title like '] = '%'.$filter.'%';
 			$issueParams['titletext'] = $filter;
         }
- 
+
         $filter = $this->_getParam('severity');
     	if (mb_strlen($filter)) {
         	// add some filtering to the query
 			$where['issue.severity = '] = $filter;
 			$issueParams['severity'] = $filter;
         }
-        
+
     	$filter = $this->_getParam('status');
         if ($filter !== null && !is_array($filter) && strlen($filter)) {
             $filter = array($filter);
             $issueParams['status'] = $filter;
-        }  
+        }
 
     	if (is_array($filter)) {
     		$where['status'] = $filter;
     	    $issueParams['status'] = $filter;
         }
-        
+
     	$filter = $this->_getParam('type');
     	if (mb_strlen($filter)) {
         	// add some filtering to the query
@@ -364,13 +414,20 @@ class IssueController extends BaseController
 			$where['issue.clientid = '] = $filter;
 			$issueParams['clientid'] = $filter;
         }
-        
+
+		$filter = $this->_getParam('projectid');
+    	if (mb_strlen($filter)) {
+        	// add some filtering to the query
+			$where['issue.projectid = '] = $filter;
+			$issueParams['projectid'] = $filter;
+        }
+
         $filter = $this->_getParam('startdate');
         if (mb_strlen($filter)) {
         	$where['issue.updated >= '] = date('Y-m-d 00:00:00', strtotime($filter));
         	$issueParams['startdate'] = $filter;
         }
-        
+
     	$filter = $this->_getParam('enddate');
         if (mb_strlen($filter)) {
         	$where['issue.updated <= '] = date('Y-m-d 23:59:59', strtotime($filter));
@@ -390,23 +447,22 @@ class IssueController extends BaseController
         $this->view->severities = $tmp->constraints['severity']->getValues();
         $this->view->types = $tmp->constraints['issuetype']->getValues();
         $this->view->statuses = $tmp->constraints['status']->getValues();
-        
+
         $sort .= ' '.$sortDir;
         $totalCount = $this->issueService->getIssueCount($where);
-        $this->view->pagerName = 'pager';
+        $this->view->pagerName = 'page';
         $currentPage = ifset($this->_getAllParams(), $this->view->pagerName, 1);
         $this->view->clients = $this->clientService->getClients();
         $this->view->totalCount = $totalCount;
         $this->view->listSize = za()->getConfig('project_list_size');
-        
+
         if ($this->_getParam("unlimited")) {
         	$currentPage = null;
         }
-        
-        $this->view->issues = $this->issueService->getIssues($where, $sort, $currentPage, $this->view->listSize);
-        $this->view->type = 'list';
-        $this->view->searchParams = $issueParams;
-    }
+
+		$this->view->searchParams = $issueParams;
+		return $this->issueService->getIssues($where, $sort, $currentPage, za()->getConfig('project_list_size'));
+	}
 
     /**
      * Get a list of the new issues

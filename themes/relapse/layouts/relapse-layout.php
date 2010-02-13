@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-	
-<!-- ==========================================================	-->
-<!--	Created by Devit Schizoper                          	-->
-<!--	Created HomePages http://LoadFoo.starzonewebhost.com   	-->
-<!--	Created Day 01.12.2006                              	-->
-<!-- ========================================================== -->
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
@@ -18,21 +11,19 @@
 	<?php $this->style(resource('jquery-treeview/jquery.treeview.css'))?>
 	<?php $this->style(theme_resource('rounded-buttons/rounded-buttons.css')); ?>
 	<?php $this->style(theme_resource('jquery.simpledialog.css')); ?>
-
+	<?php $this->style(theme_resource('flexigrid/css/flexigrid/flexigrid.css')); ?>
+	
 	<?php $this->script(theme_resource('jquery-1.4.1.min.js')); ?>
 
 	<?php $this->script(theme_resource('rounded-buttons/rounded-buttons.js')); ?>
 	<?php $this->script(theme_resource('jquery.simpledialog.js')); ?>
-
+	<?php $this->script(theme_resource('flexigrid/flexigrid.pack.js')); ?>
 	<?php $this->script(resource('time-table.js')); ?>
-
 	<?php $this->script(resource('jquery-treeview/jquery.treeview.js'))?>
 	<?php $this->script(resource('jquery-treeview/jquery.treeview.async.js'))?>
-
 	<?php $this->script(resource('jscalendar/calendar_stripped.js')); ?>
 	<?php $this->script(resource('jscalendar/lang/calendar-en.js')); ?>
 	<?php $this->script(resource('jscalendar/calendar-setup.js')); ?>
-
 	<?php $this->script(resource('jq-plugins/auto.complete.js')); ?>
 	<?php $this->script(resource('jq-plugins/jquery.cookie.js')); ?>
 	<?php $this->script(resource('jq-plugins/formAjax.js')); ?>

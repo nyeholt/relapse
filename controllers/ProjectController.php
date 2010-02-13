@@ -49,6 +49,11 @@ class ProjectController extends BaseController
      * @var CacheService
      */
     public $cacheService;
+
+	/**
+	 * @var IssueService
+	 */
+	public $issueService;
     
     
     public function indexAction()
@@ -83,6 +88,7 @@ class ProjectController extends BaseController
             $this->renderView('error.php');
             return;
         }
+
         $this->view->hideHeader = false;
         $totalCount = $this->projectService->getTaskCount(array('projectid ='=>$project->id, 'complete=' => 0));
         
@@ -130,6 +136,9 @@ class ProjectController extends BaseController
         if ($this->view->projectuser && !isset($this->view->groupusers[$this->view->projectuser->id])) {
         	$this->view->projectuser = null;
         }
+
+		$where = array('projectid =' => $project->id);
+		$this->view->issues = $this->issueService->getIssues($where);
         
 		za()->recordStat('projectcontroller::setupview', getmicrotime() - $__start);
 		$__start = getmicrotime();
