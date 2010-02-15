@@ -207,7 +207,7 @@ class DbService implements Configurable
     /**
      * Applies the given array of where statements to the given select 
      */
-    public function applyWhereToSelect($where, $select)
+    public function applyWhereToSelect($where, Zend_Db_Select $select)
     {
     	foreach ($where as $field => $value) {
         	if ($value instanceof Zend_Db_Expr && is_int($field)) {
@@ -224,10 +224,15 @@ class DbService implements Configurable
 				
 				$select->where($fieldVal);
             } else {
-                $select->where($field.' ?', $value);
+				if (strpos(mb_strtolower($field), 'or ') === 0) {
+					$field = substr($field, 3);
+					$select->orWhere($field.' ?', $value);
+				} else {
+					$select->where($field.' ?', $value);
+				}
             }
         }
-        
+
         return $select;
     }
 
@@ -591,11 +596,11 @@ class DbService implements Configurable
 
         // set some properties
         $refObj = new ReflectionObject($object);
-        if ($refObj->hasProperty('created')) {
+        if ($refObj->hasProperty('created') && !$object->created) {
             $object->created = date('Y-m-d H:i:s', time());
         }
 
-        if ($refObj->hasProperty('creator')) {
+        if ($refObj->hasProperty('creator') && !$object->creator) {
             $object->creator = za()->getUser()->getUsername();
         }
         $row = $this->getRowFrom($object);
