@@ -13,10 +13,7 @@ class FileController extends NovemberController
      * @var CacheService
      */
     public $cacheService;
-    
-    // commented out because of problems with caching
-    // protected $validateActions = array('createfolderaction');
-    
+
     /**
      * List files
      *

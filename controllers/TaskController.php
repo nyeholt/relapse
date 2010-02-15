@@ -29,23 +29,24 @@ class TaskController extends BaseController
      * @var ClientService
      */
     public $clientService;
-
-    /**
-     * Which actions are to be validated
-     */
-    protected $validateActions = array('saveaction');
     
     /**
      * @var SearchService
      */
     public $searchService;
-    
+
     /**
      * The ItemLinkService
      *
      * @var ItemLinkService
      */
     public $itemLinkService;
+
+	public function init()
+	{
+		parent::init();
+		$this->validateActions['saveaction'] = true;
+	}
 
     /**
      * Get a list of all the current user's tasks

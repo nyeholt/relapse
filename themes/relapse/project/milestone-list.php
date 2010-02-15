@@ -49,7 +49,7 @@
 			<?php foreach ($openTask->userid as $username): ?>
 			<span>[<?php $this->o($username)?>]</span>
 			<?php endforeach; ?>
-			<a href="#" onclick="$('#dialogdiv').simpleDialog({title: 'Create new task', modal: false, url: '<?php echo build_url('task', 'edit', array('id'=>$openTask->id)) ?>'}); return false;"><?php $this->o($openTask->title)?></a>
+			<?php $this->dialogPopin($this->o($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
 			</li>
 		<?php endforeach; ?>
 		</ul><br/>
@@ -68,11 +68,12 @@
 			?>
 			<div class="milestone-entry bordered">
 			<?php $this->percentageBar($percentageComplete, 2, '#0045FF')?>
-			<h3><?php $this->o($childProject->title)?> (due <?php $this->o(date('F jS Y', strtotime($childProject->due)))?>, <?php $this->o($totalComplete)?> of <?php $this->o($totalTasks)?> completed)
+			<h3><?php $this->o($childProject->title)?> (due <?php $this->o(date('F jS Y', strtotime($childProject->due)))?>, <?php $this->o($totalComplete)?> of <?php $this->o($totalTasks)?> tasks completed)
 			<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
-			<a href="#" onclick="javascript: $('#dialogdiv').simpleDialog({title: 'Create new task', modal: false, url: '<?php echo build_url('task', 'edit', array('projectid'=>$childProject->id))?>'}); return false;"><img src="<?php echo resource('images/add.png'); ?>" /></a>
+				<?php $this->dialogPopin('<img src="'.resource('images/add.png').'" />', build_url('task', 'edit', array('projectid'=>$childProject->id)), array('title' => 'Create new task')); ?>
+				<?php $this->dialogPopin('<img src="'.resource('images/pencil.png').'" />', build_url('project', 'edit', array('id'=>$childProject->id)), array('title' => 'Edit milestone')); ?>
 			<?php endif; ?>
-			<a href="<?php echo build_url('project', 'view', array('id'=>$childProject->id))?>"><img src="<?php echo resource('images/eye.png'); ?>" /></a>
+			<!--<a href="<?php echo build_url('project', 'view', array('id'=>$childProject->id))?>"><img src="<?php echo resource('images/eye.png'); ?>" /></a> -->
 			</h3>
 			<p>
 			<?php $this->bbCode($childProject->description) ?>
@@ -117,11 +118,10 @@
 				<?php foreach ($openTask->userid as $username): ?>
 				<span>[<?php $this->o($username)?>]</span>
 				<?php endforeach; ?>
-				<a href="#" onclick="$('#dialogdiv').simpleDialog({title: 'Edit task', modal: false, url: '<?php echo build_url('task', 'edit', array('id'=>$openTask->id)) ?>'}); return false;"><?php $this->o($openTask->title)?></a>
+				<?php $this->dialogPopin($this->o($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
 				</li>
 			<?php endforeach; ?>
 			</ul><br/>
-			
 			<p>Time spent on open tasks: <?php $this->o(sprintf('%.2f', ($completed > 0 ? $completed / 3600 : 0))) ?> / <?php $this->o($estimated) ?></p>
 			</div>
 		<?php endforeach; ?>

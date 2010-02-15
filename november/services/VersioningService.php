@@ -24,11 +24,13 @@ OF SUCH DAMAGE.
  * A versioning service to store serialised representations of versioned objects
  *
  * Versions are stored using a 'validfrom'; this date range
- * 'validfrom' -> 'created' for the version indicates when this version
- * represented the 'live' state for the object. So the 'created' time of the
- * version doesn't represent when this version was first created from a 'live'
+ * 'validfrom' -> 'versioncreated' for the version indicates when this version
+ * represented the 'live' state for the object. So the 'versioncreated' time of the
+ * version doesn't represent when this version was first versioncreated from a 'live'
  * perspective, but when the version was taken (ie the time the new object
  * became the 'live' representation)
+ *
+ * Note that for a 'version', the date the version was created is 'versioncreated'
  * 
  * @author Marcus Nyeholt <marcus@silverstripe.com.au>
  */
@@ -64,7 +66,7 @@ class VersioningService
 		$lastVersion = $this->getMostRecentVersion($object);
 		$from = date('Y-m-d H:i:s');
 		if ($lastVersion) {
-			$from = date('Y-m-d H:i:s', strtotime($lastVersion->created) + 1);
+			$from = date('Y-m-d H:i:s', strtotime($lastVersion->versioncreated) + 1);
 		}
 
 		$newVersion = new $versionType();
@@ -74,12 +76,14 @@ class VersioningService
 		$properties = $current->unBind();
 
 		unset($properties['id']);
-		unset($properties['created']);
-		unset($properties['creator']);
+		
+		/*unset($properties['created']);
+		unset($properties['creator']);*/
 
 		$newVersion->bind($properties);
 
 		$newVersion->recordid = $object->id;
+		$newVersion->versioncreated = date('Y-m-d H:i:s');
 		$newVersion->validfrom = $from;
 		$newVersion->label = $label;
 
@@ -132,7 +136,7 @@ class VersioningService
 		
 		if ($from) {
 			// From means versions that were created after this date
-			$select->where('created > ?', $from);
+			$select->where('versioncreated > ?', $from);
 			// $select->where('validfrom > ?', $from);
 		}
 		if ($to) {
@@ -166,7 +170,7 @@ class VersioningService
 		$filter = array();
 
 		$filter['validfrom < '] = $date;
-		$filter['created > '] = $date;
+		$filter['versioncreated > '] = $date;
 		
 		$versions = $this->dbService->getObjects($versionType, $filter);
 
@@ -181,7 +185,7 @@ class VersioningService
 			$ids[] = $v->recordid;
 		}
 
-		$filter = array('created < ' => $date);
+		$filter = array('versioncreated < ' => $date);
 		if (count($ids)) {
 			$filter['id NOT'] = $ids;
 		}

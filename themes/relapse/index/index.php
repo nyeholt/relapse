@@ -3,14 +3,16 @@
 	<div class="std">
 		<ul class="largeDualList">
 			<li>
-				<a class="block" href="#" onclick="javascript: $('#dialogdiv').simpleDialog({title: 'Create new task', modal: false, url: '<?php echo build_url('task', 'edit') ?>'}); return false; ">Add task</a>
-			</li>
-
-			<li>
+				<?php $this->dialogPopin('Add Task', build_url('task', 'edit'), array('title' => 'Create new task'), 'class="block"'); ?>
 			</li>
 			<li>
+				<a class="block" href="#">Estimate new project</a>
 			</li>
 			<li>
+				<a class="block" href="#">Add a new contact</a>
+			</li>
+			<li>
+				<a class="block" href="#">View project progress</a>
 			</li>
 		</ul>
 		<div class="clear"></div>
@@ -32,8 +34,8 @@
 				<?php // $this->hierarchy($hierarchy, '&raquo;', null); ?>
 				<div >
 				<a class="block" href="<?php echo build_url($itemType, 'view', array('id'=>$item->id));?>">
-					<?php echo $this->ellipsis($this->escape($item->title), 18);?>
-					<img onclick="$.post('<?php echo build_url('note', 'deletewatch')?>', {id:'<?php echo $item->id?>', type:'<?php echo get_class($item)?>'}, function() {$('#<?php echo $rowId?>').remove();}); return false; " alt="unbsubscribe from resource" src="<?php echo resource('images/thumb_down.png')?>"/>
+					<?php echo $this->ellipsis($this->escape($item->title), 20);?>
+					<img onclick="$.post('<?php echo build_url('note', 'deletewatch')?>', {id:'<?php echo $item->id?>', __validation_token: '<?php echo $this->requestValidator(true)?>',  type:'<?php echo get_class($item)?>'}, function() {$('#<?php echo $rowId?>').remove();}); return false; " alt="unbsubscribe from resource" src="<?php echo resource('images/thumb_down.png')?>"/>
 				</a>
 				</div>
 			</li>

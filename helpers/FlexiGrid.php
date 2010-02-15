@@ -29,16 +29,25 @@ class Helper_FlexiGrid extends NovemberHelper
 {
     public function flexiGrid($name, $options)
 	{
+		$opts = json_encode($options);
+		$opts = preg_replace('/"function\w*\((.+?)}"/e', "'function ('.Helper_FlexiGrid::replaceQuotes('$1').'}'", $opts);
+
 		?>
 		<table id="<?php echo $name ?>" style="display: none;"></table>
 		<script type="text/javascript">
 		$().ready(function() {
 			$('#<?php echo $name ?>').flexigrid(
-			<?php echo json_encode($options); ?>
+			<?php echo  $opts ?>
 			);
 		});
 		</script>
 		<?php 
+	} 
+
+	public static function replaceQuotes($str)
+	{
+		$v = str_replace('\\\\"', '"', $str);
+		return $v;
 	}
 }
 ?>

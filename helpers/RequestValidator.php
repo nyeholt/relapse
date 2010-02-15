@@ -6,7 +6,7 @@
  */
 class Helper_RequestValidator
 {
-    public function RequestValidator()
+    public function RequestValidator($tokenOnly = false)
     {
         $token = za()->getSession()->novemberValidationToken;
         if ($token == null) {
@@ -14,9 +14,12 @@ class Helper_RequestValidator
             za()->getSession()->novemberValidationToken = $token;
         }
 
+		if ($tokenOnly) {
+			return $token;
+		}
         ?>
-			<input type="hidden" name="__validation_token" value="<?php echo $token ?>" />
-<?php
+		<input type="hidden" name="__validation_token" value="<?php echo $token ?>" />
+		<?php
 	}
 }
 

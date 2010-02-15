@@ -10,46 +10,36 @@
 
 <?php $statusClass = $this->model->status == 'New' ? 'new-request' : 'open-request';  // only show a reduced set of info for non-new ?>
 
-<fieldset id="details" class="std">
-	<legend>Details</legend>
-	<form method="post" action="<?php echo build_url('issue', 'save');?>" class="issue-form">
-
-	<?php if (isset($this->project)): ?>
-	<input type="hidden" value="<?php echo $this->project->id?>" name="projectid" />
+<form method="post" action="<?php echo build_url('issue', 'save');?>" class="data-form ajaxForm">
+	<?php if ($this->viaajax): ?>
+	<input type="hidden" value="1" name="_ajax" />
 	<?php endif; ?>
+	<fieldset>
+		<legend>Details</legend>
+		<?php if (isset($this->project)): ?>
+		<input type="hidden" value="<?php echo $this->project->id?>" name="projectid" />
+		<?php endif; ?>
+		<?php if (isset($this->client)): ?>
+		<input type="hidden" value="<?php echo $this->client->id?>" name="clientid" />
+		<?php endif;?>
+		<?php if ($this->model->id): ?>
+		<input type="hidden" value="<?php echo $this->model->id?>" name="id" />
+		<?php else: ?>
+		<?php endif; ?>
+		<?php $this->textInput('Title', 'title') ?>
+		<p>Please provide as much information describing the impact of this request to help us better prioritise it</p>
+		<?php $this->textInput('Description', 'description', true) ?>
 
-	<?php if (isset($this->client)): ?>
-	<input type="hidden" value="<?php echo $this->client->id?>" name="clientid" />
-	<?php endif;?>
-
-	<?php if ($this->model->id): ?>
-	<input type="hidden" value="<?php echo $this->model->id?>" name="id" />
-	<?php else: ?>
-
-	<?php endif; ?>
-
-	<div class="wide-form" >
-		<?php $this->textInput('Request Title', 'title') ?>
-
-		<div class="<?php echo $statusClass ?>">
-			<p>Please provide as much information describing the impact of this request to help us better prioritise it</p>
-			<?php $this->textInput('Description', 'description', true) ?>
-		</div>
-	</div>
-
-
-	<div class="inner-column">
-		<div class="<?php echo $statusClass ?>">
-			<?php if ($this->model->id): ?>
-			<p>
-			<label>Created</label>
-			<?php $this->o($this->u()->formatDate($this->model->created)); ?>
-			</p>
-			<p>
-			<label>Created By</label>
-			<?php $this->o($this->model->creator); ?>
-			</p>
-			<?php endif; ?>
+		<?php if ($this->model->id): ?>
+		<p>
+		<label>Created</label>
+		<?php $this->o($this->u()->formatDate($this->model->created)); ?>
+		</p>
+		<p>
+		<label>Created By</label>
+		<?php $this->o($this->model->creator); ?>
+		</p>
+		<?php endif; ?>
 
 		<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
 			<?php if (isset($this->project)): ?>
@@ -69,20 +59,20 @@
 				<li>Severity 3 - The request should be addressed when possible</li>
 			</ul>
 		</div>
+		
 		<?php // $this->valueList('Category', 'category', 'issue-form', $this->categories) ?>
-		</div><!-- end statusClass div -->
+
 		<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
 		<?php $this->selectList('Status', 'status', $this->statuses) ?>
 		<?php elseif($this->u()->username == $this->model->creator): ?>
 		<?php $this->selectList('Status', 'status', $this->userStatuses) ?>
 		<?php endif; ?>
-	</div>
-
-	<div class="inner-column">
-		<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
-			<?php $this->yesNoInput('Private?', 'isprivate')?>
-		<?php endif; ?>
-		<div class="<?php echo $statusClass ?>">
+	</fieldset>
+	<fieldset>
+		<legend>Additional Info</legend>
+			<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
+				<?php $this->yesNoInput('Private?', 'isprivate')?>
+			<?php endif; ?>
 			<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
 			<?php $this->selectList('Type', 'issuetype', $this->types) ?>
 			<?php endif; ?>
@@ -116,78 +106,75 @@
 				<?php $this->projectSelector('projectid', $this->projects != null ? $this->projects : array(), 'project', false, $this->project ? $this->project->id : null) ?>
 				</p>
 			<?php endif; ?>
-		</div><!-- end statusClass div -->
-	</div>
+	</fieldset>
 
 	<p class="clear">
 		<input type="submit" class="abutton" value="Save" accesskey="s" />
-		<?php if (isset($this->project)): ?>
-		<input type="button" class="abutton" onclick="location.href='<?php echo build_url('project', 'view', array('id'=>$this->project->id, "#issues"))?>'" value="Back" />
-		<?php endif; ?>
-
+		<?php if ($this->viaajax): ?>
+		<input type="button" class="abutton" onclick="$('#dialogdiv').simpleDialog('close');" value="Close" />
+		<?php endif ; ?>
 	</p>
-	</form>
+
+</form>
         
-	<?php if ($this->model->id): ?>
+<?php if ($this->model->id): ?>
 
-		<?php if ($this->u()->hasRole(User::ROLE_EXTERNAL)) : ?>
-		<!-- Put in the milestone info here later. -->
-		<?php endif; ?>
+<fieldset>
+	<legend>Tasks</legend>
+	<?php if ($this->u()->hasRole(User::ROLE_EXTERNAL)) : ?>
+	<!-- Put in the milestone info here later. -->
+	<?php endif; ?>
 
+
+	<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
+	<div id="tasks" class="bordered">
+		<h3>Tasks</h3>
+		<ul class="project-task-summary">
+		<?php $estimated = 0; $taken = 0; ?>
+		<?php foreach ($this->linkedTasks as $openTask): ?>
+			<li>
+			<?php $this->percentageBar($openTask->getPercentage())?>
+			<a title="Remove link" href="#" onclick="if (!confirm('Are you sure?')) return false; location.href='<?php echo build_url('task', 'removeLinkFrom', array('id' => $openTask->id, 'fromid' => $this->model->id, 'fromtype' => 'Issue', 'linktype'=>'to'))?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
+			<span style="background-color: <?php echo $openTask->getStalenessColor() ?>" title="Task staleness (blue is older)">&nbsp;&nbsp;</span>
+			<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
+			<?php if ($openTask->complete): ?>
+			<img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
+			<?php endif; ?>
+			<a href="<?php echo build_url('task', 'edit', array('id'=>$openTask->id))?>"><?php $this->o($openTask->title)?></a>
+			<?php else: ?>
+			<?php $this->o($openTask->title)?>
+			<?php endif; ?>
+			<?php $estimated += $openTask->estimated; $taken += $openTask->timespent; ?>
+			</li>
+		<?php endforeach; ?>
+		</ul>
+
+		<p>Time taken: <?php $this->o(sprintf("%.2f", $taken > 0 ? $taken / 3600 : 0)) ?> / <?php $this->o($estimated) ?> hours</p>
 
 		<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
-		<div id="tasks" class="bordered">
-			<h3>Tasks</h3>
-			<ul class="project-task-summary">
-			<?php $estimated = 0; $taken = 0; ?>
-			<?php foreach ($this->linkedTasks as $openTask): ?>
-				<li>
-				<?php $this->percentageBar($openTask->getPercentage())?>
-				<a title="Remove link" href="#" onclick="if (!confirm('Are you sure?')) return false; location.href='<?php echo build_url('task', 'removeLinkFrom', array('id' => $openTask->id, 'fromid' => $this->model->id, 'fromtype' => 'Issue', 'linktype'=>'to'))?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
-				<span style="background-color: <?php echo $openTask->getStalenessColor() ?>" title="Task staleness (blue is older)">&nbsp;&nbsp;</span>
-				<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
-				<?php if ($openTask->complete): ?>
-				<img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
-				<?php endif; ?>
-				<a href="<?php echo build_url('task', 'edit', array('id'=>$openTask->id))?>"><?php $this->o($openTask->title)?></a>
-				<?php else: ?>
-				<?php $this->o($openTask->title)?>
-				<?php endif; ?>
-				<?php $estimated += $openTask->estimated; $taken += $openTask->timespent; ?>
-				</li>
-			<?php endforeach; ?>
-			</ul>
+		<form method="post" action="<?php echo build_url('task', 'newtask')?>">
+			<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
+			<input type="hidden" name="type" value="Issue" />
+			<input type="hidden" name="assignto" value="<?php $this->o($this->model->userid)?>" />
+			<input type="hidden" name="prefix" value="Request #<?php $this->o($this->model->id) ?> - " />
+			<p><label for="tasktitle">Add New Task</label>
+			<input class="input" type="text" id="tasktitle" name="tasktitle" />
+			In Milestone
+			<?php $this->projectSelector('newtaskProjectid', $this->projects, 'milestone', false, $this->project->id) ?>
+			<input type="submit" value="Create Task" class="abutton" />
+			</p>
+		</form>
 
-			<p>Time taken: <?php $this->o(sprintf("%.2f", $taken > 0 ? $taken / 3600 : 0)) ?> / <?php $this->o($estimated) ?> hours</p>
-
-			<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
-			<form method="post" action="<?php echo build_url('task', 'newtask')?>">
-				<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
-				<input type="hidden" name="type" value="Issue" />
-				<input type="hidden" name="assignto" value="<?php $this->o($this->model->userid)?>" />
-				<input type="hidden" name="prefix" value="Request #<?php $this->o($this->model->id) ?> - " />
-				<p><label for="tasktitle">Add New Task</label>
-				<input class="input" type="text" id="tasktitle" name="tasktitle" />
-				In Milestone
-				<?php $this->projectSelector('newtaskProjectid', $this->projects, 'milestone', false, $this->project->id) ?>
-
-				<input type="submit" value="Create Task" class="abutton" />
-				</p>
-			</form>
-
-			<?php endif; ?>
-		</div>
-		<!-- end if logged in -->
 		<?php endif; ?>
-
-	<?php $this->noteList($this->notes, build_url('issue', 'addNote'), $this->allUsers, $this->subscribers); ?>
-
-
-	<!-- end model->id -->
+	</div>
+	<!-- end if logged in -->
 	<?php endif; ?>
 </fieldset>
-    
-<?php if ($this->model->id): ?>
+
+
+<?php $this->noteList($this->notes, build_url('issue', 'addNote'), $this->allUsers, $this->subscribers); ?>
+
+
 <fieldset id="files">
 	<legend>Files</legend>
 	<div>
@@ -196,8 +183,8 @@
 				<li>
 				<?php if (is_string($file)): ?>
 				<?php else: ?>
-					<a class="action-icon" title="Edit file" href="<?php echo build_url('file', 'edit', array('id'=>$file->id, 'projectid'=> $this->project->id, 'parent'=>base64_encode($file->path), 'returnurl'=>base64_encode('issue/edit/id/'.$this->model->id.'/projectid/'.$this->project->id.'/clientid/'.$this->client->id.'/#files')))?>"><img src="<?php echo resource('images/pencil.png')?>" /></a>
-					<a class="action-icon" title="Delete file" href="<?php echo build_url('file', 'delete', array('id'=>$file->id, 'returnurl'=>base64_encode('issue/edit/id/'.$this->model->id.'/projectid/'.$this->project->id.'/clientid/'.$this->client->id.'/#files')))?>"><img src="<?php echo resource('images/delete.png')?>" /></a>
+					<a class="action-icon" title="Edit file" href="<?php echo build_url('file', 'edit', array('id'=>$file->id, '__validation_token' => $this->requestValidator(true), 'projectid'=> $this->project->id, 'parent'=>base64_encode($file->path), 'returnurl'=>base64_encode('issue/edit/id/'.$this->model->id.'/projectid/'.$this->project->id.'/clientid/'.$this->client->id.'/#files')))?>"><img src="<?php echo resource('images/pencil.png')?>" /></a>
+					<a class="action-icon" title="Delete file" href="<?php echo build_url('file', 'delete', array('id'=>$file->id, '__validation_token' => $this->requestValidator(true), 'returnurl'=>base64_encode('issue/edit/id/'.$this->model->id.'/projectid/'.$this->project->id.'/clientid/'.$this->client->id.'/#files')))?>"><img src="<?php echo resource('images/delete.png')?>" /></a>
 					<a href="<?php echo build_url('file', 'view', array('id' => $file->id, 'projectid' => $this->project->id)).htmlentities($file->filename)?>"><?php $this->o($file->getTitle())?></a>
 					<?php if (!empty($file->description)): ?>
 					<p>

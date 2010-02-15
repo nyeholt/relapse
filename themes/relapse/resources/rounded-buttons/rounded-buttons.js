@@ -1,4 +1,4 @@
-$(document).ready(function(){
+/*$(document).ready(function(){
 	$('.abutton').each(function(){
 		var b = $(this);
 		var tt = b.text() || b.val();
@@ -9,4 +9,4 @@ $(document).ready(function(){
 		b.text('').css({cursor:'pointer'}). prepend('<i></i>').append($('<span>').
 		text(tt).append('<i></i><span></span>'));
 	});
-});
+});*/

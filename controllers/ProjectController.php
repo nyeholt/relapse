@@ -138,6 +138,12 @@ class ProjectController extends BaseController
         }
 
 		$where = array('projectid =' => $project->id);
+		$new = $this->issueService->getIssues(array('projectid =' => $project->id, 'status =' => Issue::STATUS_NEW));
+		if (count($new)) {
+			$this->view->newIssues = true;
+		} else {
+			$this->view->newIssues = false;
+		}
 		$this->view->issues = $this->issueService->getIssues($where);
         
 		za()->recordStat('projectcontroller::setupview', getmicrotime() - $__start);
@@ -253,7 +259,7 @@ class ProjectController extends BaseController
     {
     	$project = $this->byId();
         $this->projectService->updateProjectEstimate($project);
-        $this->redirect('project', 'edit', array('id'=>$project->id));
+		$this->onModelSaved($project);
     }
     
     /**
@@ -310,11 +316,11 @@ class ProjectController extends BaseController
      */
     protected function onModelSaved($model)
     {
-        if ($model == null) {
-            $this->redirect('project');
-        } else {
-            $this->redirect('project', 'view', array('id'=>$model->id));
-        }
+		if ($model == null) {
+			$this->redirect('project');
+		} else {
+			$this->redirect('project', 'view', array('id'=>$model->id));
+		}
     }
     
     

@@ -78,6 +78,7 @@ class ClientVersion extends Client
 	 * @var int
 	 */
 	public $recordid;
+	public $versioncreated;
 	public $validfrom;
 	public $label;
 

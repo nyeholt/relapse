@@ -8,6 +8,7 @@ class IssueController extends BaseController
 		'id' => 'ID',
 		'title' => 'Title',
 		'status' => 'Status',
+		'severity' => 'Severity',
 		'userid' => 'User',
 		'updated' => 'Updated',
 	);
@@ -126,19 +127,8 @@ class IssueController extends BaseController
      *
      * @param MappedObject $model
      */
-    public function editAction($model=null)
+    public function prepareForEdit($model=null)
     {
-        if ($model == null) {
-            if ((int) $this->_getParam('id')) {
-                $this->view->model = $this->byId(); //  $this->dbService->getById((int)$this->_getParam('id'), $modelType);
-            } else {
-                $this->view->model = new Issue();
-            }
-            $this->view->files = array();
-        } else {
-            $this->view->model = $model;
-        } 
-        
         if ($this->view->model == null) {
         	$this->flash("Invalid request specified");
         	$this->redirect('error');
@@ -221,8 +211,6 @@ class IssueController extends BaseController
         if ($this->view->client) {
             $this->view->projects = $this->projectService->getProjectsForClient($this->view->client->id);
         }
-
-        $this->renderView($this->_request->getControllerName().'/edit.php'); 
     }
     
     /**
@@ -233,11 +221,6 @@ class IssueController extends BaseController
     public function saveAction()
     {
         $this->_setParam('updated', date('Y-m-d H:i:s'));
-        // if it's an existing issue, just go back to it when updated
-        $remain = false;
-        if ($this->_getParam('id')) {
-            $remain = true;
-        }
         $model = null;
         try {
             $model = $this->issueService->saveIssue($this->_getAllParams());
@@ -252,11 +235,7 @@ class IssueController extends BaseController
             $this->log->warn("Failed sending notification messages for issue ".$model->id);
         }
         
-        if ($remain) {
-            $this->redirect('issue', 'edit', array('id'=>$model->id));
-        } else {
-            $this->onModelSaved($model);
-        }
+        $this->onModelSaved($model);
     }
      
 
@@ -267,12 +246,17 @@ class IssueController extends BaseController
      */
     protected function onModelSaved($model)
     {
-        
-        if ($model->clientid) {
-            $this->redirect('client', 'view', array('id'=>$model->clientid, '#issues'));
-        } else {
-            $this->redirect('issue');
-        }
+        if ($this->_getParam('_ajax')) {
+			// this was posted via an ajax form - we'll simply reload the
+			// parent page via javascript
+			echo '<p>Please wait... </p><script>window.location.reload(false);</script>';
+		} else {
+			if ($model->clientid) {
+				$this->redirect('client', 'view', array('id'=>$model->clientid, '#issues'));
+			} else {
+				$this->redirect('issue');
+			}
+		}
     }
 
     
@@ -360,9 +344,9 @@ class IssueController extends BaseController
 	 */
 	protected function getIssueList($where=array())
 	{
-		$sortDir = $this->_getParam('dir', 'down');
+		$sortDir = $this->_getParam('sortorder', $this->_getParam('dir', 'desc'));
 
-        if ($sortDir == 'up') {
+        if ($sortDir == 'up' || $sortDir == 'asc') {
             $sortDir = 'asc';
             $issueParams = array('dir' => 'up');
         } else {
@@ -375,6 +359,11 @@ class IssueController extends BaseController
             $where['issue.userid='] = za()->getUser()->getUsername();
             $issueParams['mineOnly'] = $mineOnly;
         }
+
+		$query = $this->_getParam('query');
+		if (mb_strlen($query) >= 2) {
+			$where[] = new Zend_Db_Expr("issue.title like ".$this->issueService->dbService->quote('%'.$query.'%')." OR issue.description like ".$this->issueService->dbService->quote('%'.$query.'%'));
+		}
 
         $filter = $this->_getParam('titletext');
     	if (mb_strlen($filter) >= 2) {
@@ -438,7 +427,7 @@ class IssueController extends BaseController
         	$where['issue.isprivate='] = 0;
         }
 
-        $sort = $this->_getParam('sort', 'updated');
+        $sort = $this->_getParam('sortname', $this->_getParam('sort', 'updated'));
         $this->view->sort = $sort;
         $issueParams['sort'] = $sort;
         $this->view->sortDir = $sortDir;
@@ -454,14 +443,14 @@ class IssueController extends BaseController
         $currentPage = ifset($this->_getAllParams(), $this->view->pagerName, 1);
         $this->view->clients = $this->clientService->getClients();
         $this->view->totalCount = $totalCount;
-        $this->view->listSize = za()->getConfig('project_list_size');
+        $this->view->listSize = $this->_getParam('rp', za()->getConfig('project_list_size', 10));
 
         if ($this->_getParam("unlimited")) {
         	$currentPage = null;
         }
 
 		$this->view->searchParams = $issueParams;
-		return $this->issueService->getIssues($where, $sort, $currentPage, za()->getConfig('project_list_size'));
+		return $this->issueService->getIssues($where, $sort, $currentPage, $this->view->listSize);
 	}
 
     /**

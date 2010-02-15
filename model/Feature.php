@@ -199,7 +199,7 @@ class FeatureVersion extends Feature
 	 * @var int
 	 */
 	public $recordid;
-
+	public $versioncreated;
 	public $validfrom;
 	public $label;
 

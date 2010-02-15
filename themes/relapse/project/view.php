@@ -32,11 +32,15 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 	</div>
 </div>
 
-<?php if (count($this->issues)): ?>
+<?php if ($this->newIssues): ?>
 <?php include dirname(__FILE__).'/../issue/issue-list.php'; ?>
 <?php endif; ?>
 
 <?php include dirname(__FILE__).'/milestone-list.php'; ?>
+
+<?php if (!$this->newIssues): ?>
+<?php include dirname(__FILE__).'/../issue/issue-list.php'; ?>
+<?php endif; ?>
 
 <?php // include dirname(__FILE__).'/user-list.php'; ?>
 
@@ -97,9 +101,7 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 		 <div style="clear: left;"></div>
 		<div>
 		<p>
-		<a class="abutton" title="Edit" href="<?php echo build_url('project', 'edit', array('id'=> $this->project->id))?>">
-			Edit This <?php echo $label ?>
-		</a>
+			<?php $this->dialogPopin('Edit this '.$label, build_url('project', 'edit', array('id'=> $this->project->id)), array('title' => 'Edit Project'), 'class="abutton"'); ?>
 		<!-- <a class="abutton" title="View Traceability" href="<?php echo build_url('project', 'traceability', array('id'=> $this->project->id))?>">
 			Trace the <?php echo $label ?>
 		</a> -->
@@ -119,6 +121,8 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 	<div style="clear: left;"></div>
 </div>
 
+<?php if (!$this->project->ismilestone): ?>
+<!--
 <div class="std dataDetail">
 	<h3>Free Support Period</h3>
 	<?php if ($this->project->startfgp):?>
@@ -137,6 +141,8 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 
 	<div style="clear: left;"></div>
 </div>
+-->
+<?php endif; ?>
 
     <?php if ($this->project->ismilestone): ?>
     <div class="std">

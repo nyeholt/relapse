@@ -16,8 +16,9 @@
 	<?php $this->script(theme_resource('jquery-1.4.1.min.js')); ?>
 
 	<?php $this->script(theme_resource('rounded-buttons/rounded-buttons.js')); ?>
+	<?php $this->script(theme_resource('jquery.livequery.js')); ?>
 	<?php $this->script(theme_resource('jquery.simpledialog.js')); ?>
-	<?php $this->script(theme_resource('flexigrid/flexigrid.pack.js')); ?>
+	<?php $this->script(theme_resource('flexigrid/flexigrid.js')); ?>
 	<?php $this->script(resource('time-table.js')); ?>
 	<?php $this->script(resource('jquery-treeview/jquery.treeview.js'))?>
 	<?php $this->script(resource('jquery-treeview/jquery.treeview.async.js'))?>

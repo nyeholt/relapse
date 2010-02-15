@@ -1,6 +1,6 @@
 
 
-body { min-height: 1200px ; background: #66ccff; font-family: sans-serif; font-size: 10pt; }
+body { min-height: 1200px ; background: #0099FF; font-family: sans-serif; font-size: 10pt; }
 
 h2 { font-family: Verdana; font-size: 120%; font-weight: bold;}
 h3 { font-family: Verdana; font-size: 110%; font-weight: bold;}
@@ -26,8 +26,8 @@ a { text-decoration: none; color: #66CC66; }
 /** HOME PAGE STUFF **/
 .largeDualList a, .largeList a { font-size: 20px; padding: 5px 2em; font-weight: bold; color: #666; text-decoration: none; }
 .block { display: block; }
-.largeDualList { width: 700px; margin: 0px auto; }
-.largeDualList li { display: block; float: left; width: 320px; margin: 10px; height: 36px; background: #efefef; }
+.largeDualList { width: 720px; margin: 0px auto; }
+.largeDualList li { display: block; float: left; width: 340px; margin: 10px; height: 36px; background: #efefef; }
 
 .largeList { width: 300px; }
 .largeList li { font-size: 20px; display: block; width: 280px; padding: 10px; height: 36px; background: #efefef; margin-bottom: 5px; }
@@ -39,6 +39,7 @@ a.inlineAction { display: inline; padding: 5px 0;}
 
 /** Form fields **/
 .simpleDialog { background: #efefef; max-height: 600px; overflow: auto; }
+.dialogClose { background:#000000; color:#FFFFFF; cursor:pointer; font-weight:bold; position:absolute; right:0; text-align:center; top:0; width:20px; }
 input, select, textarea { font-size: 1em; padding: 0.4em; }
 option, textarea, input[type=text], input[type=password] { border: 1px solid #ddd; background: #fff url(input-bg.png) repeat-x scroll bottom; }
 
@@ -46,6 +47,7 @@ option, textarea, input[type=text], input[type=password] { border: 1px solid #dd
 
 .data-form input, .data-form select, .data-form textarea { width: 300px; }
 .data-form textarea, .data-form select, .data-form input[type=text] { font-size: 12pt }
+.data-form textarea { min-height: 150px; }
 .data-form input[size], textarea[cols] { width: auto; }
 .data-form p, .dataDetail p { padding: 0.7em; display: block; }
 .data-form .valuelisttext { width: 80px; }
@@ -65,6 +67,10 @@ legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80
 .item-table thead { background-color: #CCFFCC; }
 .item-table th {text-align: center;}
 .item-table th, .item-table td { padding: 4px;}
+
+.newbutton { background: transparent url(../../../resources/images/add.png) no-repeat; }
+.editbutton { background: transparent url(../../../resources/images/pencil.png) no-repeat; }
+.deletebutton { background: transparent url(../../../resources/images/delete.png) no-repeat; }
 
 /** PAGES **/
 #parent-links { float: right; display: block; width: 140px; }

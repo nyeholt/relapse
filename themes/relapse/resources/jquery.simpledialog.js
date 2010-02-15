@@ -19,14 +19,22 @@
 			}
 
 			var dialogToClose = simpleDialogStack.pop();
-			dialogToClose.hide();
-			// if there's still one on the top, then show it
-			if (simpleDialogStack.length > 0) {
-				simpleDialogStack[0].show();
+			if (dialogToClose) {
+				dialogToClose.hide();
+				// if there's still one on the top, then show it
+				if (simpleDialogStack.length > 0) {
+					simpleDialogStack[0].show();
+				} else {
+					// otherwise hide the mask etc
+					$('#simple-dialog-mask').remove();
+				}
 			} else {
-				// otherwise hide the mask etc
+				$(this).each (function () {
+					$(this).hide();
+				});
 				$('#simple-dialog-mask').remove();
 			}
+			
 			return false;
 		}
 

@@ -89,7 +89,6 @@
 					cdleft = cdpos;
 					}
 				);
-				
 			},
 			fixHeight: function (newH) {
 					newH = false;

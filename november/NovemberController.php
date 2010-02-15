@@ -40,6 +40,13 @@ class NovemberController extends Zend_Controller_Action
      * @var DbService
      */
     public $dbService;
+
+	/**
+	 * Delete actions must be validated
+	 */
+	protected $validateActions = array(
+		'deleteaction' => true
+	);
     
     /**
      * Redirect to a given controller/action/param url
@@ -53,7 +60,10 @@ class NovemberController extends Zend_Controller_Action
         //$this->_redirectPrependBase = false;
         // Don't auto exit because we want our plugins to execute still
         //$this->_redirectExit = false;
-        
+        if ($this->_getParam('_ajax') && !isset($params['_ajax'])) {
+			$params['_ajax'] = 1;
+		}
+
         $options = array('exit'=> false,'prependBase'=>false);
         $this->_redirect(build_url($controller, $action, $params, false, $module), $options);
     }
@@ -78,9 +88,18 @@ class NovemberController extends Zend_Controller_Action
      */
     public function dispatch($action)
     {
-        $this->filterRequest($action);
-        $this->validateRequestAction($action);
-        parent::dispatch($action);
+		try {
+			$this->filterRequest($action);
+			$this->validateRequestAction($action);
+			parent::dispatch($action);
+		} catch (Exception $e) {
+			// add a 500 header
+			if (!headers_sent()) {
+				header('HTTP/1.1 500 Internal Server Error');
+				echo $e->getMessage();
+			}
+			throw $e;
+		}
     }
     
     /**
@@ -90,7 +109,7 @@ class NovemberController extends Zend_Controller_Action
     protected function validateRequestAction($action)
     {
         if (isset($this->validateActions)) {
-            if (in_array(mb_strtolower($action), $this->validateActions)) {
+            if (isset($this->validateActions[mb_strtolower($action)])) {
                 // check the session for the token that we're looking for
                 $session = za()->getSession(); 
                 $token = $session->novemberValidationToken;
@@ -276,6 +295,7 @@ class NovemberController extends Zend_Controller_Action
         }
 
         $this->prepareForEdit($this->view->model);
+
 		if ($this->_getParam('_ajax')) {
 			$this->view->viaajax = 1;
 			$this->renderRawView($this->_request->getControllerName().'/edit.php');
@@ -376,7 +396,7 @@ class NovemberController extends Zend_Controller_Action
                 unset($params[$key]);
             }
         }
-       
+
         return $params;
     }
     
@@ -413,8 +433,6 @@ class NovemberController extends Zend_Controller_Action
      */
     protected function onModelDeleted($model)
     {
-        $this->flash('Deleted '.get_class($model).' #'.$model->id);
-        $this->redirect($this->_request->getControllerName());
     }
     
     /**

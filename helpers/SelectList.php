@@ -2,7 +2,7 @@
 
 class Helper_SelectList extends NovemberHelper 
 {
-	public function SelectList($label, $forField, $options, $default='', $valueField='', $displayField='', $multiple=false, $empty=false, $extra='')
+	public function SelectList($label, $forField, $options, $default='', $valueField='id', $displayField='title', $multiple=false, $empty=false, $extra='')
 	{
 	    $name = $multiple ? $forField.'[]' : $forField;
 		?> 

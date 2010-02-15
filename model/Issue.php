@@ -179,6 +179,7 @@ class Issue extends MappedObject
 class IssueVersion extends Issue
 {
 	public $recordid;
+	public $versioncreated;
 	public $validfrom;
 	public $label;
 
