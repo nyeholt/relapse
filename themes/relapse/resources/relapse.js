@@ -11,8 +11,16 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 			var $form = $(this);
 			$(this).ajaxForm({
 				success: function (data) {
+					// if the form has the 'noreplace' class, we don't replace
+					// the content
 					var d = $form.parents('.dialogContent');
-					d.html(data);
+					if (d.hasClass('appendresult')) {
+						d.append(data);
+					} else {
+						d.html(data);
+					}
+					
+					
 				}
 			});
 		});
@@ -30,6 +38,11 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 		Relapse.TaskManager = function () {}
 		Relapse.Issues = new Relapse.IssueManager();
 		Relapse.Tasks = new Relapse.TaskManager();
-
 	});
+	window.createDialogDiv = function (name) {
+		var d = $('#'+name);
+		if (d.length == 0) {
+			$('body').append('<div class="std dialog" id="'+name+'"></div>');
+		}
+	}
 })(jQuery);

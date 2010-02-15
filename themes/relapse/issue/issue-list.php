@@ -1,7 +1,15 @@
 <div class="std">
 	<?php
 	$options = new stdClass();
-	$options->url = build_url('issue', 'list', array('projectid' => $this->project->id, 'json' => 1));
+	$params = array('json' => 1);
+	if ($this->project) {
+		$params['projectid'] = $this->project->id;
+	}
+	if ($this->client) {
+		$params['clientid'] = $this->client->id;
+	}
+
+	$options->url = build_url('issue', 'list', $params);
 	$options->dataType = 'json';
 	$options->colModel = array(
 		array('display' => 'ID', 'name' => 'id', 'width' => '20', 'sortable' => true, 'align' => 'center'),

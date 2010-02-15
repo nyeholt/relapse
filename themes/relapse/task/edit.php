@@ -91,13 +91,9 @@
 	<?php else: ?>
 	<input type="button" class="abutton" onclick="location.href='<?php echo build_url('project', 'view', array('id'=>$this->project->id, '#tasks'))?>'" value="Close" />
 	<?php endif; ?>
-	
-	
-	
-	
 	</form>
 
-	<?php if ($this->model->id): ?>
+	<?php if ($this->model->id && FALSE): ?>
 	<fieldset>
 		<legend>Requests</legend>
 		<?php if (count($this->issues)): ?>

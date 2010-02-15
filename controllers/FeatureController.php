@@ -409,8 +409,6 @@ class FeatureController extends BaseController
                 $this->itemLinkService->deleteLinkBetween($thisFeature, $feature);
                 $this->flash("Removed link between feature $thisFeature->title and feature $feature->title");
             }
-
-	        
         } catch (Exception $e) {
             $this->flash("Failed removing link between items: ".$e->getMessage());
         }

@@ -4,6 +4,5 @@
 <script type="text/javascript">
 	$('#dialogdiv').simpleDialog('close');
 	$('#dialogdiv').simpleDialog({title: 'Edit task', modal: false, url: '<?php echo build_url('task', 'edit', array('id'=>$this->model->id))?>'});
-	window.location.reload(false);
 </script>
 <?php endif; ?>

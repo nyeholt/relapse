@@ -28,19 +28,37 @@ OF SUCH DAMAGE.
 class Helper_DialogPopin extends NovemberHelper
 {
     //put your code here
-	public function DialogPopin($label, $url, $options = array(), $extra = '', $tag='a')
+	public function DialogPopin($name, $label, $url = false, $options = array(), $extra = '', $tag='a')
 	{
-		$options['url'] = $url;
+		?>
+<script type="text/javascript">
+$().ready(function () { createDialogDiv('<?php echo $this->view->escape($name) ?>') });
+</script>
+		<?php
+		if ($url) {
+			$options['url'] = $url;
+		}
+
+		if (isset($options['reload'])) {
+			$options['onClose'] = 'function () { window.location.reload(false) }';
+		}
+
 		$optStr = Zend_Json::encode($options);
-		$optStr = str_replace('\/', '/', $optStr);
+		$optStr = preg_replace('/"function\w*\((.+?)}"/e', "'function ('.Helper_DialogPopin::replaceQuotes('$1').'}'", $optStr);
 		
 		$closeTag = '>'.$label.'</a>';
 		if ($tag != 'a') {
 			$closeTag = ' type="button" value="'.$label.'" />';
 		}
 
-		$str = '<'.$tag.' '.$extra.' href="#" onclick=\'$("#dialogdiv").simpleDialog('.$optStr.'); return false;\' '.$closeTag;
+		$str = '<'.$tag.' '.$extra.' href="#" onclick=\'$("#'.$name.'").simpleDialog('.$optStr.'); return false;\' '.$closeTag;
 		echo $str;
+	}
+
+	public static function replaceQuotes($str)
+	{
+		$v = str_replace('\\\\"', '"', $str);
+		return $v;
 	}
 }
 ?>

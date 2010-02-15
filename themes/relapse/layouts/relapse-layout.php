@@ -107,8 +107,5 @@
 </div>
 	</div>
 </div>
-
-<div class="std dialog" id="dialogdiv"></div>
-
 </body>
 </html>

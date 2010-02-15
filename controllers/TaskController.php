@@ -86,7 +86,7 @@ class TaskController extends BaseController
         $project = $this->projectService->getProject($pid);
         
         if ($project == null) {
-/*            $this->flash("Specified project not found");
+			/* $this->flash("Specified project not found");
             $this->renderView('error.php');
             return;*/
             $project = new Project();
@@ -341,7 +341,27 @@ class TaskController extends BaseController
 
         $this->renderRawView($template);
     }
-    
+
+	/**
+	 * Need an ajax action for the new task form because we can't have it
+	 * nested inside a dialog that gets hidden before it becomes a form
+	 * in its own right...
+	 *
+	 */
+	public function linkedTaskFormAction()
+	{
+		$this->view->model = $this->byId($this->_getParam('id'), $this->_getParam('type'));
+
+		if (isset($this->view->model->clientid)) {
+			$this->view->projects = $this->projectService->getProjectsForClient($project->clientid);
+		}
+		if (isset($this->view->model->milestone)) {
+			$this->view->defaultmilestone = $this->view->model->milestone;
+		}
+		
+		$this->renderRawView('task/linkedtaskform.php');
+	}
+
     /**
      * Create a new task that's linked from another object
      *
@@ -366,8 +386,15 @@ class TaskController extends BaseController
         } else {
         	$this->projectService->saveTask($task);
         }
-        
-        $this->redirect('task', 'edit', array('id'=>$task->id, 'projectid'=>$task->projectid));
+
+		// if we're here by way of ajax, then lets send some js back that will
+		// load a new dialog with the appropriate editing interface
+		if ($this->_getParam('_ajax')) {
+			$this->view->model = $task;
+			$this->renderRawView('task/newtaskfromajax.php');
+		} else {
+			$this->redirect('task', 'edit', array('id'=>$task->id, 'projectid'=>$task->projectid));
+		}
     }
     
     /**

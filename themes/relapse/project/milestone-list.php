@@ -49,7 +49,7 @@
 			<?php foreach ($openTask->userid as $username): ?>
 			<span>[<?php $this->o($username)?>]</span>
 			<?php endforeach; ?>
-			<?php $this->dialogPopin($this->o($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
+			<?php $this->dialogPopin('dialogdiv', $this->escape($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
 			</li>
 		<?php endforeach; ?>
 		</ul><br/>
@@ -70,8 +70,8 @@
 			<?php $this->percentageBar($percentageComplete, 2, '#0045FF')?>
 			<h3><?php $this->o($childProject->title)?> (due <?php $this->o(date('F jS Y', strtotime($childProject->due)))?>, <?php $this->o($totalComplete)?> of <?php $this->o($totalTasks)?> tasks completed)
 			<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
-				<?php $this->dialogPopin('<img src="'.resource('images/add.png').'" />', build_url('task', 'edit', array('projectid'=>$childProject->id)), array('title' => 'Create new task')); ?>
-				<?php $this->dialogPopin('<img src="'.resource('images/pencil.png').'" />', build_url('project', 'edit', array('id'=>$childProject->id)), array('title' => 'Edit milestone')); ?>
+				<?php $this->dialogPopin('dialogdiv', '<img src="'.resource('images/add.png').'" />', build_url('task', 'edit', array('projectid'=>$childProject->id)), array('title' => 'Create new task')); ?>
+				<?php $this->dialogPopin('dialogdiv', '<img src="'.resource('images/pencil.png').'" />', build_url('project', 'edit', array('id'=>$childProject->id)), array('title' => 'Edit milestone')); ?>
 			<?php endif; ?>
 			<!--<a href="<?php echo build_url('project', 'view', array('id'=>$childProject->id))?>"><img src="<?php echo resource('images/eye.png'); ?>" /></a> -->
 			</h3>
@@ -94,7 +94,7 @@
 					<?php if ($feature->complete): ?>
 						<img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
 					<?php endif;?>
-					<a href="<?php echo build_url('feature', 'edit', array('id' => $feature->id))?>"><?php $this->o($feature->title)?></a>
+					<?php $this->dialogPopin('dialogdiv', $this->escape($feature->title), build_url('feature', 'edit', array('id'=>$feature->id)), array('title' => 'Edit feature')); ?>
 					</li>
 					<?php endforeach; ?>
 				</ul>
@@ -118,7 +118,7 @@
 				<?php foreach ($openTask->userid as $username): ?>
 				<span>[<?php $this->o($username)?>]</span>
 				<?php endforeach; ?>
-				<?php $this->dialogPopin($this->o($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
+				<?php $this->dialogPopin('dialogdiv', $this->escape($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
 				</li>
 			<?php endforeach; ?>
 			</ul><br/>

@@ -3,7 +3,7 @@
 	<div class="std">
 		<ul class="largeDualList">
 			<li>
-				<?php $this->dialogPopin('Add Task', build_url('task', 'edit'), array('title' => 'Create new task'), 'class="block"'); ?>
+				<?php $this->dialogPopin('dialogdiv', 'Add Task', build_url('task', 'edit'), array('title' => 'Create new task'), 'class="block"'); ?>
 			</li>
 			<li>
 				<a class="block" href="#">Estimate new project</a>

@@ -140,10 +140,10 @@ class ItemLinkService
             'toid=' => $item2->id,
             'totype=' => get_class($item2),
         );
-        
+
         $results = $this->dbService->getObjects('ItemLink', $where);
         
-        return count($results) ? $results[0] : null;
+        return count($results) ? current($results) : null;
     }
 
     /**

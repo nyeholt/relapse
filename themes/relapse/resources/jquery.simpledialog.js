@@ -122,8 +122,8 @@
 
 			// if we have a url to load, do so now
 			if (options.url) {
-				$me.find('.dialogContent').html('<div style="width: 80%; margin: 0px auto;"><img src="ajax-loading.gif" /></div>');
-				$me.find('.dialogContent').load(settings.url, {_ajax: 1}, function () {
+				$me.find('.dialogContent').html('<div style="width: 50%; margin: 0px auto; text-align: center;"><p>Loading...</p></div>');
+				$me.find('.dialogContent').load(settings.url, {_ajax: 1}, function (loadData) {
 					if (options.dialogLoaded) {
 						options.dialogLoaded.apply(this, arguments);
 					}

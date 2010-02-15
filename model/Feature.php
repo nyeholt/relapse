@@ -3,13 +3,16 @@ class Feature extends MappedObject
 {
     public $title;
     public $description;
+
+	public $assumptions;
+	public $questions;
+
     public $implementation;
     public $verification;
     
     /**
      * Estimate in days
      */
-
     public $estimated;
     public $hours;
 
@@ -102,10 +105,18 @@ class Feature extends MappedObject
 	public function update()
 	{
 		$parent = $this->projectService->getProject($this->projectid);
+		$otherParent = null;
 		// load the current state
 		$current = $this->dbService->getById($this->id, 'Feature');
+		if ($current->projectid != $this->projectid) {
+			$otherParent = $this->projectService->getProject($current->projectid);
+		}
 		// $mostRecent = $this->versioningService->getMostRecentVersion($this);
-		if ($current->estimated != $this->estimated) {
+		if ($current->estimated != $this->estimated || $otherParent || $current->milestone != $this->milestone) {
+			if ($otherParent) {
+				$this->versioningService->createVersion($otherParent, 'featureupdate');
+			}
+
 			if ($parent) {
 				$this->versioningService->createVersion($parent, 'featureupdate');
 			}
