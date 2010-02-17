@@ -41,7 +41,7 @@
 	
 	<p class="clear">
 		<input type="submit" class="abutton" value="Save" accesskey="s" />
-		<input type="button" class="abutton" onclick="history.go(-1);" value="Close" />
+		<input type="button" class="abutton" onclick="$(this).parents('#featuredialog').simpleDialog('close');" value="Close" />
 	</p>
 </form>
 		
@@ -59,7 +59,7 @@
 			<?php if ($openTask->complete): ?>
 			<img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
 			<?php endif; ?>
-			<?php $this->dialogPopin('dialogdiv', $this->escape($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
+			<?php $this->dialogPopin('taskdialog', $this->escape($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
 		<?php else: ?>
 			<?php $this->o($openTask->title)?>
 		<?php endif; ?>
@@ -72,7 +72,7 @@
 	</ul>
 	<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
 	<p>
-	<?php $this->dialogPopin('dialogdiv', 'Add New Task', build_url('task', 'linkedtaskform', array('id' => $this->model->id, 'type'=> 'Feature')), array(), 'class="abutton"', 'input') ?>
+	<?php $this->dialogPopin('newFeatureTask', 'Add New Task', build_url('task', 'linkedtaskform', array('id' => $this->model->id, 'type'=> 'Feature')), array(), 'class="abutton"', 'input') ?>
 	</p>
 	<?php endif; ?>
 </fieldset>
@@ -81,9 +81,9 @@
 
 <?php if ($this->model->id && $this->u()->hasRole(User::ROLE_USER)): ?>
 <fieldset>
-	<legend>Associated Features</legend>
+	<legend>Other Features</legend>
 	<h3>Parent features</h3>
-	<div class="inner-column">
+	<div>
 		<form method="post" action="<?php echo build_url('feature', 'linkfeature')?>" class="data-form">
 		<p>
 		<label for="existing-features">Select Feature</label>
@@ -100,11 +100,11 @@
 		</form>
 
 	</div>
-	<div class="inner-column">
+	<div>
 		<table class="item-table">
 		<thead>
 			<tr>
-			<th width="90%">Title</th>
+			<th >Title</th>
 			<th>Actions</th>
 			</tr>
 		</thead>
@@ -123,7 +123,7 @@
 	<!-- if an enhancement, allow the creation of a new feature from here -->
 	<h3>Child Features</h3>
 
-	<div class="inner-column">
+	<div>
 		<form method="post" action="<?php echo build_url('feature', 'linkfeature')?>" class="data-form">
 		<p>
 		<label for="existing-features-to">Select Feature</label>
@@ -138,13 +138,12 @@
 		<input type="submit" class="abutton" value="Link Feature" />
 		</p>
 		</form>
-
 	</div>
-	<div class="inner-column">
+	<div>
 		<table class="item-table">
 		<thead>
 			<tr>
-			<th width="90%">Title</th>
+			<th>Title</th>
 			<th>Actions</th>
 			</tr>
 		</thead>

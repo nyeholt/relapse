@@ -30,11 +30,7 @@ class Helper_DialogPopin extends NovemberHelper
     //put your code here
 	public function DialogPopin($name, $label, $url = false, $options = array(), $extra = '', $tag='a')
 	{
-		?>
-<script type="text/javascript">
-$().ready(function () { createDialogDiv('<?php echo $this->view->escape($name) ?>') });
-</script>
-		<?php
+		
 		if ($url) {
 			$options['url'] = $url;
 		}
@@ -51,7 +47,7 @@ $().ready(function () { createDialogDiv('<?php echo $this->view->escape($name) ?
 			$closeTag = ' type="button" value="'.$label.'" />';
 		}
 
-		$str = '<'.$tag.' '.$extra.' href="#" onclick=\'$("#'.$name.'").simpleDialog('.$optStr.'); return false;\' '.$closeTag;
+		$str = '<'.$tag.' '.$extra.' href="#" onclick=\'Relapse.createDialog("'.$name.'", '.$optStr.'); return false;\' '.$closeTag;
 		echo $str;
 	}
 

@@ -19,8 +19,6 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 					} else {
 						d.html(data);
 					}
-					
-					
 				}
 			});
 		});
@@ -38,7 +36,13 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 		Relapse.TaskManager = function () {}
 		Relapse.Issues = new Relapse.IssueManager();
 		Relapse.Tasks = new Relapse.TaskManager();
+
+		Relapse.createDialog = function (name, options)  {
+			createDialogDiv(name);
+			$('#'+name).simpleDialog(options);
+		}
 	});
+
 	window.createDialogDiv = function (name) {
 		var d = $('#'+name);
 		if (d.length == 0) {

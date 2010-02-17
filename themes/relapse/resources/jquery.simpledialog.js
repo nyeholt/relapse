@@ -44,6 +44,14 @@
 			return;
 		}
 
+		if (settings == 'closeall') {
+			$('body').find('select, input').css('visibility', 'hidden').css('visibility', 'visible');
+			$(simpleDialogStack).each (function () {
+				$(this).hide();
+			});
+			$('#simple-dialog-mask').remove();
+		}
+
 		// first, make sure it's displayed
 		var options = $.extend({}, $.fn.simpleDialog.defaults, settings);
 
@@ -134,7 +142,7 @@
 
 	$.fn.simpleDialog.defaults = {
 		width: 600,
-		top: 80,
+		top: 40,
 		modal: true	// is this dialog locked open (as in, the dialog has to handle closing itself)
 	};
 

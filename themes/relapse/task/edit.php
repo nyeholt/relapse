@@ -87,7 +87,7 @@
 
 	<input type="submit" class="abutton" value="Save" accesskey="s" />
 	<?php if ($this->viaajax): ?>
-	<input type="button" class="abutton" onclick="$(this).parents('#dialogdiv').simpleDialog('close');" value="Close" />
+	<input type="button" class="abutton" onclick="$(this).parents('#taskdialog').simpleDialog('close');" value="Close" />
 	<?php else: ?>
 	<input type="button" class="abutton" onclick="location.href='<?php echo build_url('project', 'view', array('id'=>$this->project->id, '#tasks'))?>'" value="Close" />
 	<?php endif; ?>

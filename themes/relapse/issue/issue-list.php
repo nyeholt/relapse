@@ -47,11 +47,11 @@
 	$().ready(function () {
 		Relapse.IssueManager.prototype.tableCommand = function (cmd, grid) {
 			if (cmd == 'New') {
-				$("#dialogdiv").simpleDialog({title: 'Add new Issue', url: '<?php echo build_url('issue', 'edit', array('projectid' => $this->project->id))?>'});
+				Relapse.createDialog('issuedialog', {title: 'Add new Issue', url: '<?php echo build_url('issue', 'edit', array('projectid' => $this->project->id))?>'});
 			} else if (cmd == 'Edit') {
 				$('.trSelected',grid).each (function () {
 					var id = $(this).attr('id').replace('row', '');
-					$("#dialogdiv").simpleDialog({title: 'Edit Issue', url: '<?php echo build_url('issue', 'edit')?>id/'+id});
+					Relapse.createDialog('issuedialog', {title: 'Edit Issue', url: '<?php echo build_url('issue', 'edit')?>id/'+id});
 				});
 			} else if (cmd == 'Delete') {
 				$('.trSelected',grid).each (function () {

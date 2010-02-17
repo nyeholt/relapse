@@ -111,7 +111,7 @@
 	<p class="clear">
 		<input type="submit" class="abutton" value="Save" accesskey="s" />
 		<?php if ($this->viaajax): ?>
-		<input type="button" class="abutton" onclick="$('#dialogdiv').simpleDialog('close');" value="Close" />
+		<input type="button" class="abutton" onclick="$('#issuedialog').simpleDialog('close');" value="Close" />
 		<?php endif ; ?>
 	</p>
 

@@ -39,8 +39,9 @@ a.inlineAction { display: inline; padding: 5px 0;}
 .november-flash { border: 2px solid #000; background: #ffc; padding: 1em; margin-bottom: 1em; }
 
 /** Form fields **/
-.simpleDialog { background: #efefef; max-height: 600px; overflow: auto; }
+.simpleDialog { background: #efefef; max-height: 500px; }
 .dialog { display: none; }
+.dialogContent {overflow: auto; max-height: 480px; padding: 0.3em; }
 .dialogClose { background:#000000; color:#FFFFFF; cursor:pointer; font-weight:bold; position:absolute; right:0; text-align:center; top:0; width:20px; }
 input, select, textarea { font-size: 1em; padding: 0.4em; }
 option, textarea, input[type=text], input[type=password] { border: 1px solid #ddd; background: #fff url(input-bg.png) repeat-x scroll bottom; }

@@ -153,14 +153,15 @@
 		<input type="button" class="abutton" value="Delete" onclick="$('#delete-panel').show()"/>
 		<?php if ($this->model->id): ?>
 			<?php if ($this->viaajax): ?>
-			<input type="button" class="abutton" onclick="$('#dialogdiv').simpleDialog('close');" value="Close" />
+			<input type="button" class="abutton" onclick="$('#projectdialog').simpleDialog('close');" value="Close" />
 			<?php else: ?>
 			<input type="button" class="abutton" onclick="location.href='<?php echo build_url('project', 'view', array('id' => $this->model->id))?>'" value="Close" />
 			<?php endif; ?>
 
-			<?php if (!$this->ismilestone): ?>
+			<?php if (!$this->model->ismilestone): ?>
 			<input type="button" class="abutton" onclick="location.href='<?php echo build_url('project', 'recalculate', array('id' => $this->model->id))?>'" value="Calculate Estimates" />
 			<?php endif; ?>
+			
 		<?php else: ?>
 			<input type="button" class="abutton" onclick="history.go(-1);" value="Close" />
 		<?php endif; ?>
