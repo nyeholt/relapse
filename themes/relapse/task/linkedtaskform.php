@@ -1,4 +1,3 @@
-<div class="std dialog">
 <form method="post" action="<?php echo build_url('task', 'newtask')?>" class="data-form ajaxForm">
 	<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
 	<input type="hidden" name="_ajax" value="1" />
@@ -17,4 +16,3 @@
 	<input type="submit" value="Create Task" class="abutton" />
 	</p>
 </form>
-</div>

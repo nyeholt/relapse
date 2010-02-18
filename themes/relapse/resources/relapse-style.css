@@ -8,11 +8,10 @@ h4 { font-family: Verdana; font-weight: bold; }
 
 a { text-decoration: none; color: #66CC66; }
 
-.std { border: 2px solid #000; background: #fff; padding: 1em; margin-bottom: 1em; }
+.std { border: 2px solid #000; background: #fff; padding: 1em; margin-bottom: 1em; overflow: hidden; }
 .clear { clear: both; }
-
+.inline { display: inline }
 #wrap { width: 80%; margin: 0px auto; padding-top: 30px; }
-
 #top { }
 
 #search-box { width: 40%; float: right; }
@@ -89,3 +88,15 @@ legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80
 .abutton:hover { background: #9f4; }
 
 .task-summary { margin: 2em; }
+
+/** FEATURES **/
+.feature-body { overflow: auto; margin-bottom: 2em; }
+.feature-title a { color: #666; }
+
+.feature-estimate { width: 150px; float: left; border-right: 1px solid #ccc; }
+.estimate { font-size: 72px; font-weight: bold; color: #ddd; text-align: center; }
+.feature-content { margin-left: 180px; min-height: 150px; padding-bottom: 1em; border-bottom: 1px solid #ccc; }
+
+.featureDepth1 { padding-left: 75px; }
+.featureDepth2 { padding-left: 150px; }
+.featureDepth3 { padding-left: 225px; }

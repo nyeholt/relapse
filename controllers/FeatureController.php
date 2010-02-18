@@ -40,16 +40,21 @@ class FeatureController extends BaseController
             }
         }
 
-        if ($model->projectid) {
-            // Not editing
-            $this->redirect('project', 'view', array('id'=>$model->projectid, '#features'));
-        } else {
-            $this->redirect('project');
-        }
+		if ($this->_getParam('_ajax')) {
+			echo '<p>Please wait... </p><script>window.location.reload(false);</script>';
+		} else {
+			if ($model->projectid) {
+				// Not editing
+				$this->redirect('project', 'view', array('id'=>$model->projectid, '#features'));
+			} else {
+				$this->redirect('project');
+			}
+		}
     }
     
     /**
-     * 
+     * Update the contents of a feature via an ajax request made from the
+	 * 'document' style view of the feature
      * 
      */
     public function readUpdateAction()
@@ -67,7 +72,13 @@ class FeatureController extends BaseController
     	// }
     	echo "Invalid request";
     }
-    
+
+	/**
+	 *
+	 *
+	 * @param string $val
+	 * @return String
+	 */
     private function getEditableInfo($val)
     {
     	$bits = split('-', $val);
@@ -95,6 +106,9 @@ class FeatureController extends BaseController
     }
     
 
+	/**
+	 * Do an estimate based on all the features of this project
+	 */
     public function estimateAction()
     {
     	// first off, get all the completed features from the last few months and get the 
@@ -209,6 +223,17 @@ class FeatureController extends BaseController
 		
 		return $deviation;
     }
+
+	/**
+	 * Display a list of all the features for the project
+	 */
+	public function listAction()
+	{
+		$project = $this->projectService->getProject((int) $this->_getParam('projectid'));
+        $this->view->features = $this->featureService->getProjectFeatures($project);
+        $this->view->project = $project;
+        $this->renderView('feature/list.php');
+	}
     
     /**
      * Load the features for display in the project page.
@@ -237,6 +262,12 @@ class FeatureController extends BaseController
         $this->renderView('feature/read.php');
     }
 
+	/**
+	 * Prepare a feature to be edited
+	 *
+	 * @param Feature $model
+	 * @return
+	 */
     public function prepareForEdit($model)
     {
         $project = $this->projectService->getProject((int) $this->_getParam('projectid', $model->projectid));

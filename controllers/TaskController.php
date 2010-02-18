@@ -352,7 +352,8 @@ class TaskController extends BaseController
 	{
 		$this->view->model = $this->byId($this->_getParam('id'), $this->_getParam('type'));
 
-		if (isset($this->view->model->clientid)) {
+		if (isset($this->view->model->projectid)) {
+			$project = $this->projectService->getProject($this->view->model->projectid);
 			$this->view->projects = $this->projectService->getProjectsForClient($project->clientid);
 		}
 		if (isset($this->view->model->milestone)) {

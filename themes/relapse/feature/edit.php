@@ -1,6 +1,12 @@
 
-<form method="post" action="<?php echo build_url('feature', 'save');?>" class="data-form full-page-form">
+
+<form method="post" action="<?php echo build_url('feature', 'save');?>" class="ajaxForm data-form">
 	<?php $this->requestValidator(); ?>
+
+	<?php if ($this->viaajax): ?>
+	<input type="hidden" value="1" name="_ajax" />
+	<?php endif; ?>
+
 	<input type="hidden" value="<?php echo $this->project->id?>" name="projectid" />
 
 	<?php if (isset($this->parentfeature)): ?>

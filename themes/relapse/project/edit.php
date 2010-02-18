@@ -147,7 +147,6 @@
 		</div>
 	</fieldset>
 	<?php endif; ?>
-	
 	<p class="clear">
 		<input type="submit" class="abutton" value="Save" accesskey="s" />
 		<input type="button" class="abutton" value="Delete" onclick="$('#delete-panel').show()"/>

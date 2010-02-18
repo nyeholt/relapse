@@ -91,7 +91,7 @@
 
 			$me.css('width', options.width);
 
-			$me.css('top',  options.top + $(window).scrollTop());
+			$me.css('top',  options.top); // + $(window).scrollTop()
 			$me.css('left', winW/2-$me.width()/2);  
 
 			if ($me.find('div.dialogClose').length == 0) {
@@ -142,7 +142,7 @@
 
 	$.fn.simpleDialog.defaults = {
 		width: 600,
-		top: 40,
+		top: 20,
 		modal: true	// is this dialog locked open (as in, the dialog has to handle closing itself)
 	};
 

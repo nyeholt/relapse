@@ -36,6 +36,17 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 <?php include dirname(__FILE__).'/../issue/issue-list.php'; ?>
 <?php endif; ?>
 
+<div class="std">
+	<ul class="largeDualList">
+		<li>
+			<a href="<?php echo build_url('feature', 'list', array('projectid'=> $this->project->id)) ?>" onclick="" class="block">Features</a>
+		</li>
+		<li>
+			<a href="#" onclick="" class="block">Current Status</a>
+		</li>
+	</ul>
+</div>
+
 <?php include dirname(__FILE__).'/milestone-list.php'; ?>
 
 <?php if (!$this->newIssues): ?>
@@ -43,8 +54,6 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 <?php endif; ?>
 
 <?php // include dirname(__FILE__).'/user-list.php'; ?>
-
-
 
 <div id="overview" class="std">
 	<h2><?php $this->o($this->project->title.' (#'.$this->project->id.')')?></h2>
@@ -107,6 +116,14 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 		</a> -->
 
 		</p>
+		<?php $this->dispatch('project', 'childProjects', array('projectid'=> $this->project->id)); ?>
+        <div>
+        <form action="<?php echo build_url('project', 'addChild')?>" method="post">
+        	<input type="hidden" name="projectid" value="<?php echo $this->project->id?>" />
+        	<input size="40" type="text" name="newTitle" value="Sub project of <?php $this->o($this->project->title)?>" />
+        	<input type="submit" class="abutton" value="Create Sub Project" />
+        </form>
+        </div>
 		</div>
 
 <!--
@@ -321,17 +338,6 @@ function positionChart()
 		
     </div>
     
-    <div class="std" id="sub-projects">
-        <?php $this->dispatch('project', 'childProjects', array('projectid'=> $this->project->id)); ?>
-        <div>
-        <form action="<?php echo build_url('project', 'addChild')?>" method="post">
-        	<input type="hidden" name="projectid" value="<?php echo $this->project->id?>" />
-        	<input size="40" type="text" name="newTitle" value="Sub project of <?php $this->o($this->project->title)?>" />
-        	<input type="submit" class="abutton" value="Create Sub Project" />
-        </form>
-        </div>
-    </div>
-    
     <div class="std" id="timesheet">
         <?php $this->dispatch('timesheet', 'list', array('projectid'=> $this->project->id)); ?>
         <p>
@@ -340,22 +346,6 @@ function positionChart()
         </p>
     </div>
     
-	
-	<div class="std" id="features">
-	    <form action="<?php echo build_url('feature', 'createtasks')?>" method="post">
-	    <input type="hidden" name="projectid" value="<?php echo $this->project->id?>" />
-	    <div id="project-info-<?php echo $this->project->id?>-feature">
-	        <?php $this->dispatch('feature', 'projectlist', array('projectid'=>$this->project->id)); ?>
-	    </div>
-	    <p>
-	    <input style="float: right;" class="abutton" type="submit" value="Create Tasks" />
-	    <a class="abutton" title="Add Feature" href="<?php echo build_url('feature', 'edit', array('projectid'=>$this->project->id))?>">Add Feature</a>
-	    <a class="abutton" title="Recalculate Project Estimate" href="<?php echo build_url('feature', 'recalculate', array('projectid'=>$this->project->id))?>">Calculate Cost</a>
-	
-	    </p>
-	    </form>
-	</div>
-	
     <div class="std" id="files">
 	    <div>
 	    <?php $this->dispatch('project', 'filelist', array('projectid'=>$this->project->id), null, array('folder')); ?>

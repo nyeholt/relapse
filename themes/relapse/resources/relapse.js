@@ -23,15 +23,6 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 			});
 		});
 
-//		$.fn.simpleDialog.defaults.dialogLoaded = function (args) {
-//			var $this = $(this);
-//			$this.find('.ajaxForm').ajaxForm({
-//				success: function (data) {
-//					$this.html(data);
-//				}
-//			});
-//		}
-
 		Relapse.IssueManager = function () {}
 		Relapse.TaskManager = function () {}
 		Relapse.Issues = new Relapse.IssueManager();
