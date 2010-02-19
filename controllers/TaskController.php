@@ -405,21 +405,6 @@ class TaskController extends BaseController
     {
         $return = array();
         $query = $this->_getParam('query', '');
-        /*if ($this->searchService != null && mb_strlen($query) > 2) {
-            $query = "+type:'task' +$query";
-            $this->log->debug(__CLASS__.':'.__LINE__.': '.$query);
-            $results = $this->searchService->search($query);
-            foreach ($results as $hit) {
-		        try {
-		            $hit->__get('id');
-		        } catch (Zend_Search_Lucene_Exception $zse) {
-		            $this->searchService->deleteHit($hit);
-		            continue;
-		        }
-
-                $return[$hit->__get('id')] = $hit->title;
-            }
-        }*/
 
         if (mb_strlen($query) > 2) {
             $tasks = $this->projectService->getTasks(array('title like ' => '%'.$query.'%'));
@@ -428,13 +413,14 @@ class TaskController extends BaseController
                 $return[$task->id] = $task->title;
             }
         }
-
-        
         
         $this->_response->setHeader('Content-type', 'text/javascript');
         echo Zend_Json_Encoder::encode($return);
     }
-    
+
+	/**
+	 * Create a link from another object to this task
+	 */
     public function linkFromAction()
     {
         $to = $this->byId();
@@ -447,7 +433,11 @@ class TaskController extends BaseController
             } catch (Exception $e) {
                 $this->flash($e->getMessage());
             }
-            $this->_redirect($this->getCallingUrl());
+			if ($this->_getParam('_ajax')) {
+				$this->redirect('task', 'edit', array('_ajax' => 1, 'id' => $to->id));
+			} else {
+				$this->_redirect($this->getCallingUrl());
+			}
         }
     }
     
@@ -463,7 +453,11 @@ class TaskController extends BaseController
             } catch (Exception $e) {
                 $this->flash($e->getMessage());
             }
-            $this->_redirect($this->getCallingUrl());
+			if ($this->_getParam('_ajax')) {
+				$this->redirect('task', 'edit', array('_ajax' => 1, 'id' => $to->id));
+			} else {
+				$this->_redirect($this->getCallingUrl());
+			}
         }
     }
     

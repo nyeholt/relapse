@@ -12,6 +12,11 @@
 </script>
 
 <div id="task-container">
+
+	<?php $this->dialogPopin('timesheetdialog', '<img class="small-icon" src="'.resource('images/clock_red.png').'" />', build_url('timesheet','detailedTimesheet', array('taskid' => $this->model->id))); ?>
+
+	<a title="Start Timer" href="#" onclick="popup('<?php echo build_url('timesheet', 'record', array('id' => $this->model->id))?>', 'timer', '500', '300'); return false;"><img class="small-icon" src="<?php echo resource('images/clock_play.png')?>" />
+    </a>
 	<form method="post" action="<?php echo build_url('task', 'save');?>" class="data-form ajaxForm">
 
     <?php $this->requestValidator() ?>
@@ -93,9 +98,10 @@
 	<?php endif; ?>
 	</form>
 
-	<?php if ($this->model->id && FALSE): ?>
+	<?php if ($this->model->id): ?>
 	<fieldset>
-		<legend>Requests</legend>
+		<legend>Issues</legend>
+		<p>Select an issue to relate this task to</p>
 		<?php if (count($this->issues)): ?>
 		<ul>
 			<?php foreach ($this->issues as $issue): ?>
@@ -108,16 +114,16 @@
 			?>
 			<?php $this->percentageBar($percentageComplete)?>
 			<?php
-				$unlinkUrl = build_url('task', 'removeLinkFrom', array('id' => $this->model->id, 'fromid' => $issue->id, 'fromtype' => 'Issue'));
+				$unlinkUrl = build_url('task', 'removeLinkFrom', array('_ajax' => 1, 'id' => $this->model->id, 'fromid' => $issue->id, 'fromtype' => 'Issue'));
 			?>
-			<a href="#" onclick="if (confirm('Really remove link?')) location.href='<?php echo $unlinkUrl?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
-
-			<a href="<?php echo build_url('issue', 'edit', array('id' => $issue->id))?>"><?php $this->o($issue->title)?></a>
+			<a href="#" onclick="if (confirm('Really remove link?')) {var link=this; $.post('<?php echo $unlinkUrl?>', {}, function (data) {$(link).parents('.dialogContent').html(data) });} return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
+			<?php $this->o($issue->title)?>
 			</li>
 			<?php endforeach; ?>
 		</ul>
 		<?php endif; ?>
-		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform">
+		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform ajaxForm">
+			<input type="hidden" name="_ajax" value="1" />
 			<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
 			<input type="hidden" name="fromtype" value="Issue" />
 
@@ -131,7 +137,6 @@
 			</p>
 		</form>
 	</fieldset>
-
 
 
 	<fieldset>
@@ -150,15 +155,16 @@
 
 			<!-- unlink this feature -->
 			<?php
-				$unlinkUrl = build_url('task', 'removeLinkFrom', array('id' => $this->model->id, 'fromid' => $feature->id, 'fromtype' => 'Feature'));
+				$unlinkUrl = build_url('task', 'removeLinkFrom', array('_ajax' => 1, 'id' => $this->model->id, 'fromid' => $feature->id, 'fromtype' => 'Feature'));
 			?>
-			<a href="#" onclick="if (confirm('Really remove link?')) location.href='<?php echo $unlinkUrl?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
-			<a href="<?php echo build_url('feature', 'edit', array('id' => $feature->id))?>"><?php $this->o($feature->title)?></a>
+			<a href="#" onclick="if (confirm('Really remove link?')) {var link=this; $.post('<?php echo $unlinkUrl?>', {}, function (data) {$(link).parents('.dialogContent').html(data) });} return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
+			<?php $this->o($feature->title)?>
 			</li>
 			<?php endforeach; ?>
 		</ul>
 		<?php endif; ?>
-		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform">
+		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform ajaxForm">
+			<input type="hidden" name="_ajax" value="1" />
 			<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
 			<input type="hidden" name="fromtype" value="Feature" />
 
@@ -173,6 +179,7 @@
 		</form>
 	</fieldset>
 
+	<!--
 	<fieldset>
 		<legend>Notes</legend>
 		<?php $deleteStyle = isset($this->existingWatch) ? 'inline' : 'none' ?>
@@ -213,5 +220,6 @@
             </p>
         </form>
 	</fieldset>
+	-->
 	<?php endif; ?>
 </div>

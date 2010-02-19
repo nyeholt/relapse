@@ -1,5 +1,6 @@
 
 body { min-height: 1200px ; background: #0099FF; font-family: sans-serif; font-size: 8pt; }
+#timesheet { min-height: 200px; }
 
 h2 { font-family: Verdana; font-size: 120%; font-weight: bold;}
 h3 { font-family: Verdana; font-size: 110%; font-weight: bold;}
@@ -9,6 +10,7 @@ a { text-decoration: underline; color: #a96; font-weight: bold; }
 p { padding: 0.3em 0; line-height: 10pt; }
 
 .std { border: 2px solid #000; background: #fff; padding: 1em; margin-bottom: 1em; overflow: hidden; }
+.std h2 { font-size: 14pt; color: #666; border-bottom: 3px solid #eee; margin-bottom: 10px; }
 .clear { clear: both; }
 .inline { display: inline }
 #wrap { width: 80%; margin: 0px auto; padding-top: 30px; }
@@ -40,12 +42,13 @@ a.inlineAction { display: inline; padding: 5px 0;}
 /** Form fields **/
 .simpleDialog { background: #efefef; max-height: 500px; }
 .dialog { display: none; }
-.dialogContent {overflow: auto; max-height: 480px; padding: 0.3em; }
+.dialogContent {overflow: auto; min-height: 300px; max-height: 480px; padding: 0.3em; }
 .dialogClose { background:#000000; color:#FFFFFF; cursor:pointer; font-weight:bold; position:absolute; right:0; text-align:center; top:0; width:20px; }
 input, select, textarea { font-size: 1em; padding: 0.4em; }
 option, textarea, input[type=text], input[type=password] { border: 1px solid #ddd; background: #fff url(input-bg.png) repeat-x scroll bottom; }
 
 .calendar { z-index: 1001 }
+.ui-datepicker { z-index: 2000 }
 
 .data-form input, .data-form select, .data-form textarea { width: 300px; }
 .data-form textarea, .data-form select, .data-form input[type=text] { font-size: 12pt }
@@ -56,7 +59,7 @@ option, textarea, input[type=text], input[type=password] { border: 1px solid #dd
 .data-form .valuelistselect { width: 210px; }
 .data-form input[type=submit], .data-form input[type=button] { width: auto; }
 .data-form .calendarInput { width: 100px }
-.data-form label, .dataDetail label { display: block; float: left; width: 200px; margin-right: 2em; }
+.data-form label, .dataDetail label { display: block; float: left; width: 150px; margin-right: 2em; }
 
 fieldset { margin-bottom: 1em; background-color: #ffffdc; }
 fieldset { border-bottom: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #fff; border-left: 1px solid #fff; }
@@ -112,3 +115,10 @@ a.abutton  { text-decoration: none;}
 .milestone-title a { color: #666; border-bottom: 1px solid #ccc;}
 
 .linkedItemList { margin-left: 2em; }
+
+.featureComplete {background-color: #deffde; }
+
+/** Timesheet **/
+
+#task-time { width: 80%; margin: 0px auto; font-weight: bold; padding: 10px; border: 1px solid #fff; background: #fefefe; color: #ccc; font-size: 52px; }
+#item-title {background: #fefefe;  font-weight: bold; font-size: 14pt; }

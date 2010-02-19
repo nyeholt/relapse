@@ -4,6 +4,8 @@ unset($this->params['action']);
 unset($this->params['module']);
 ?>
 
+<div class="std">
+
 <?php if (isset($this->params['projectid'])): ?>
 <div id="parent-links">
     <a title="Parent Project" href="<?php echo build_url('project', 'view', array('id'=>$this->params['projectid'], '#timesheet'));?>"><img src="<?php echo resource('images/project.png')?>"/></a>
@@ -15,6 +17,7 @@ unset($this->params['module']);
 </div>
 <?php endif; ?>
 
+	
 <h3>
 <?php $this->o($this->title); ?> Report
 </h3>
@@ -39,6 +42,7 @@ unset($this->params['module']);
 <a href="<?php echo build_url('timesheet', 'export', $this->params)?>" class="abutton">Export To CSV</a>
 </p>
 <?php endif; ?>
+</div>
 <?php 
 $days = array();
 $curr = $start = strtotime($this->startDate);

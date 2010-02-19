@@ -14,10 +14,10 @@
 		$completeClass = $feature->complete ? 'featureComplete' : '';
 		$featureId = $feature->id;
         ?>
-		<li id="<?php echo $featureId ?>">
+		<li id="<?php echo $featureId ?>" class="<?php echo $lateClass.' '.$completeClass; ?>">
 			<input type="hidden" name="featureId" value="<?php echo $feature->id ?>" />
 			<!-- Feature created <?php echo $feature->created?> and project started at <?php echo $view->project->actualstart?> -->
-			<div class="feature-title <?php echo $lateClass.' '.$completeClass; ?>">
+			<div class="feature-title">
 				<h2>
 				<?php $view->dialogPopin('featuredialog', $view->escape($feature->title), build_url('feature', 'edit', array('id' => $feature->id, 'projectid'=>$feature->projectid)), array('title'=> 'Edit Feature')) ?>
 				</h2>
@@ -66,7 +66,6 @@
     }
 ?>
 <div class="std" id="featureList">
-	
 	<?php
 	$this->featureEstimate = 0;
 	$this->featureCompleted = 0;
@@ -84,6 +83,7 @@
 	</p>
 
 	<p style="margin-bottom: 1em;">
+	<?php $this->dialogPopin('featuredialog', 'Add', build_url('feature', 'edit', array('projectid'=>$feature->projectid)), array(), 'class="abutton"', 'input') ?>
 	<input type="button" class="abutton enableReorder" value="Sort" />
 	<input type="button" class="abutton disableReorder" value="Done" style="display:none;" />
 	<input type="button" class="abutton saveOrder" value="Save" style="display:none;" />
@@ -93,6 +93,7 @@
 	</ul>
 	<?php if($tmpFeature != null): ?>
 	<p>
+	<?php $this->dialogPopin('featuredialog', 'Add', build_url('feature', 'edit', array('projectid'=>$feature->projectid)), array(), 'class="abutton"', 'input') ?>
 	<input type="button" class="abutton enableReorder" value="Sort" />
 	<input type="button" class="abutton disableReorder" value="Done" style="display:none;" />
 	<input type="button" class="abutton saveOrder" value="Save" style="display:none;" />

@@ -89,11 +89,11 @@ $config['plugins'] = array(
     array (
       'master_layout' => 
       array (
-        'default_layout' => 'relapse-layout.php',
+        'default_layout' => 'new-layout.php',
       ),
       'external' => 
       array (
-        'default_layout' => 'relapse-external-layout.php',
+        'default_layout' => 'new-external-layout.php',
       ),
       'layout_path' => 'views/layouts',
     ),

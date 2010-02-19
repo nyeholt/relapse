@@ -1,5 +1,9 @@
 
 (function($) {
+
+	// A stack of dialogs that are being show. Stores the
+	// dialog's dom element, as well as the settings used
+	// to open, so that the dialog can be re-opened if needbe
 	var simpleDialogStack = [];
 
 	/**

@@ -248,7 +248,7 @@ class FeatureController extends BaseController
 		$listFields = $dummy->listFields();
 		// format for display
 		$asArr = array();
-		
+
 		foreach ($features as $item) {
 			$cell = array();
 			foreach ($listFields as $name => $display) {
@@ -388,7 +388,9 @@ class FeatureController extends BaseController
     {
         $feature = $this->byId();
         $this->featureService->deleteFeature($feature);
-        $this->redirect('project', 'view', array('id'=>$feature->projectid, '#features'));
+		if (!$this->_getParam('_ajax')) {
+			$this->redirect('project', 'view', array('id'=>$feature->projectid, '#features'));
+		}
     }
 
     /**

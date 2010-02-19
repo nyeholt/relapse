@@ -1,4 +1,5 @@
 <div class="std">
+	<h2>Issues</h2>
 	<?php
 	$options = new stdClass();
 	$params = array('json' => 1);
@@ -28,11 +29,9 @@
 	$options->sortname = 'id';
 	$options->sortorder = 'desc';
 	$options->usepager = true;
-	$options->title = 'Issues';
 	$options->useRp = true;
 	$options->rp = 10;
 	$options->singleSelect = true;
-	$options->showTableToggleBtn = true;
 	$options->width = 'auto';
 	$options->height = 200;
 	$options->pagestat = 'Displaying: {from} to {to} of {total} items.';

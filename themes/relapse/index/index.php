@@ -3,20 +3,22 @@
 	<div class="std">
 		<ul class="largeDualList">
 			<li>
-				<?php $this->dialogPopin('taskdialog', 'Add Task', build_url('task', 'edit'), array('title' => 'Create new task'), 'class="block"'); ?>
+				<?php $this->dialogPopin('cleintdialog', 'Add Client', build_url('client', 'edit', array('_ajax'=> 1)), array('title' => 'Create new client'), 'class="block"'); ?>
 			</li>
 			<li>
-				<a class="block" href="#">Estimate new project</a>
+				<?php $this->dialogPopin('projectdialog', 'Add Project', build_url('project', 'edit', array('_ajax'=> 1)), array('title' => 'Create new project'), 'class="block"'); ?>
 			</li>
 			<li>
-				<a class="block" href="#">Add a new contact</a>
+				<?php $this->dialogPopin('taskdialog', 'Add Task', build_url('task', 'edit', array('_ajax'=> 1)), array('title' => 'Create new task'), 'class="block"'); ?>
 			</li>
 			<li>
-				<a class="block" href="#">View project progress</a>
+				<?php $this->dialogPopin('contactdialog', 'Add Contact', build_url('contact', 'edit', array('_ajax'=> 1)), array('title' => 'Create new contact'), 'class="block"'); ?>
 			</li>
+			
 		</ul>
 		<div class="clear"></div>
 	</div>
+	
 	<div class="std">
 		<h2>Go to...</h2>
 		<ul class="largeDualList" id="subscribed-items">
@@ -42,5 +44,14 @@
 			<?php endforeach; ?>
 		</ul>
 		<div class="clear"></div>
+	</div>
+
+	<div class="std">
+		<h2>Latest</h2>
+		<ul class="largeDualList">
+			<?php foreach ($this->latest as $l): ?>
+			<li><a class="block" href="<?php echo build_url('project', 'view', array('id'=> $l->id))?>"><?php $this->o($l->title)?></a></li>
+			<?php endforeach; ?>
+		</ul>
 	</div>
 </div>

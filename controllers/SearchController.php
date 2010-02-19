@@ -107,6 +107,7 @@ class SearchController extends BaseController
 		$listFields = $dummy->listFields();
 
 		$asArr = array();
+		$aggrRow = array();
 		foreach ($items as $item) {
 			$cell = array();
 			foreach ($listFields as $name => $display) {
@@ -121,6 +122,7 @@ class SearchController extends BaseController
 				'id' => $item->id,
 				'cell' => $cell,
 			);
+
 			$asArr[] = $row;
 		}
 		$obj = new stdClass();
@@ -180,8 +182,6 @@ class SearchController extends BaseController
 			}
 		}
 
-        
-		
 		$sort = $this->_getParam('sortname', $this->_getParam('sort', 'updated'));
         $sort .= ' '.$sortDir;
 		

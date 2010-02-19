@@ -526,6 +526,15 @@ class TimesheetController extends NovemberController
         $user = za()->getUser();
         
         $this->projectService->addTimesheetRecord($task, $user, $start, $end);
+
+		$reloadUrl = build_url('timesheet','detailedTimesheet', array('taskid' => $task->id));
+		
+		if ($this->_getParam('_ajax')) {
+			echo '<script>
+			$("#timesheetdialog").simpleDialog("close");
+			$("#timesheetdialog").simpleDialog({url: "'.$reloadUrl.'"});
+</script>';
+		}
     }
     
     /**
@@ -548,6 +557,7 @@ class TimesheetController extends NovemberController
             $start = date('Y-m-d', strtotime($client->created));
             $this->view->tasks = $this->projectService->getSummaryTimesheet(null, null, null, $client->id, null, $start, null);
         }
+
         $this->renderRawView('timesheet/ajax-timesheet-summary.php');
     }
 
@@ -579,7 +589,8 @@ class TimesheetController extends NovemberController
         } else if ($user) {
 			$this->view->records = $this->projectService->getDetailedTimesheet($user);
 		}
-        
+
+		$this->view->task = $task;
         $this->renderRawView('timesheet/ajax-timesheet-details.php');
     }
     

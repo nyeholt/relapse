@@ -251,7 +251,7 @@ class IssueController extends BaseController
         if ($this->_getParam('_ajax')) {
 			// this was posted via an ajax form - we'll simply reload the
 			// parent page via javascript
-			echo '<p>Please wait... </p><script>window.location.reload(false);</script>';
+			echo '<p>Please wait... </p><script>$("#grid-issue-list .pReload").click(); $("#issuedialog").simpleDialog("close");</script>';
 		} else {
 			if ($model->clientid) {
 				$this->redirect('client', 'view', array('id'=>$model->clientid, '#issues'));

@@ -33,6 +33,7 @@ class Helper_FlexiGrid extends NovemberHelper
 		$opts = preg_replace('/"function\w*\((.+?)}"/e', "'function ('.Helper_FlexiGrid::replaceQuotes('$1').'}'", $opts);
 
 		?>
+		<div id="grid-<?php echo $name ?>">
 		<table id="<?php echo $name ?>" style="display: none;"></table>
 		<script type="text/javascript">
 		$().ready(function() {
@@ -41,6 +42,7 @@ class Helper_FlexiGrid extends NovemberHelper
 			);
 		});
 		</script>
+		</div>
 		<?php 
 	} 
 

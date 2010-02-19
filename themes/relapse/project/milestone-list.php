@@ -1,6 +1,6 @@
 <div class="std">
 	<?php if (!$this->project->ismilestone): ?>
-	<h3>Milestones</h3>
+	<h2>Milestones</h2>
 	<?php endif; ?>
 
 	<!--<p>
@@ -81,25 +81,7 @@
 			<div>
 			<h4 class="milestone-title"><a href="#" onclick="$('#milestone-feature-listing-<?php  echo $childProject->id?>').toggle(); return false;">Features</a></h4>
 			<div id="milestone-feature-listing-<?php echo $childProject->id?>">
-				<?php $featureEstimate = 0; ?>
-				<ul>
-					<?php foreach ($childProject->getFeatures() as $feature): ?>
-					<li>
-					<?php
-					$percentageComplete = $feature->getPercentageComplete();
-					$featureEstimate += $feature->estimated;
-					?>
-					<?php $this->percentageBar($percentageComplete)?>
-					(<?php $this->o($feature->estimated); ?>)
-					<?php if ($feature->complete): ?>
-						<img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
-					<?php endif;?>
-					<?php $this->dialogPopin('featuredialog', $this->escape($feature->title), build_url('feature', 'edit', array('id'=>$feature->id)), array('title' => 'Edit feature')); ?>
-					</li>
-					<?php endforeach; ?>
-				</ul>
 				<?php include dirname(__FILE__).'/feature-milestone-list.php' ?>
-				<p>Estimated <?php $this->o($featureEstimate) ?> days</p>
 			</div>
 			</div>
 

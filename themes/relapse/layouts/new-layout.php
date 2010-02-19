@@ -5,15 +5,16 @@
 	<title><?php echo za()->getConfig('name');?> <?php if (isset($this->childView)) { echo " &mdash; "; $this->o($this->childView->title); } ?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo theme_resource('reset-min.css')?>"></link>
 	<link rel="stylesheet" type="text/css" href="<?php echo theme_resource('relapse-style.css')?>"></link>
-	<link rel="stylesheet" type="text/css" href="<?php echo resource('jscalendar/calendar-system.css')?>"></link>
 	<link rel="stylesheet" type="text/css" href="<?php echo resource('time-table.css')?>"></link>
 
+	<?php $this->style(theme_resource('jquery.ui/css/custom-theme/jquery-ui-1.7.2.custom.css'))?>
 	<?php $this->style(resource('jquery-treeview/jquery.treeview.css'))?>
 	<?php $this->style(theme_resource('rounded-buttons/rounded-buttons.css')); ?>
 	<?php $this->style(theme_resource('jquery.simpledialog.css')); ?>
 	<?php $this->style(theme_resource('flexigrid/css/flexigrid/flexigrid.css')); ?>
 
 	<?php $this->script(theme_resource('jquery-1.4.1.min.js')); ?>
+	<?php $this->script(theme_resource('jquery.ui/js/jquery-ui-1.7.2.custom.min.js')); ?>
 
 	<?php $this->script(theme_resource('rounded-buttons/rounded-buttons.js')); ?>
 	<?php $this->script(theme_resource('jquery.livequery.js')); ?>
@@ -27,9 +28,6 @@
 	<?php $this->script(resource('time-table.js')); ?>
 	<?php $this->script(resource('jquery-treeview/jquery.treeview.js'))?>
 	<?php $this->script(resource('jquery-treeview/jquery.treeview.async.js'))?>
-	<?php $this->script(resource('jscalendar/calendar_stripped.js')); ?>
-	<?php $this->script(resource('jscalendar/lang/calendar-en.js')); ?>
-	<?php $this->script(resource('jscalendar/calendar-setup.js')); ?>
 	<?php $this->script(resource('jq-plugins/auto.complete.js')); ?>
 	<?php $this->script(resource('jq-plugins/jquery.cookie.js')); ?>
 	<?php $this->script(resource('jq-plugins/formAjax.js')); ?>

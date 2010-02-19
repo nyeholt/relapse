@@ -271,21 +271,18 @@ class ProjectController extends BaseController
     {
     	$clientid = $model && $model->clientid ? $model->clientid : (int) $this->_getParam('clientid'); 
         // check the existence of the client to add this contact to
-        $client = $this->clientService->getClient($clientid); 
+        $client = $clientid ? $this->clientService->getClient($clientid) : null;
         // check the existence of the client to add this contact to
         
         $this->view->owners = $this->groupService->getGroups();
         $this->view->users = $this->userService->getUserList();
         
-        if ($client == null) {
-            $this->flash("Specified client not found");
-            $this->renderView('error.php');
-            return;
-        }
         $this->view->client = $client;
         $this->view->clients = $this->clientService->getClients();
-        
-        $this->view->projects = $this->projectService->getProjectsForClient($client);
+
+
+		$this->view->projects = $clientid ? $this->projectService->getProjectsForClient($client) : array();
+		
         parent::prepareForEdit($model);
     }
     

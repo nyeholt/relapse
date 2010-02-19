@@ -7,7 +7,7 @@
 </script>
 
 <form method="post" action="<?php echo build_url('project', 'save');?>" class="data-form">
-<input type="hidden" value="<?php echo $this->client->id?>" name="clientid" />
+
 <?php if ($this->viaajax): ?>
 <input type="hidden" value="1" name="_ajax" />
 <?php endif; ?>
@@ -103,7 +103,6 @@
 	<?php if (!$this->model->ismilestone): ?>
 	<fieldset>
 		<legend>Project Settings</legend>
-			<div class="inner-column">
 			<p>
 			<label for="ownerid">Assigned To:</label>
 			<select name="ownerid" id="ownerid">
@@ -144,7 +143,6 @@
 		</p>
 		-->
 
-		</div>
 	</fieldset>
 	<?php endif; ?>
 
@@ -171,19 +169,16 @@
 	<p class="clear">
 		<input type="submit" class="abutton" value="Save" accesskey="s" />
 		<input type="button" class="abutton" value="Delete" onclick="$('#delete-panel').show()"/>
-		<?php if ($this->model->id): ?>
-			<?php if ($this->viaajax): ?>
-			<input type="button" class="abutton" onclick="$('#projectdialog').simpleDialog('close');" value="Close" />
-			<?php else: ?>
-			<input type="button" class="abutton" onclick="location.href='<?php echo build_url('project', 'view', array('id' => $this->model->id))?>'" value="Close" />
-			<?php endif; ?>
-
-			<?php if (!$this->model->ismilestone): ?>
+		<?php if ($this->model->id && !$this->model->ismilestone): ?>
 			<input type="button" class="abutton" onclick="location.href='<?php echo build_url('project', 'recalculate', array('id' => $this->model->id))?>'" value="Calculate Estimates" />
-			<?php endif; ?>
-			
+		<?php endif; ?>
+
+		<?php if ($this->viaajax): ?>
+			<input type="button" class="abutton" onclick="$('#projectdialog').simpleDialog('close');" value="Close" />
+		<?php elseif ($this->model->id): ?>
+			<input type="button" class="abutton" onclick="location.href='<?php echo build_url('project', 'view', array('id' => $this->model->id))?>'" value="Close" />
 		<?php else: ?>
-			<input type="button" class="abutton" onclick="history.go(-1);" value="Close" />
+			<input type="button" class="abutton" onclick="location.reload(true);" value="Close" />
 		<?php endif; ?>
 	</p>
 </form>

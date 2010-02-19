@@ -98,7 +98,6 @@
    			<div id="session-info" style="float: right;">
 	    		<?php echo $this->loginOutBox(); ?>
 		   	</div>
-   			<img style="padding: 1em 0em 0em 1em;" src="<?php echo resource('images/logo.gif')?>"></img>
    		</div>
 	</div>
 	<div id="top-menu">

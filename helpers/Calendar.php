@@ -13,7 +13,7 @@ class Helper_Calendar extends NovemberHelper
 		rtrim($options, ',');
 
 		echo '<script type="text/javascript">';
-		echo '$().ready(function() { Calendar.setup({'.$options.'}); });';
+		echo '$().ready(function() { $("#'.$forField.'").datepicker(); });';
 		echo '</script>';
 
 	}
