@@ -89,7 +89,7 @@ class SearchService implements Configurable
             /* @var $hit Zend_Search_Lucene_Search_QueryHit */
             $this->index->delete($hit->id);
         }
-        
+
         $doc = new Zend_Search_Lucene_Document();
         /* @var $doc Zend_Search_Lucene_Document */
         $doc->addField(Zend_Search_Lucene_Field::Keyword('identifier', $id));
@@ -189,6 +189,7 @@ class SearchService implements Configurable
         $hits = $this->index->find(strtolower($query));
         return $hits;
     }
+
     
     /**
      * Lucene won't let us have anything other than letters for a

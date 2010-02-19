@@ -78,19 +78,33 @@
 	</ul>
 	<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
 	<p>
-	<?php $this->dialogPopin('newFeatureTask', 'Add New Task', build_url('task', 'linkedtaskform', array('id' => $this->model->id, 'type'=> 'Feature')), array(), 'class="abutton"', 'input') ?>
+	<?php $this->dialogPopin('newLinkedTask', 'Add New Task', build_url('task', 'linkedtaskform', array('id' => $this->model->id, 'type'=> 'Feature')), array(), 'class="abutton"', 'input') ?>
 	</p>
 	<?php endif; ?>
 </fieldset>
+
 <?php endif; ?>
 
 
 <?php if ($this->model->id && $this->u()->hasRole(User::ROLE_USER)): ?>
 <fieldset>
 	<legend>Other Features</legend>
-	<h3>Parent features</h3>
 	<div>
-		<form method="post" action="<?php echo build_url('feature', 'linkfeature')?>" class="data-form">
+		<h3>Parents</h3>
+		<ul class="linkedItemList">
+			<?php foreach ($this->linkedFromFeatures as $feature): ?>
+			<li>
+				<a title="Remove feature" href="#" onclick="if (confirm('Are you sure?')) { var link = this;  $.post('<?php echo build_url('feature', 'removeFeature', array('_ajax' => 1, 'id' => $this->model->id, 'featureid'=>$feature->id, 'linktype'=>'to'))?>', {}, function (data) { $(link).parents('.dialogContent').html(data) }); } return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
+				<?php $this->o($feature->title); ?>
+			</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<div>
+		<form method="post" action="<?php echo build_url('feature', 'linkfeature')?>" class="data-form ajaxForm">
+		<?php if ($this->viaajax): ?>
+		<input type="hidden" value="1" name="_ajax" />
+		<?php endif; ?>
 		<p>
 		<label for="existing-features">Select Feature</label>
 		<input type="hidden" value="<?php echo $this->model->id?>" name="id" />
@@ -104,33 +118,28 @@
 		<input type="submit" class="abutton" value="Link Feature" />
 		</p>
 		</form>
-
 	</div>
-	<div>
-		<table class="item-table">
-		<thead>
-			<tr>
-			<th >Title</th>
-			<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach ($this->linkedFromFeatures as $feature): ?>
-				<tr>
-					<td><a href="<?php echo build_url('feature', 'edit', array('id'=>$feature->id))?>"><?php $this->o($feature->title); ?></a></td>
-					<td style="text-align: right;"><a title="Remove feature" href="#" onclick="if (!confirm('Are you sure?')) return false; location.href='<?php echo build_url('feature', 'removeFeature', array('id' => $this->model->id, 'featureid'=>$feature->id, 'linktype'=>'to'))?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a></td>
-				</tr>
-			<?php endforeach; ?>
-		</tbody>
-		</table>
-	</div>
-
+	
 	<div class="clear"></div>
 	<!-- if an enhancement, allow the creation of a new feature from here -->
-	<h3>Child Features</h3>
-
 	<div>
-		<form method="post" action="<?php echo build_url('feature', 'linkfeature')?>" class="data-form">
+		<h3>Children</h3>
+		<ul>
+			<?php foreach ($this->linkedToFeatures as $feature): ?>
+			<li>
+				<a title="Remove feature" href="#" onclick="if (confirm('Are you sure?')) { var link = this;  $.post('<?php echo build_url('feature', 'removeFeature', array('_ajax' => 1, 'id' => $this->model->id, 'featureid'=>$feature->id, 'linktype'=>'from'))?>', {}, function (data) { $(link).parents('.dialogContent').html(data) }); } return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
+				<?php $this->o($feature->title); ?>
+
+			</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	
+	<div>
+		<form method="post" action="<?php echo build_url('feature', 'linkfeature')?>" class="data-form ajaxForm">
+		<?php if ($this->viaajax): ?>
+		<input type="hidden" value="1" name="_ajax" />
+		<?php endif; ?>
 		<p>
 		<label for="existing-features-to">Select Feature</label>
 		<input type="hidden" value="<?php echo $this->model->id?>" name="id" />
@@ -145,24 +154,7 @@
 		</p>
 		</form>
 	</div>
-	<div>
-		<table class="item-table">
-		<thead>
-			<tr>
-			<th>Title</th>
-			<th>Actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach ($this->linkedToFeatures as $feature): ?>
-				<tr>
-					<td><a href="<?php echo build_url('feature', 'edit', array('id'=>$feature->id))?>"><?php $this->o($feature->title); ?></a></td>
-					<td style="text-align: right;"><a title="Remove feature" href="#" onclick="if (!confirm('Are you sure?')) return false; location.href='<?php echo build_url('feature', 'removeFeature', array('id' => $this->model->id, 'featureid'=>$feature->id, 'linktype'=>'from'))?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a></td>
-				</tr>
-			<?php endforeach; ?>
-		</tbody>
-		</table>
-	</div>
+	
 
 </fieldset>
 

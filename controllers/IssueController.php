@@ -103,11 +103,13 @@ class IssueController extends BaseController
 			$this->indexAction();
 		}
 	}
-    
+
+	/**
+	 * Exports issues to a CSV
+	 */
     public function csvExportAction()
     {
     	$this->bindIssueListViewData();
-    	
     	$this->_response->setHeader('Content-type', 'text/csv');
         $this->_response->setHeader("Content-Disposition", "inline; filename=\"export-issues.csv\"");
         $this->renderRawView('issue/csv.php');
@@ -333,7 +335,6 @@ class IssueController extends BaseController
     {
         $this->view->issues = $this->getIssueList($where);
         $this->view->type = 'list';
-        
     }
 
 	/**

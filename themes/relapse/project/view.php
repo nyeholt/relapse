@@ -44,6 +44,10 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 		<li>
 			<a href="#" onclick="" class="block">Current Status</a>
 		</li>
+		<li>
+			<a href="<?php echo build_url('timesheet', 'index', array('projectid'=>$this->project->id))?>" onclick="" class="block">Time Spent</a>
+
+		</li>
 	</ul>
 </div>
 
@@ -345,10 +349,11 @@ function positionChart()
             <a class="abutton" href="<?php echo build_url('timesheet', 'index', array('projectid'=>$this->project->id))?>">View Times</a>
         </p>
     </div>
-    
+
+<!--
     <div class="std" id="files">
 	    <div>
 	    <?php $this->dispatch('project', 'filelist', array('projectid'=>$this->project->id), null, array('folder')); ?>
 	    </div>
-	</div>
+	</div>-->
     <?php endif; ?>

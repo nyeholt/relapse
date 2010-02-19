@@ -86,6 +86,17 @@ class Feature extends MappedObject
     }
 
 	/**
+	 * Return an array of fields that will be used for displaying a JSON
+	 * serialisation of this object
+	 *
+	 * @return array
+	 */
+	public function listFields()
+	{
+		return array('id' => 'ID', 'title' => 'Title', 'description' => 'Description', 'estimated' => 'Estimated', 'getPercentageComplete' => 'Percentage Complete');
+	}
+
+	/**
 	 * Whenever a feature is saved, it should create a new version of
 	 * itself as well as the project it is associated with, regardless if 
 	 * it's a new feature or an existing one

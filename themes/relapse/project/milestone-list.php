@@ -79,7 +79,7 @@
 			<?php $this->bbCode($childProject->description) ?>
 			</p>
 			<div>
-			<h4><a href="#" onclick="$('#milestone-feature-listing-<?php  echo $childProject->id?>').toggle(); return false;">Features</a></h4>
+			<h4 class="milestone-title"><a href="#" onclick="$('#milestone-feature-listing-<?php  echo $childProject->id?>').toggle(); return false;">Features</a></h4>
 			<div id="milestone-feature-listing-<?php echo $childProject->id?>">
 				<?php $featureEstimate = 0; ?>
 				<ul>
@@ -98,11 +98,12 @@
 					</li>
 					<?php endforeach; ?>
 				</ul>
+				<?php include dirname(__FILE__).'/feature-milestone-list.php' ?>
 				<p>Estimated <?php $this->o($featureEstimate) ?> days</p>
 			</div>
 			</div>
 
-			<h4 class="top-margin"><a href="#" onclick="$('#project-task-summary-<?php  echo $childProject->id?>').toggle(); return false;">Tasks</a></h4>
+			<h4 class="milestone-title"><a href="#" onclick="$('#project-task-summary-<?php  echo $childProject->id?>').toggle(); return false;">Tasks</a></h4>
 
 			<ul id="project-task-summary-<?php  echo $childProject->id?>" style="display:none;">
 			<?php

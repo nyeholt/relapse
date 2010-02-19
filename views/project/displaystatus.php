@@ -36,7 +36,7 @@ time listing down below indicates how much time has been spent by people during 
 		
 		<a href="<?php echo build_url('feature', 'edit', array('id' => $feature->id))?>"><?php $this->o($feature->title)?></a>
 		<?php if ($feature->complete): ?>
-		<img class="small-icon" src="<?php echo resource('images/accept.png')?>"></img>
+		<img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
 		<?php endif;?>
 		
 		<?php if ($feature->tasks != null && count($feature->tasks)): ?>
@@ -53,7 +53,7 @@ time listing down below indicates how much time has been spent by people during 
 			<?php $this->o(sprintf('%.2f', $task->timespent > 0 ? $task->timespent / 3600 : 0)) ?> hours spent)
 			<a href="<?php echo build_url('task', 'edit', array('id' => $task->id))?>"><?php $this->o($task->title)?></a>
 			<?php if ($task->complete): ?>
-			<img class="small-icon" src="<?php echo resource('images/accept.png')?>"></img>
+			<img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
 			<?php endif;?>
 			</li>
 			<?php endforeach; ?>

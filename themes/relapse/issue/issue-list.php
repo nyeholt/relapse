@@ -2,10 +2,13 @@
 	<?php
 	$options = new stdClass();
 	$params = array('json' => 1);
+	$model = null;
 	if ($this->project) {
+		$model = $this->project;
 		$params['projectid'] = $this->project->id;
 	}
 	if ($this->client) {
+		$model = $this->client;
 		$params['clientid'] = $this->client->id;
 	}
 
@@ -37,7 +40,8 @@
 	$options->buttons = array(
 		array('name' => 'New', 'bclass' => 'newbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.tableCommand(cmd, data) }'),
 		array('name' => 'Edit', 'bclass' => 'editbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.tableCommand(cmd, data) }'),
-		array('name' => 'Delete', 'bclass' => 'deletebutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.tableCommand(cmd, data) }')
+		array('name' => 'Delete', 'bclass' => 'deletebutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.tableCommand(cmd, data) }'),
+		array('name' => 'Export', 'bclass' => 'exportbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.tableCommand(cmd, data) }')
 	);
 	$this->flexiGrid('issue-list', $options);
 	?>
@@ -47,7 +51,7 @@
 	$().ready(function () {
 		Relapse.IssueManager.prototype.tableCommand = function (cmd, grid) {
 			if (cmd == 'New') {
-				Relapse.createDialog('issuedialog', {title: 'Add new Issue', url: '<?php echo build_url('issue', 'edit', array('projectid' => $this->project->id))?>'});
+				Relapse.createDialog('issuedialog', {title: 'Add new Issue', url: '<?php echo build_url('issue', 'edit', $params)?>'});
 			} else if (cmd == 'Edit') {
 				$('.trSelected',grid).each (function () {
 					var id = $(this).attr('id').replace('row', '');
@@ -62,6 +66,8 @@
 						});
 					}
 				});
+			} else if (cmd == 'Export') {
+				location.href = '<?php echo build_url('issue', 'csvExport', array('unlimited' => 1)) ?>';
 			}
 		}
 	});

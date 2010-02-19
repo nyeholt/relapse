@@ -12,7 +12,13 @@ class SearchController extends BaseController
      * @var ClientService
      */
 	public $clientService;
-    
+
+	/**
+	 *
+	 * @var DbService
+	 */
+	public $dbService;
+
     public function indexAction()
     {
         $query = $this->_getParam('query');
@@ -87,5 +93,107 @@ class SearchController extends BaseController
         
         return $return;
     }
+
+
+	/**
+	 * Get a list of items suitable for a flexigrid display
+	 */
+	public function listAction()
+	{
+		$type = $this->_getParam('type');
+		$items = $this->getList($type);
+
+		$dummy = new $type;
+		$listFields = $dummy->listFields();
+
+		$asArr = array();
+		foreach ($items as $item) {
+			$cell = array();
+			foreach ($listFields as $name => $display) {
+				if (method_exists($item, $name)) {
+					$cell[] = $item->$name();
+				} else {
+					$cell[] = $item->$name;
+				}
+			}
+
+			$row = array(
+				'id' => $item->id,
+				'cell' => $cell,
+			);
+			$asArr[] = $row;
+		}
+		$obj = new stdClass();
+		$obj->page = ifset($this->_getAllParams(), $this->view->pagerName, 1);
+		$obj->total = $this->view->totalCount;
+		$obj->rows = $asArr;
+		$this->getResponse()->setHeader('Content-type', 'text/x-json');
+		$json = Zend_Json::encode($obj);
+		echo $json;
+	}
+
+	/**
+	 * Generates the appropriate query for returning a list of issues
+	 * 
+	 * @param array $where
+	 * @return arrayobject
+	 */
+	protected function getList($type, $where=array())
+	{
+		$query = $this->_getParam('query');
+		if (mb_strlen($query) >= 2) {
+			$where[] = new Zend_Db_Expr("title like ".$this->dbService->quote('%'.$query.'%')." OR description like ".$this->dbService->quote('%'.$query.'%'));
+		}
+
+		// Handle this up here otherwise a model object might take
+		$sortDir = $this->_getParam('sortorder', $this->_getParam('dir', 'desc'));
+        if ($sortDir == 'up' || $sortDir == 'asc') {
+            $sortDir = 'asc';
+        } else {
+            $sortDir = 'desc';
+        }
+
+		// now just iterate parameters
+		$params = $this->_getAllParams();
+		unset($params['title']);
+		unset($params['sortorder']);
+		$dummyObj = new $type;
+		// get all the type's parameters
+		$fields = $dummyObj->unBind();
+		foreach ($fields as $name => $val) {
+			// if we have a param with $name, add it to the filter
+			$val = ifset($params, $name, null);
+			if ($val) {
+				$where[$name.' ='] = $val;
+			}
+		}
+
+        // If not a User, can only see non-private issues
+        if (za()->getUser()->getRole() == User::ROLE_EXTERNAL) {
+			if (isset($fields['isprivate'])) {
+				$where['isprivate='] = 0;
+			}
+
+			if (isset($fields['clientid'])) {
+				$client = $this->clientService->getUserClient(za()->getUser());
+				$where['clientid='] = $client->id;
+			}
+		}
+
+        
+		
+		$sort = $this->_getParam('sortname', $this->_getParam('sort', 'updated'));
+        $sort .= ' '.$sortDir;
+		
+        $this->view->totalCount = $this->dbService->getObjectCount($where, $type);
+        $this->view->pagerName = 'page';
+        $currentPage = ifset($params, $this->view->pagerName, 1);
+        $this->view->listSize = $this->_getParam('rp', za()->getConfig('project_list_size', 10));
+        if ($this->_getParam("unlimited")) {
+        	$currentPage = null;
+        }
+
+		return $this->dbService->getObjects($type, $where, $sort, $currentPage, $this->view->listSize);
+	}
 }
 ?>

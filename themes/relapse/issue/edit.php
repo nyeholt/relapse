@@ -117,60 +117,37 @@
 
 </form>
         
-<?php if ($this->model->id): ?>
-
-<fieldset>
+<?php if ($this->model->id && $this->u()->hasRole(User::ROLE_EXTERNAL)): ?>
+<fieldset class="data-form">
 	<legend>Tasks</legend>
-	<?php if ($this->u()->hasRole(User::ROLE_EXTERNAL)) : ?>
-	<!-- Put in the milestone info here later. -->
-	<?php endif; ?>
-
-
-	<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
-	<div id="tasks" class="bordered">
-		<h3>Tasks</h3>
-		<ul class="project-task-summary">
-		<?php $estimated = 0; $taken = 0; ?>
-		<?php foreach ($this->linkedTasks as $openTask): ?>
-			<li>
-			<?php $this->percentageBar($openTask->getPercentage())?>
-			<a title="Remove link" href="#" onclick="if (!confirm('Are you sure?')) return false; location.href='<?php echo build_url('task', 'removeLinkFrom', array('id' => $openTask->id, 'fromid' => $this->model->id, 'fromtype' => 'Issue', 'linktype'=>'to'))?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
-			<span style="background-color: <?php echo $openTask->getStalenessColor() ?>" title="Task staleness (blue is older)">&nbsp;&nbsp;</span>
-			<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
+	<ul class="task-summary">
+	<?php $estimated = 0; $taken = 0; ?>
+	<?php foreach ($this->linkedTasks as $openTask): ?>
+		<li>
+		<?php $this->percentageBar($openTask->getPercentage())?>
+		<a title="Remove link" href="#" onclick="if (!confirm('Are you sure?')) return false; location.href='<?php echo build_url('task', 'removeLinkFrom', array('id' => $openTask->id, 'fromid' => $this->model->id, 'fromtype' => 'Feature', 'linktype'=>'to'))?>'; return false;"><img src="<?php echo resource('images/link_break.png')?>" /></a>
+		<span style="background-color: <?php echo $openTask->getStalenessColor() ?>" title="Task staleness (blue is older)">&nbsp;&nbsp;</span>
+		<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
 			<?php if ($openTask->complete): ?>
 			<img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
 			<?php endif; ?>
-			<a href="<?php echo build_url('task', 'edit', array('id'=>$openTask->id))?>"><?php $this->o($openTask->title)?></a>
-			<?php else: ?>
+			<?php $this->dialogPopin('taskdialog', $this->escape($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
+		<?php else: ?>
 			<?php $this->o($openTask->title)?>
-			<?php endif; ?>
-			<?php $estimated += $openTask->estimated; $taken += $openTask->timespent; ?>
-			</li>
-		<?php endforeach; ?>
-		</ul>
-
-		<p>Time taken: <?php $this->o(sprintf("%.2f", $taken > 0 ? $taken / 3600 : 0)) ?> / <?php $this->o($estimated) ?> hours</p>
-
-		<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
-		<form method="post" action="<?php echo build_url('task', 'newtask')?>">
-			<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
-			<input type="hidden" name="type" value="Issue" />
-			<input type="hidden" name="assignto" value="<?php $this->o($this->model->userid)?>" />
-			<input type="hidden" name="prefix" value="Request #<?php $this->o($this->model->id) ?> - " />
-			<p><label for="tasktitle">Add New Task</label>
-			<input class="input" type="text" id="tasktitle" name="tasktitle" />
-			In Milestone
-			<?php $this->projectSelector('newtaskProjectid', $this->projects, 'milestone', false, $this->project->id) ?>
-			<input type="submit" value="Create Task" class="abutton" />
-			</p>
-		</form>
-
 		<?php endif; ?>
-	</div>
-	<!-- end if logged in -->
+		<?php $estimated += $openTask->estimated; $taken += $openTask->timespent; ?>
+		</li>
+	<?php endforeach; ?>
+		<li>
+			<p>Time taken: <?php $this->o(sprintf("%.2f", $taken > 0 ? $taken / 3600 : 0)) ?> / <?php $this->o($estimated) ?> hours</p>
+		</li>
+	</ul>
+	<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
+	<p>
+	<?php $this->dialogPopin('newLinkedTask', 'Add New Task', build_url('task', 'linkedtaskform', array('id' => $this->model->id, 'type'=> 'Issue')), array(), 'class="abutton"', 'input') ?>
+	</p>
 	<?php endif; ?>
 </fieldset>
-
 
 <?php $this->noteList($this->notes, build_url('issue', 'addNote'), $this->allUsers, $this->subscribers); ?>
 

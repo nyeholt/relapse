@@ -229,10 +229,50 @@ class FeatureController extends BaseController
 	 */
 	public function listAction()
 	{
+		if ($this->_getParam('json')) {
+			$this->listJsonAction();
+		} else {
+			$project = $this->projectService->getProject((int) $this->_getParam('projectid'));
+			$this->view->features = $this->featureService->getProjectFeatures($project);
+			$this->view->project = $project;
+			$this->renderView('feature/list.php');
+		}
+	}
+
+	protected function listJsonAction()
+	{
 		$project = $this->projectService->getProject((int) $this->_getParam('projectid'));
-        $this->view->features = $this->featureService->getProjectFeatures($project);
-        $this->view->project = $project;
-        $this->renderView('feature/list.php');
+		$features = $project->getFeatures();
+
+		$dummy = new Feature();
+		$listFields = $dummy->listFields();
+		// format for display
+		$asArr = array();
+		
+		foreach ($features as $item) {
+			$cell = array();
+			foreach ($listFields as $name => $display) {
+				if (method_exists($item, $name)) {
+					$cell[] = $item->$name();
+				} else {
+					$cell[] = $item->$name;
+				}
+			}
+			$row = array(
+				'id' => $item->id,
+				'cell' => $cell,
+			);
+			$asArr[] = $row;
+		}
+
+		$obj = new stdClass();
+		$obj->page = ifset($this->_getAllParams(), $this->view->pagerName, 1);
+		$obj->total = $this->view->totalCount;
+		$obj->rows = $asArr;
+
+		$this->getResponse()->setHeader('Content-type', 'text/x-json');
+		$json = Zend_Json::encode($obj);
+		echo $json;
 	}
     
     /**
@@ -288,7 +328,9 @@ class FeatureController extends BaseController
         if ($model->id) {
             $this->view->linkedToFeatures = $this->itemLinkService->getLinkedItems($model, 'from', 'Feature');
             $this->view->linkedFromFeatures = $this->itemLinkService->getLinkedItems($model, 'to', 'Feature');
-        } 
+        }  else {
+			$model->milestone = $this->_getParam('milestone');
+		}
 
         $this->view->projects = $this->projectService->getProjectsForClient($project->clientid);
         $this->view->projectFeatures = $this->featureService->getFeatures(array('projectid=' => $model->projectid));
@@ -408,7 +450,11 @@ class FeatureController extends BaseController
         } catch (Exception $e) {
             $this->flash("Failed linking items: ".$e->getMessage());
         }
-        $this->redirect('feature', 'edit', array('id' => $this->_getParam('id'), '#features'));
+		$params = array('id' => $this->_getParam('id'), '#features');
+		if ($this->_getParam('_ajax')) {
+			$params['_ajax'] = 1;
+		}
+        $this->redirect('feature', 'edit', $params);
     }
     
     /**
@@ -443,7 +489,12 @@ class FeatureController extends BaseController
         } catch (Exception $e) {
             $this->flash("Failed removing link between items: ".$e->getMessage());
         }
-        $this->redirect('feature', 'edit', array('id' => $this->_getParam('id'), '#features'));
+		
+        $params = array('id' => $this->_getParam('id'), '#features');
+		if ($this->_getParam('_ajax')) {
+			$params['_ajax'] = 1;
+		}
+        $this->redirect('feature', 'edit', $params);
     }
     
     public function removeTaskAction()
@@ -472,7 +523,12 @@ class FeatureController extends BaseController
         } catch (Exception $e) {
             $this->flash("Failed removing link between items: ".$e->getMessage());
         }
-        $this->redirect('feature', 'edit', array('id' => $this->_getParam('id'), '#tasks'));
+
+        $params = array('id' => $this->_getParam('id'), '#features');
+		if ($this->_getParam('_ajax')) {
+			$params['_ajax'] = 1;
+		}
+        $this->redirect('feature', 'edit', $params);
     }
     
     /**

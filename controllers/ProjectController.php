@@ -366,8 +366,6 @@ class ProjectController extends BaseController
         } else {
         	$this->redirect('client', 'view', array('id'=> $project->clientid));
         }
-
-        $this->redirect('project');
     }
     
     /**

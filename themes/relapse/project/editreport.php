@@ -1,10 +1,12 @@
-<?php if ($this->project->id): ?>
-    <div id="parent-links" class="std">
-        <a title="Back to Project" href="<?php echo build_url('project', 'view', array('id'=>$this->project->id));?>"><img src="<?php echo resource('images/project.png')?>"/></a>
-    </div>
-<?php endif; ?>
-
 <div class="std">
+
+	<?php if ($this->project->id): ?>
+		<div id="parent-links" class="std">
+			<a title="Back to Project" href="<?php echo build_url('project', 'view', array('id'=>$this->project->id));?>"><img src="<?php echo resource('images/project.png')?>"/></a>
+		</div>
+	<?php endif; ?>
+
+
 <h2><?php $this->o($this->model->title)?></h2>
 
 <form method="post" action="<?php echo build_url('project', 'savereport');?>" class="data-form">
@@ -42,21 +44,21 @@
 </div>
 
 <div class="std">
-<?php if ($this->model->id): ?>
-<form class="data-form" method="post" action="<?php echo build_url('project', 'generatereport');?>" onsubmit="return confirm('Are you sure you want to regenerate the report?')">
-<input type="hidden" value="<?php echo $this->project->id?>" name="projectid" />
-<input type="hidden" value="<?php echo $this->model->id?>" name="id" />
-<input type="submit" class="abutton" value="Generate Report" accesskey="g" />
-<a href="<?php echo build_url('project', 'status', array('id' => $this->project->id, 'projectstatus' => $this->model->id))?>" class="abutton">View</a>
-</form>
-<?php endif; ?>
+	<?php if ($this->model->id): ?>
+	<form class="data-form" method="post" action="<?php echo build_url('project', 'generatereport');?>" onsubmit="return confirm('Are you sure you want to regenerate the report?')">
+	<input type="hidden" value="<?php echo $this->project->id?>" name="projectid" />
+	<input type="hidden" value="<?php echo $this->model->id?>" name="id" />
+	<input type="submit" class="abutton" value="Generate Report" accesskey="g" />
+	<a href="<?php echo build_url('project', 'status', array('id' => $this->project->id, 'projectstatus' => $this->model->id))?>" class="abutton">View</a>
+	</form>
+	<?php endif; ?>
 
-    <?php if ($this->model->id) { 
-	    $view = new CompositeView();
-	    $view->project = $this->project;
-	    $view->status = $this->model;
-	    $content = $view->render('project/displaystatus.php');
-	    echo $content;
-    }
-    ?>
+		<?php if ($this->model->id) {
+			$view = new CompositeView();
+			$view->project = $this->project;
+			$view->status = $this->model;
+			$content = $view->render('project/displaystatus.php');
+			echo $content;
+		}
+		?>
 </div>

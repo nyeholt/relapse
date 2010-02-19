@@ -1,12 +1,12 @@
 
-
-body { min-height: 1200px ; background: #0099FF; font-family: sans-serif; font-size: 10pt; }
+body { min-height: 1200px ; background: #0099FF; font-family: sans-serif; font-size: 8pt; }
 
 h2 { font-family: Verdana; font-size: 120%; font-weight: bold;}
 h3 { font-family: Verdana; font-size: 110%; font-weight: bold;}
 h4 { font-family: Verdana; font-weight: bold; }
 
-a { text-decoration: none; color: #66CC66; }
+a { text-decoration: underline; color: #a96; font-weight: bold; }
+p { padding: 0.3em 0; line-height: 10pt; }
 
 .std { border: 2px solid #000; background: #fff; padding: 1em; margin-bottom: 1em; overflow: hidden; }
 .clear { clear: both; }
@@ -63,16 +63,17 @@ fieldset { border-bottom: 1px solid #000; border-right: 1px solid #000; border-t
 legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80%; width: 10%; border: 1px solid #000; }
 
 /** TABLES **/
-.item-table { width: 100%; margin: 0; padding: 0; border-collapse: collapse; border: 1px solid #99BBE8; }
-.item-table tr.odd { background-color:#efefef; }
+.item-table { width: 100%; margin: 0; padding: 0; border-collapse: collapse; border: 1px solid #ddd; }
+.item-table tr.odd { background-color:#fafafa; }
 .item-table tr.even { background-color:#fff; }
-.item-table thead { background-color: #CCFFCC; }
+.item-table thead tr.even, .item-table thead tr.odd { background-color: #ccc; }
 .item-table th {text-align: center;}
 .item-table th, .item-table td { padding: 4px;}
 
 .newbutton { background: transparent url(../../../resources/images/add.png) no-repeat; }
 .editbutton { background: transparent url(../../../resources/images/pencil.png) no-repeat; }
 .deletebutton { background: transparent url(../../../resources/images/delete.png) no-repeat; }
+.exportbutton { background: transparent url(database_go.png) no-repeat; }
 
 /** PAGES **/
 #parent-links { float: right; display: block; width: 140px; }
@@ -84,12 +85,16 @@ legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80
 
 .top-margin { margin-top: 1em; }
 
-.abutton { background: #9d4; border: 1px solid #ccc; min-width: 80px; padding: 0.4em; font-size: 10pt; font-weight: bold; color: #666; }
+a.abutton  { text-decoration: none;}
+.abutton { background: #9d4; border: 1px solid #ccc; min-width: 80px; padding: 0.2em; font-size: 10pt; font-weight: bold; color: #666; }
 .abutton:hover { background: #9f4; }
 
 .task-summary { margin: 2em; }
 
 /** FEATURES **/
+#featureList ul { margin-left: 3em; }
+#featureList ul li { min-height: 3em; }
+.dragTitle { background-color: #eee; margin-bottom: 0.5em; }
 .feature-body { overflow: auto; margin-bottom: 2em; }
 .feature-title a { color: #666; }
 
@@ -97,6 +102,13 @@ legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80
 .estimate { font-size: 72px; font-weight: bold; color: #ddd; text-align: center; }
 .feature-content { margin-left: 180px; min-height: 150px; padding-bottom: 1em; border-bottom: 1px solid #ccc; }
 
-.featureDepth1 { padding-left: 75px; }
+/*.featureDepth1 { padding-left: 75px; }
 .featureDepth2 { padding-left: 150px; }
-.featureDepth3 { padding-left: 225px; }
+.featureDepth3 { padding-left: 225px; }*/
+
+.milestone-entry { border-bottom: 2px solid #666; margin-bottom: 1em; }
+.milestone-entry ul li { padding: 0.5em; }
+.milestone-title { font-family: Verdana, Arial, sans-serif; color: #666; margin-top: 1em;  }
+.milestone-title a { color: #666; border-bottom: 1px solid #ccc;}
+
+.linkedItemList { margin-left: 2em; }
