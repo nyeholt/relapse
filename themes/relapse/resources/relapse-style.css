@@ -109,7 +109,7 @@ a.abutton  { text-decoration: none;}
 .featureDepth2 { padding-left: 150px; }
 .featureDepth3 { padding-left: 225px; }*/
 
-.milestone-entry { border-bottom: 2px solid #666; margin-bottom: 1em; }
+.milestone-entry { border: 2px solid #666; margin-bottom: 1em; padding: 1em;}
 .milestone-entry ul li { padding: 0.5em; }
 .milestone-title { font-family: Verdana, Arial, sans-serif; color: #666; margin-top: 1em;  }
 .milestone-title a { color: #666; border-bottom: 1px solid #ccc;}
