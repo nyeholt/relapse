@@ -3,7 +3,7 @@
      From <input type="text" id="task-time-beginning" name="start" size="15" />,
      add <input type="text" id="total-<?php echo $this->task->id?>" name="total" size="3" /> hours.
      <input type="submit" value="Add" class="abutton" />
-     <?php $this->calendar('task-time-beginning') ?>
+     <?php $obj->showTime = true; $this->calendar('task-time-beginning', $obj) ?>
 </form>
 
 <table class="item-table">

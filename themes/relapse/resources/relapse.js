@@ -24,51 +24,19 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 		});
 
 		Relapse.IssueManager = function () {}
-		Relapse.FeatureManager = function () {}
+		
 		Relapse.TaskManager = function () {}
 		Relapse.Issues = new Relapse.IssueManager();
 		Relapse.Tasks = new Relapse.TaskManager();
-		Relapse.Features = new Relapse.FeatureManager();
 
 		Relapse.createDialog = function (name, options)  {
 			createDialogDiv(name);
 			$('#'+name).simpleDialog(options);
 		}
-
-
-		$('#featureList ul').sortable({
-			placeholder: 'ui-state-highlight'
-		}).disableSelection().sortable('disable').css('opacity', '1');
-
-		$('.enableReorder').click(function () {
-			$('#featureList li div:not(div.feature-title)').hide();
-			$('div.feature-title').addClass('dragTitle');
-			$('#featureList ul').sortable('enable');
-			$('.disableReorder').show();
-			$('.saveOrder').show();
-			$('.enableReorder').hide();
-		});
-
-		$('.disableReorder').click(function () {
-			$('#featureList li div:not(div.feature-title)').show();
-			$('div.feature-title').removeClass('dragTitle');
-			$('#featureList ul').sortable('disable');
-			$('.enableReorder').show();
-			$('.disableReorder').hide();
-		});
-
-		$('.saveOrder').click(function () {
-			$('#featureList ul').each(function() {
-				var ids = $(this).sortable('toArray');
-				if (ids) {
-					var str = ids.toString();
-					var url = $('#featureSort').attr('action');
-					$.post(url, {ids: str});
-				}
-			});
-			$('.saveOrder').hide();
-
-		});
+		Relapse.closeDialog = function (name) {
+			$('#'+name).simpleDialog('close');
+		}
+		
 	});
 
 	window.createDialogDiv = function (name) {

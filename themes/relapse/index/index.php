@@ -50,7 +50,7 @@
 		<h2>Latest</h2>
 		<ul class="largeDualList">
 			<?php foreach ($this->latest as $l): ?>
-			<li><a class="block" href="<?php echo build_url('project', 'view', array('id'=> $l->id))?>"><?php $this->o($l->title)?></a></li>
+			<li><a class="block" href="<?php echo build_url('project', 'view', array('id'=> $l->id))?>"><?php echo $this->ellipsis($this->escape($l->title), 22);?></a></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

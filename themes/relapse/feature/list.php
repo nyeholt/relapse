@@ -14,7 +14,7 @@
 		$completeClass = $feature->complete ? 'featureComplete' : '';
 		$featureId = $feature->id;
         ?>
-		<li id="<?php echo $featureId ?>" class="<?php echo $lateClass.' '.$completeClass; ?>">
+		<li id="featurelist_<?php echo $featureId ?>" class="<?php echo $lateClass.' '.$completeClass; ?>">
 			<input type="hidden" name="featureId" value="<?php echo $feature->id ?>" />
 			<!-- Feature created <?php echo $feature->created?> and project started at <?php echo $view->project->actualstart?> -->
 			<div class="feature-title">
@@ -37,9 +37,12 @@
 					</p>
 				</div>
 				<div class="feature-content">
-					<p><?php $view->o($feature->description)?></p>
-					<p><?php $view->o($feature->assumptions)?></p>
-					<p><?php $view->o($feature->questions)?></p>
+					<h3>Description</h3>
+					<p class="feature-description"><?php $view->o($feature->description)?></p>
+					<h3>Assumptions</h3>
+					<p class="feature-assumptions"><?php $view->o($feature->assumptions)?></p>
+					<h3>Questions</h3>
+					<p class="feature-questions"><?php $view->o($feature->questions)?></p>
 				</div>
 			</div>
 			<?php endif; ?>
@@ -70,10 +73,10 @@
 	$this->featureEstimate = 0;
 	$this->featureCompleted = 0;
 	$output = '';
+	$tmpFeature = null;
 	foreach ($this->features as $feature) {
         $tmpFeature = $feature;
         $output .= displayFeature($feature, $this);
-
 	}?>
 	
 	<a href="<?php echo build_url('project', 'view', array('id' => $this->project->id))?>">&laquo;</a>

@@ -15,6 +15,7 @@
 
 	<?php $this->script(theme_resource('jquery-1.4.1.min.js')); ?>
 	<?php $this->script(theme_resource('jquery.ui/js/jquery-ui-1.7.2.custom.min.js')); ?>
+	<?php $this->script(theme_resource('jquery.ui/js/timepicker.js')); ?>
 
 	<?php $this->script(theme_resource('rounded-buttons/rounded-buttons.js')); ?>
 	<?php $this->script(theme_resource('jquery.livequery.js')); ?>
@@ -35,6 +36,7 @@
 
 	<?php $this->script(resource('general.js')); ?>
 	<?php $this->script(theme_resource('relapse.js')); ?>
+	<?php $this->script(theme_resource('relapse-features.js')); ?>
 
 	<style type="text/css">
 	</style>

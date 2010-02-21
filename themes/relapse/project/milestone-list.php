@@ -85,7 +85,7 @@
 			</div>
 			</div>
 
-			<h4 class="milestone-title"><a href="#" onclick="$('#project-task-summary-<?php  echo $childProject->id?>').toggle(); return false;">Tasks</a></h4>
+			<h4 class="milestone-title"><a href="#" onclick="$('#project-task-summary-<?php  echo $childProject->id?>').toggle(); return false;">Tasks (click to show)</a></h4>
 
 			<ul id="project-task-summary-<?php  echo $childProject->id?>" style="display:none;">
 			<?php
@@ -117,7 +117,7 @@
 			<input size="40" type="text" name="newTitle" value="" />
 			Due:
 			<input readonly="readonly" type="text" name="due" id="due" value="" size="10" />
-			<?php $this->calendar('due', 'ifFormat:"%Y-%m-%d", showsTime:false'); ?>
+			<?php $this->calendar('due'); ?>
 			<input type="submit" class="abutton" value="Create Milestone" />
 		</form>
 	<?php endif; ?>
