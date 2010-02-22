@@ -1386,9 +1386,9 @@ class ProjectService
 		
 		$select->order($order);
 
-		return $this->dbService->fetchObjects('timesheetrecord', $select);
+		return $this->dbService->fetchObjects('TimesheetRecord', $select);
 	}
-	
+
 	/**
 	 * Get a summary of task timing for a given period
 	 *

@@ -38,11 +38,11 @@
 				</div>
 				<div class="feature-content">
 					<h3>Description</h3>
-					<p class="feature-description"><?php $view->o($feature->description)?></p>
+					<p class="feature-description editable-feature" id="feature-<?php echo $feature->id?>-description"><?php $view->o($feature->description)?></p>
 					<h3>Assumptions</h3>
-					<p class="feature-assumptions"><?php $view->o($feature->assumptions)?></p>
+					<p class="feature-assumptions editable-feature" id="feature-<?php echo $feature->id?>-assumptions"><?php $view->o($feature->assumptions)?></p>
 					<h3>Questions</h3>
-					<p class="feature-questions"><?php $view->o($feature->questions)?></p>
+					<p class="feature-questions editable-feature" id="feature-<?php echo $feature->id?>-questions"><?php $view->o($feature->questions)?></p>
 				</div>
 			</div>
 			<?php endif; ?>
@@ -107,3 +107,18 @@
 	</form>
 </div>
 
+<script type="text/javascript">
+$().ready(function(){
+	$('.editable-feature').each(function () {
+		$(this).editable('<?php echo build_url('feature', 'readUpdate') ?>', {
+			 loadurl  : '<?php echo build_url('feature', 'loadField')?>',
+			 type    : 'textarea',
+			 submit  : 'Done',
+			 indicator : 'Saving...',
+			 height  : '200px',
+			 style   : 'font-size: 8pt; font-family: Tahoma;',
+			 onblur : 'ignore'
+		});
+	});
+});
+</script>

@@ -27,7 +27,7 @@
 	$().ready(function () {
 		$('#featureList ul').sortable({
 			placeholder: 'ui-state-highlight'
-		}).disableSelection().sortable('disable').css('opacity', '1');
+		}).sortable('disable').css('opacity', '1');
 
 		$('.enableReorder').click(function () {
 			$('#featureList li div:not(div.feature-title)').hide();
@@ -46,6 +46,8 @@
 			$('.disableReorder').hide();
 		});
 
+
+		
 		$('.saveOrder').click(function () {
 			$('#featureList ul').each(function() {
 				var ids = $(this).sortable('toArray');

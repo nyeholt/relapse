@@ -43,7 +43,7 @@ class IndexController extends BaseController
     	$endDay = date('Y-m-d').' 23:59:59';
     	
     	$this->view->taskInfo = $this->projectService->getTimesheetReport($user, null, null, -1, $start, $end, $cats, $order);
-    	$this->view->dayTasks = $this->projectService->getDetailedTimesheet($user, null, null, null, null, $startDay, $endDay);
+    	$this->view->dayTasks = $this->projectService->getDetailedTimesheet($user, null, null, null, -1, $startDay, $endDay);
 
 		$this->view->latest = $this->projectService->getProjects(array('ismilestone=' => 0), 'updated desc', 1, 10);
     	
