@@ -85,7 +85,7 @@ class External_ProjectController extends NovemberController
         $this->renderView('project/external-view.php');
     }
     
-    public function childProjectsAction() 
+    public function childprojectsAction()
     {
         $project = $this->projectService->getProject((int) $this->_getParam('projectid'));
         if ($project == null) {
@@ -99,7 +99,7 @@ class External_ProjectController extends NovemberController
         $this->renderView('project/childprojects.php'); 
     }
     
-    public function addChildAction()
+    public function addchildAction()
     {
         $project = $this->projectService->getProject((int) $this->_getParam('projectid'));
         if ($project == null) {
@@ -176,7 +176,7 @@ class External_ProjectController extends NovemberController
      * List files from a project
      *
      */
-    public function fileListAction()
+    public function filelistAction()
     {
         $project = $this->byId($this->_getParam('projectid'), 'Project');
         $client = $this->byId($project->clientid, 'Client');
@@ -223,7 +223,7 @@ class External_ProjectController extends NovemberController
      * Loads up a project select HTML control that can be ajaxed in 
      * to replace any existing one. 
      */
-    public function projectSelectorAction()
+    public function projectselectorAction()
     {
     	$clientid = (int) $this->_getParam('clientid');
     	$this->view->fieldName = $this->_getParam('fieldName');

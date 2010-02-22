@@ -14,8 +14,10 @@ $options->colModel = array(
 	array('display' => 'Title', 'name' => 'title', 'width' => '200', 'sortable' => true, 'align' => 'left'),
 	array('display' => 'Description', 'name' => 'description', 'width' => '400', 'sortable' => true, 'align' => 'left'),
 	array('display' => 'Estimated', 'name' => 'estimated', 'width' => '100', 'sortable' => true, 'align' => 'left'),
+	array('display' => 'Status', 'name' => 'status', 'width' => '100', 'sortable' => true, 'align' => 'left'),
 	array('display' => 'Percent Complete', 'name' => 'getPercentageComplete', 'width' => '100', 'sortable' => false, 'align' => 'left'),
 );
+
 $options->searchitems = array(
 	array('display' => 'All', 'name' => 'all'),
 );

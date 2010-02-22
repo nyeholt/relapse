@@ -37,7 +37,6 @@ class Helper_Dispatch extends NovemberHelper
 	    	if ($oldRequest) {
 	    	    $name = $oldRequest->getModuleName();
 	    	}
-	        
 	        if ($name && $name != 'default') {
 	            $module = $name;
 	        }
@@ -85,18 +84,19 @@ class Helper_Dispatch extends NovemberHelper
     	    $newView->addScriptPath($scriptPath);
     	}
     	
-    	foreach ($allPaths['helper'] as $helper) {
-    	    $newView->addHelperPath($helper['dir'], $helper['prefix']);
+    	foreach ($allPaths['helper'] as $prefix => $path) {
+    	    $newView->addHelperPath($path, $prefix);
     	}
     	
-    	foreach ($allPaths['filter'] as $filter) {
-    	    $newView->addFilterPath($filter['dir'], $filter['prefix']);
+    	foreach ($allPaths['filter'] as $prefix => $path) {
+    	    $newView->addFilterPath($path, $prefix);
     	}
-    	
+
     	Zend_Registry::set(NovemberApplication::$ZEND_VIEW, $newView);
         
         $dispatcher = new InjectingDispatcher();
-
+		$dispatcher->addControllerDirectory('controllers', 'default');
+		
         $dispatcher->setParams($params)->setResponse($response);
         $request->setDispatched(true);
         $dispatcher->dispatch($request, $response);

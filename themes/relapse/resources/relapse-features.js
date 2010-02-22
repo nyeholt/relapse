@@ -18,6 +18,9 @@
 				$('.feature-assumptions', elem).text(feature.assumptions);
 				$('.feature-questions', elem).text(feature.questions);
 			}
+
+			// refresh any tablegrid lists too, just in case :p
+			$('.milestone-entry .pReload').click();
 		}
 	}
 

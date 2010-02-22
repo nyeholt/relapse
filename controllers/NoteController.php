@@ -39,7 +39,7 @@ class NoteController extends BaseController
     /**
      * Update all the watchers for a given item
      */
-    public function setWatchersAction()
+    public function setwatchersAction()
     {
 		$itemType = ucfirst($this->_getParam('attachedtotype'));
 		$itemId = $this->_getParam('attachedtoid');
@@ -97,7 +97,7 @@ class NoteController extends BaseController
      * Add a watch to a given item of a given type
      *
      */
-    public function addWatchAction()
+    public function addwatchAction()
     {
         $type = ucfirst($this->_getParam('type'));
         $id = $this->_getParam('id');
@@ -113,7 +113,7 @@ class NoteController extends BaseController
      * Add a watch to a given item of a given type
      *
      */
-    public function deleteWatchAction()
+    public function deletewatchAction()
     {
         $type = ucfirst($this->_getParam('type'));
         $id = $this->_getParam('id');
@@ -129,7 +129,7 @@ class NoteController extends BaseController
      * Get the latest notes for the current user
      *
      */
-    public function latestNotesAction()
+    public function latestnotesAction()
     {
         $from = za()->getUser()->getLastLogin();
         $this->view->notes = $this->notificationService->getNoteThreads(array('created > '=> date('Y-m-d H:i:s', strtotime($from) - (30*86400))), "created desc", 1, 20);
@@ -140,7 +140,7 @@ class NoteController extends BaseController
      * view a note thread
      *
      */
-    public function viewThreadAction()
+    public function viewthreadAction()
     {
         $id = $this->_getParam('toid');
         $type = $this->_getParam('totype');
@@ -164,7 +164,7 @@ class NoteController extends BaseController
         $this->renderView('note/thread-view.php');
     }
     
-    public function loadSourceAction()
+    public function loadsourceAction()
     {
     	$note = $this->byId();
     	

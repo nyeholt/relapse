@@ -90,7 +90,7 @@ class AdminController extends NovemberController
    
 	}
 
-	public function saveConfigAction()
+	public function saveconfigAction()
 	{
 		$config = $this->adminService->getSystemConfig();
 		$params = $this->_getAllParams();
@@ -107,7 +107,7 @@ class AdminController extends NovemberController
 	 * List all users in the system (not admins, just users)
 	 *
 	 */
-	public function userListAction()
+	public function userlistAction()
 	{
 		$users = $this->userService->getUserList(array(), false);
 
@@ -116,7 +116,7 @@ class AdminController extends NovemberController
 		$this->renderView('admin/user-list.php');
 	}
 
-	public function changeRoleAction()
+	public function changeroleAction()
 	{
 		$user = $this->userService->getUser((int) $this->_getParam('id'));
 
@@ -133,7 +133,7 @@ class AdminController extends NovemberController
 	 * The group list
 	 *
 	 */
-	public function groupListAction()
+	public function grouplistAction()
 	{
 		$model = $this->byId(null, 'UserGroup');
 		if ($model == null) $model = new UserGroup();
@@ -164,7 +164,7 @@ class AdminController extends NovemberController
 	 * Create a new group
 	 *
 	 */
-	public function createGroupAction()
+	public function creategroupAction()
 	{
 
 		$this->saveAction('UserGroup');
@@ -186,7 +186,7 @@ class AdminController extends NovemberController
 	 * its children too.
 	 *
 	 */
-	public function deleteGroupAction()
+	public function deletegroupAction()
 	{
 		$model = $this->byId(null, 'UserGroup');
 		if ($model != null) {
@@ -213,7 +213,7 @@ class AdminController extends NovemberController
 		$this->redirect('admin', 'grouplist');
 	}
 
-	public function viewGroupAction()
+	public function viewgroupAction()
 	{
 		$group = $this->byId($this->_getParam('id'), 'UserGroup');
 		$users = $this->groupService->getUsersInGroup($group, true);
@@ -229,7 +229,7 @@ class AdminController extends NovemberController
 		$this->renderView('admin/view-group.php');
 	}
 
-	public function saveGroupUsersAction()
+	public function savegroupusersAction()
 	{
 		$usersToAdd = $this->_getParam('groupusers');
 		if (!is_array($usersToAdd)) {
@@ -248,7 +248,7 @@ class AdminController extends NovemberController
 	 * Action to list the access a user has to certain elements
 	 *
 	 */
-	public function userAccessAction()
+	public function useraccessAction()
 	{
 		$username = $this->_getParam('username');
 		if ($username == null) {
@@ -264,7 +264,7 @@ class AdminController extends NovemberController
 		$this->renderView('admin/user-access.php');
 	}
 
-	public function updateAccessAction()
+	public function updateaccessAction()
 	{
 		$username = $this->_getParam('username');
 		$action = mb_strtolower($this->_getParam('doaction'));

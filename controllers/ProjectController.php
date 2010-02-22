@@ -153,7 +153,7 @@ class ProjectController extends BaseController
     }
     
     
-    public function childProjectsAction()
+    public function childprojectsAction()
     {
         $project = $this->projectService->getProject((int) $this->_getParam('projectid'));
         if ($project == null) {
@@ -167,7 +167,7 @@ class ProjectController extends BaseController
         $this->renderView('project/childprojects.php'); 
     }
     
-    public function addChildAction()
+    public function addchildAction()
     {
         $project = $this->projectService->getProject((int) $this->_getParam('projectid'));
         if ($project == null) {
@@ -193,7 +193,7 @@ class ProjectController extends BaseController
     /**
      * Return a list of milestones
      */
-    public function listMilestonesAction()
+    public function listmilestonesAction()
     {
     	$project = $this->byId();
     	/* @var $project Project */
@@ -207,7 +207,7 @@ class ProjectController extends BaseController
     	echo $stones;
     }
 
-    public function projectGroupAction()
+    public function projectgroupAction()
     {
     	$project = $this->projectService->getProject((int) $this->_getParam('id'));
         if ($project == null) {
@@ -236,7 +236,7 @@ class ProjectController extends BaseController
         $this->renderRawView('project/group-list.php');
     }
     
-    public function updateGroupAction()
+    public function updategroupAction()
     {
     	$usersToAdd = $this->_getParam('groupusers');
         if (!is_array($usersToAdd)) {
@@ -403,7 +403,7 @@ class ProjectController extends BaseController
      * with care
      *
      */
-    public function editReportAction()
+    public function editreportAction()
     {
         $model = $this->byId(null, 'ProjectStatus');
         
@@ -420,7 +420,7 @@ class ProjectController extends BaseController
         $this->renderView('project/editreport.php');
     }
     
-    public function saveReportAction()
+    public function savereportAction()
     {
         // save the edited report or create a new one as of now
         $model = $this->byId(null, 'ProjectStatus');
@@ -439,14 +439,14 @@ class ProjectController extends BaseController
         $this->redirect('project', 'editReport', array('id'=>$model->id));
     }
     
-    public function generateReportAction()
+    public function generatereportAction()
     {
     	$model = $this->byId(null, 'ProjectStatus');
     	$model->generateStatus();
     	$this->redirect('project', 'editreport', array('id' => $model->id));
     }
 
-    public function deleteStatusReportAction()
+    public function deletestatusreportAction()
     {
         $report = $this->byId(null, 'ProjectStatus');
         $this->dbService->delete($report);
@@ -594,7 +594,7 @@ class ProjectController extends BaseController
      * List files from a project
      *
      */
-    public function fileListAction()
+    public function filelistAction()
     {
         $project = $this->byId($this->_getParam('projectid'), 'Project');
         $client = $this->byId($project->clientid, 'Client');
@@ -639,7 +639,7 @@ class ProjectController extends BaseController
         $this->getResponse()->appendBody($content); 
     }
 
-    public function clientProjectsAction()
+    public function clientprojectsAction()
     {
         $clientid = (int) $this->_getParam('clientid');
         $this->view->projects = $this->projectService->getProjects(array('clientid='=>$clientid));
@@ -659,7 +659,7 @@ class ProjectController extends BaseController
      * Loads up a project select HTML control that can be ajaxed in 
      * to replace any existing one. 
      */
-    public function projectSelectorAction()
+    public function projectselectorAction()
     {
     	$clientid = (int) $this->_getParam('clientid');
     	$this->view->fieldName = $this->_getParam('fieldName');

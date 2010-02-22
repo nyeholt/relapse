@@ -58,7 +58,7 @@ class TimesheetController extends NovemberController
     /**
      * Present a filter form to select timesheets
      */
-    public function filterSummaryAction()
+    public function filtersummaryAction()
     {
     	/*
     	 * form needs to include:
@@ -78,7 +78,7 @@ class TimesheetController extends NovemberController
         $this->renderView('timesheet/filterSummary.php');    	
     }
     
-    public function summaryReportAction() {
+    public function summaryreportAction() {
     	ini_set('memory_limit', '64M');
         
         // -1 will mean that by default, just choose all timesheet records
@@ -353,7 +353,7 @@ class TimesheetController extends NovemberController
         $this->indexAction();        
     }
     
-    public function summaryReportExportAction()
+    public function summaryreportexportAction()
     {
         $this->_setParam('outputformat', 'csv');
         $this->summaryReportAction();        
@@ -518,7 +518,7 @@ class TimesheetController extends NovemberController
      * Add some time to a task
      *
      */
-    public function addTimeAction()
+    public function addtimeAction()
     {
         $start = strtotime($this->_getParam('start'));
         $end = $start + $this->_getParam('total') * 3600;
@@ -565,7 +565,7 @@ class TimesheetController extends NovemberController
      * Get the detailed timesheet for this project.
      *
      */
-    public function detailedTimesheetAction()
+    public function detailedtimesheetAction()
     {
         $project = $this->projectService->getProject($this->_getParam('projectid'));
         $client = $this->clientService->getClient($this->_getParam('clientid'));
@@ -594,7 +594,7 @@ class TimesheetController extends NovemberController
         $this->renderRawView('timesheet/ajax-timesheet-details.php');
     }
     
-    public function deleteRecordAction()
+    public function deleterecordAction()
     {
         $record = $this->byId(null, 'TimesheetRecord');
         $this->projectService->removeTimesheetRecord($record);

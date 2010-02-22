@@ -3,6 +3,8 @@
 umask(0002);
 define('BASE_DIR', dirname(__FILE__));
 
+set_include_path(get_include_path().PATH_SEPARATOR.BASE_DIR);
+
 ini_set('display_errors', 'On');
 ini_set('error_reporting', E_ALL | E_NOTICE);
 ini_set('error_log', dirname(__FILE__).'/data/logs/error.log');

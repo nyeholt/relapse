@@ -26,7 +26,7 @@ time listing down below indicates how much time has been spent by people during 
 		<?php 
 		$percentageComplete = $feature->getPercentageComplete();
 		$featureEstimate += $feature->estimated;
-		if ($feature->complete) {
+		if ($feature->isComplete()) {
 			$featureComplete += $feature->estimated;
 		}
 		?>
@@ -35,7 +35,7 @@ time listing down below indicates how much time has been spent by people during 
 		
 		
 		<a href="<?php echo build_url('feature', 'edit', array('id' => $feature->id))?>"><?php $this->o($feature->title)?></a>
-		<?php if ($feature->complete): ?>
+		<?php if ($feature->isComplete()): ?>
 		<img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
 		<?php endif;?>
 		
@@ -43,7 +43,7 @@ time listing down below indicates how much time has been spent by people during 
 			<ul>
 			<?php foreach ($feature->tasks as $task): 
 				$taskTimeSpent += $task->timespent;
-				if ($feature->complete) {
+				if ($feature->isComplete()) {
 					$completedTime += $task->timespent;
 				}
 			?>

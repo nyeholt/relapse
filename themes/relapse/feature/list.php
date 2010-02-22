@@ -8,10 +8,10 @@
 		ob_start();
     	if ($feature->estimated) {
         	$view->featureEstimate += $feature->estimated;
-        	$view->featureCompleted += ($feature->complete) ? $feature->estimated : 0;
+        	$view->featureCompleted += ($feature->status == 'Complete') ? $feature->estimated : 0;
     	}
     	$lateClass = $view->project->actualstart && (strtotime($feature->created) > strtotime($view->project->actualstart)) ? 'late-feature' : '';
-		$completeClass = $feature->complete ? 'featureComplete' : '';
+		$completeClass = $feature->status == 'Complete' ? 'featureComplete' : '';
 		$featureId = $feature->id;
         ?>
 		<li id="featurelist_<?php echo $featureId ?>" class="<?php echo $lateClass.' '.$completeClass; ?>">

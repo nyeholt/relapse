@@ -27,7 +27,7 @@ class SearchController extends BaseController
 			$this->searchContacts($this->_getParam('query'));
 			return;
 		}
-		
+
         $hits = $this->searchService->search($query);
         $this->view->results = $this->filterResults($hits);
         $this->view->query = $query;

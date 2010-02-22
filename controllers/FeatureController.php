@@ -41,7 +41,13 @@ class FeatureController extends BaseController
         }
 
 		if ($this->_getParam('_ajax')) {
-			echo '<p>Please wait... </p><script>window.location.reload(false);</script>';
+			$f = $model->unBind(true);
+			$f = Zend_Json::encode($f);
+			echo "<p>Please wait... </p>
+			<script>
+			Relapse.Features.updateFeatureList($f);
+			Relapse.closeDialog('featuredialog');
+			</script>";
 		} else {
 			if ($model->projectid) {
 				// Not editing
@@ -57,7 +63,7 @@ class FeatureController extends BaseController
 	 * 'document' style view of the feature
      * 
      */
-    public function readUpdateAction()
+    public function readupdateAction()
     {
     	$data = $this->getEditableInfo($this->_getParam('id'));
     	$feature = $this->byId(ifset($data, 'id'));
@@ -94,7 +100,7 @@ class FeatureController extends BaseController
     /**
      * 
      */
-    public function loadFieldAction()
+    public function loadfieldAction()
     {
     	$data = $this->getEditableInfo($this->_getParam('id'));
     	$feature = $this->byId(ifset($data, 'id'));
@@ -239,7 +245,7 @@ class FeatureController extends BaseController
 		}
 	}
 
-	protected function listJsonAction()
+	protected function listjsonAction()
 	{
 		$project = $this->projectService->getProject((int) $this->_getParam('projectid'));
 		$features = $project->getFeatures();
@@ -279,7 +285,7 @@ class FeatureController extends BaseController
      * Load the features for display in the project page.
      *
      */
-    public function projectListAction()
+    public function projectlistAction()
     {
         $project = $this->projectService->getProject((int) $this->_getParam('projectid'));
         
@@ -336,6 +342,7 @@ class FeatureController extends BaseController
         $this->view->projectFeatures = $this->featureService->getFeatures(array('projectid=' => $model->projectid));
         $this->view->projectTasks = $this->projectService->getTasks(array('projectid=' => $project->id), 'title asc');
         $this->view->priorities = array('Must Have', 'Should Have', 'Would Like', 'Nice To Have');
+		$this->view->statuses = $model->constraints['status']->getValues();
         $this->view->linkedTasks = $this->itemLinkService->getLinkedItemsOfType($model, 'from', 'Task');
 
         parent::prepareForEdit($model);
@@ -346,7 +353,7 @@ class FeatureController extends BaseController
      * Get a list of the new features
      *
      */
-    public function featureListAction()
+    public function featurelistAction()
     {
 
         $from = za()->getUser()->getLastLogin();
@@ -361,7 +368,7 @@ class FeatureController extends BaseController
      * Used for ordering features within the context of their siblings
      *
      */
-    public function orderFeaturesAction()
+    public function orderfeaturesAction()
     {
         $feature = $this->byId();
         $project = null;
@@ -397,7 +404,7 @@ class FeatureController extends BaseController
      * Saves the order of the given ids. 
      *
      */
-    public function saveOrderAction()
+    public function saveorderAction()
     {
         $ids = $this->_getParam('ids');
         if (!strlen($ids)) {
@@ -409,7 +416,8 @@ class FeatureController extends BaseController
         if (count($ids)) {
             $feature = null;
             for ($i=0, $c=count($ids); $i < $c; $i++) {
-                $feature = $this->projectService->getFeature($ids[$i]);
+				$id = str_replace('featurelist_', '', $ids[$i]);
+                $feature = $this->projectService->getFeature($id);
                 /* @var $feature Feature */
                 if (!$feature) continue;
                 $feature->sortorder = $i;
@@ -423,7 +431,7 @@ class FeatureController extends BaseController
 /**
      * Links an feature to a particular feature
      */
-    public function linkFeatureAction()
+    public function linkfeatureAction()
     {
         $thisFeature = $this->byId();
         $feature = $this->byId($this->_getParam('featureid'), 'Feature');
@@ -462,7 +470,7 @@ class FeatureController extends BaseController
     /**
      * Delete a link between an feature and a feature
      */
-    public function removeFeatureAction()
+    public function removefeatureAction()
     {
         $thisFeature = $this->byId();
         $feature = $this->byId($this->_getParam('featureid'), 'Feature');
@@ -499,7 +507,7 @@ class FeatureController extends BaseController
         $this->redirect('feature', 'edit', $params);
     }
     
-    public function removeTaskAction()
+    public function removetaskAction()
     {
         $thisFeature = $this->byId();
         $task = $this->byId($this->_getParam('otherid'), 'Task');
@@ -536,7 +544,7 @@ class FeatureController extends BaseController
     /**
      * Create a bunch of tasks from the selected features
      */
-    public function createTasksAction()
+    public function createtasksAction()
     {
         $ids = $this->_getParam('createfrom');
 

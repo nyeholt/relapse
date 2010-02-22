@@ -57,7 +57,7 @@ class External_ContactController extends NovemberController
     /**
      * Load the contacts for a given client id
      */
-    public function contactListAction()
+    public function contactlistAction()
     {
         $client = $this->clientService->getUserClient(za()->getUser());
         if (!$client) {

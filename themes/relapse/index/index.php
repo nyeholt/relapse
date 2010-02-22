@@ -11,10 +11,6 @@
 			<li>
 				<?php $this->dialogPopin('taskdialog', 'Add Task', build_url('task', 'edit', array('_ajax'=> 1)), array('title' => 'Create new task'), 'class="block"'); ?>
 			</li>
-			<li>
-				<?php $this->dialogPopin('contactdialog', 'Add Contact', build_url('contact', 'edit', array('_ajax'=> 1)), array('title' => 'Create new contact'), 'class="block"'); ?>
-			</li>
-			
 		</ul>
 		<div class="clear"></div>
 	</div>

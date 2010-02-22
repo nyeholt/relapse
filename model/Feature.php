@@ -50,12 +50,10 @@ class Feature extends MappedObject
     
     public $sortorder = 0;
     
-    /**
-     * Is this complete?
-     *
-     * @var int
-     */
-    public $complete = 0;
+	/**
+	 * Has it been signed off ready to go?
+	 */
+	public $status;
     
     /**
      * @var unmapped
@@ -83,6 +81,7 @@ class Feature extends MappedObject
     {
         $this->created = date('Y-m-d H:i:s');
         $this->childFeatures = new ArrayObject();
+		$this->constraints['status'] = new CVLValidator(array('Planning', 'Approved', 'Complete'));
     }
 
 	/**
@@ -93,7 +92,15 @@ class Feature extends MappedObject
 	 */
 	public function listFields()
 	{
-		return array('id' => 'ID', 'title' => 'Title', 'description' => 'Description', 'estimated' => 'Estimated', 'getPercentageComplete' => 'Percentage Complete');
+		return array('id' => 'ID', 'title' => 'Title', 'description' => 'Description', 'estimated' => 'Estimated', 'status' => 'Status', 'getPercentageComplete' => 'Percentage Complete');
+	}
+
+	/**
+	 * Is this feature finished?
+	 */
+	public function isComplete()
+	{
+		return $this->status == 'Complete';
 	}
 
 	/**

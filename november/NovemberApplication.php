@@ -172,7 +172,9 @@ class NovemberApplication
 
         /* @var Zend_Controller_Front $controller */
         $this->frontController = Zend_Controller_Front::getInstance();
-        $this->frontController->addControllerDirectory($this->getConfig('controller_dir', 'controllers'));
+		$this->frontController->setDispatcher(new InjectingDispatcher());
+		
+        $this->frontController->addControllerDirectory($this->getConfig('controller_dir', 'controllers'), 'default');
         
         $modules = ifset($this->config, 'modules', array());
         foreach ($modules as $module) {
@@ -185,7 +187,7 @@ class NovemberApplication
         $__start = getmicrotime();
         
         $this->frontController->throwExceptions(ifset($this->config, 'debug', false) ? true : false);
-        $this->frontController->setDispatcher(new InjectingDispatcher());
+        
         
         if (isset($this->config['route_config']) && php_sapi_name() != 'cli') {
             $router = $this->frontController->getRouter();

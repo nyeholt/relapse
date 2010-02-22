@@ -30,7 +30,7 @@ class Expenses_IndexController extends NovemberController
 		}
     }
 
-    public function listForUserAction()
+    public function listforuserAction()
     {
         $user = $this->userService->getUserByField('username', $this->_getParam('username')); 
         if ($user == null) {

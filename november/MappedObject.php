@@ -50,7 +50,7 @@ abstract class MappedObject
 	 *
 	 * @return array
 	 */
-	public function unBind()
+	public function unBind($includeId = false)
 	{
 		$props = array();
 		$reflect = new ReflectionObject($this);
@@ -59,7 +59,7 @@ abstract class MappedObject
         foreach ($properties as $var) {
             // Protected from alteration!
 			$key = $var->name;
-            if ($key == 'constraints' || $key == 'requiredFields' || $key == 'searchableFields' || $key == 'id') continue;
+            if ($key == 'constraints' || $key == 'requiredFields' || $key == 'searchableFields' || ($key == 'id' && !$includeId)) continue;
 			if ($reflect->getProperty($key)->isPublic() && !endswith($key, 'Service') && ($key != 'log')) {
 				$props[$key] = $this->$key;
             }

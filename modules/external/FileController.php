@@ -89,7 +89,7 @@ class External_FileController extends FileController
     /**
      * View the thumbnail for a given image
      */
-    public function viewThumbnailAction()
+    public function viewthumbnailAction()
     {
         $file = $this->fileService->getFile($this->_getParam('id'));
         $this->fileService->streamTumbnailFile($file);

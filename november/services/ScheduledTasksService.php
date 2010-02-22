@@ -48,7 +48,10 @@ class ScheduledTasksService
         
         $this->jobData = array();
         try {
-            Zend_Loader::loadFile(self::$DATA_FILE, BASE_DIR.'/data/cache', true);
+			if (!Zend_Loader::isReadable(self::$DATA_FILE, BASE_DIR.'/data/cache')) {
+				throw new Zend_Exception("Scheduled task cache not found");
+			}
+            Zend_Loader::loadFile(self::$DATA_FILE, BASE_DIR.'/data/cache', null, true);
             global $__SCHEDULE_CACHE;
             if (isset($__SCHEDULE_CACHE)) {
                 $this->jobData = $__SCHEDULE_CACHE;

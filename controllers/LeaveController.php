@@ -124,7 +124,7 @@ class LeaveController  extends BaseController
     /**
      * Save a leave application
      */
-    public function saveApplicationAction()
+    public function saveapplicationAction()
     {
         $user = $this->userService->getUser((int) $this->_getParam('userid'));
         
@@ -203,7 +203,7 @@ class LeaveController  extends BaseController
     /**
      * Change the status of a leave application
      */
-    public function changeStatusAction()
+    public function changestatusAction()
     {
         $app = $this->byId(null, 'LeaveApplication');
         $status = $this->_getParam('status', 'deny');

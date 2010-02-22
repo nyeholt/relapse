@@ -52,7 +52,7 @@ class ContactController extends BaseController
      * Load the contacts for a given client id
      *
      */
-    public function contactListAction()
+    public function contactlistAction()
     {
         $client = $this->clientService->getClient((int) $this->_getParam('clientid'));
         if (!$client) {
@@ -87,7 +87,7 @@ class ContactController extends BaseController
     /**
      * Create a user for the given contact. 
      */
-    public function createUserAction()
+    public function createuserAction()
     {
         $contact = $this->byId();
 
@@ -100,17 +100,17 @@ class ContactController extends BaseController
 
         $this->redirect('contact', 'edit', array('id' => $contact->id));
     }
-    
+
     /**
 	 * Contact importing
 	 *
 	 */
-    public function contactImportAction()
+    public function contactimportAction()
     {
         $this->renderView('contact/import-contacts.php');
     }
 
-    public function uploadContactsAction()
+    public function uploadcontactsAction()
     {
         if (!isset($_FILES['import']) && !isset($_FILES['import']['tmp_name'])) {
             throw new Exception("Import file not found");

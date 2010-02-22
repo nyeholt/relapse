@@ -18,7 +18,7 @@ class ItemLinkController extends BaseController
      * Creates a new model object based on an existing one stored
      * somewhere in the system.
      */
-    public function createBasedOnAction()
+    public function createbasedonAction()
     {
         $item = $this->itemLinkerService->createNewItem($this->_getAllParams());
     }

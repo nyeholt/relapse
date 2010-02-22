@@ -45,7 +45,7 @@
 
 <div id="contacts" class="std">
 	<div id="client-info-<?php echo $this->client->id?>-contacts">
-		<?php $this->dispatch('contact', 'contactlist', array('clientid'=> $this->client->id)); ?>
+		<?php $this->dispatch('contact', 'contactList', array('clientid'=> $this->client->id)); ?>
 	</div>
 	<p>
 	<a class="abutton" href="<?php echo build_url('contact', 'edit', array('clientid' => $this->client->id))?>">Add Contact</a>

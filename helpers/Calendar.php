@@ -2,18 +2,19 @@
 
 class Helper_Calendar extends NovemberHelper 
 {
-	public function Calendar($forField, $options="")
+	public function Calendar($forField, $options=null)
 	{
-		// Create a basic calendar
-		if ($options == '') {
-			$options = 'ifFormat : "%Y-%m-%d %H:%M", showsTime:true, timeFormat:"24",singleClick:false';
+		if (!is_object($options)) {
+			$options = new stdClass();
+			$options->showTime = false;
 		}
-		
-		$options = 'inputField : "'.$forField.'", '.$options;
-		rtrim($options, ',');
+
+		$options->showAnim = 'fadeIn';
+
+		$options = Zend_Json::encode($options);
 
 		echo '<script type="text/javascript">';
-		echo '$().ready(function() { $("#'.$forField.'").datepicker(); });';
+		echo "$().ready(function() { $('#$forField').datepicker($options); });";
 		echo '</script>';
 
 	}

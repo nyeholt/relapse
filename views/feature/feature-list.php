@@ -7,7 +7,7 @@
     {
     	if ($feature->estimated) {
         	$view->featureEstimate += $feature->estimated;
-        	$view->featureCompleted += ($feature->complete) ? $feature->estimated : 0;
+        	$view->featureCompleted += ($feature->isComplete()) ? $feature->estimated : 0;
     	}
     	$bgcolor = strtotime($feature->created) > strtotime($view->project->started) ? ' style="background-color: #acc"' : '';
         ?>
@@ -15,7 +15,7 @@
         <tr <?php echo $bgcolor ?>>
         <td>
         <?php echo str_repeat("&nbsp;&nbsp;&nbsp;&nbsp;", $pad); ?>
-        <?php if ($feature->complete): ?>
+        <?php if ($feature->isComplete()): ?>
         <img class="small-icon" src="<?php echo resource('images/accept.png')?>" />
         <?php endif;?>
         <a title="Show Details" href="<?php echo build_url('feature', 'edit', array('id' => $feature->id, 'projectid'=>$feature->projectid))?>"><?php $view->o($feature->title)?> </a> 

@@ -107,7 +107,7 @@ class IssueController extends BaseController
 	/**
 	 * Exports issues to a CSV
 	 */
-    public function csvExportAction()
+    public function csvexportAction()
     {
     	$this->bindIssueListViewData();
     	$this->_response->setHeader('Content-type', 'text/csv');
@@ -266,7 +266,7 @@ class IssueController extends BaseController
      * Adds a note to this issue
      *
      */
-    public function addNoteAction()
+    public function addnoteAction()
     {
         $issue = $this->byId();
         if ($issue) { 
@@ -291,7 +291,7 @@ class IssueController extends BaseController
     /**
      * Get the items that need to appear in the project listing
      */
-    public function projectListAction()
+    public function projectlistAction()
     {
         $project = $this->projectService->getProject((int) $this->_getParam('projectid'));
         $where = array('projectid='=>$project->id);
@@ -309,7 +309,7 @@ class IssueController extends BaseController
      * Get the items needed for the client page listing
      *
      */
-    public function clientListAction()
+    public function clientlistAction()
     {
         $client = $this->clientService->getClient((int) $this->_getParam('clientid'));
         
@@ -458,7 +458,7 @@ class IssueController extends BaseController
      * Get a list of the new issues
      *
      */
-    public function issueListAction()
+    public function issuelistAction()
     {
         $from = za()->getUser()->getLastLogin();
         $type = $this->_getParam('type');
@@ -471,7 +471,7 @@ class IssueController extends BaseController
     /**
      * Links an issue to a particular feature
      */
-    public function linkFeatureAction()
+    public function linkfeatureAction()
     {
         $issue = $this->byId();
         $feature = $this->byId($this->_getParam('featureid'), 'Feature');
@@ -506,7 +506,7 @@ class IssueController extends BaseController
     /**
      * Delete a link between an issue and a feature
      */
-    public function removeFeatureAction()
+    public function removefeatureAction()
     {
         $issue = $this->byId();
         $feature = $this->byId($this->_getParam('featureid'), 'Feature');

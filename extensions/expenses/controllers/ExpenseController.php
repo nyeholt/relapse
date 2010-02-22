@@ -84,7 +84,7 @@ class ExpenseController extends BaseController
     /**
      * Edit an expense report
      */
-    public function editReportAction($model=null)
+    public function editreportAction($model=null)
     {
         $cid = $this->_getParam('clientid');
         $client = null;
@@ -140,7 +140,7 @@ class ExpenseController extends BaseController
      * Auto create a report for a given month
      * 
      */
-    public function monthReportAction()
+    public function monthreportAction()
     {
         $user = $this->userService->getUserByField('username', $this->_getParam('username'));
         $client = $this->clientService->getClient($this->_getParam('clientid'));
@@ -176,7 +176,7 @@ class ExpenseController extends BaseController
     /**
      * Save a report.
      */
-    public function saveReportAction()
+    public function savereportAction()
     {
         // If the user was set, don't set the client or project
         if (mb_strlen($this->_getParam('username'))) {
@@ -186,7 +186,7 @@ class ExpenseController extends BaseController
         parent::saveAction('ExpenseReport');
     }
     
-    protected function saveFailedAction($model)
+    protected function savefailedAction($model)
     {
         if ($model instanceof ExpenseReport) {
             $this->editReportAction($model);
@@ -219,7 +219,7 @@ class ExpenseController extends BaseController
         $this->renderView('expense/list.php');
     }
     
-    public function listForUserAction()
+    public function listforuserAction()
     {
         $user = $this->userService->getUserByField('username', $this->_getParam('username')); 
         if ($user == null) {
@@ -282,7 +282,7 @@ class ExpenseController extends BaseController
     /**
      * Deletes the specified object. 
      */
-    public function deleteReportAction()
+    public function deletereportAction()
     {
         if ((int) $this->_getParam('id')) {
             $model = $this->byId(null, 'ExpenseReport'); 
@@ -446,7 +446,7 @@ class ExpenseController extends BaseController
     /**
      * Change the status of an expense application
      */
-    public function changeStatusAction()
+    public function changestatusAction()
     {
         $expense = $this->byId();
         if (!$expense) {

@@ -137,7 +137,7 @@ class TaskController extends BaseController
         
     }
     
-    public function quickCreateAction()
+    public function quickcreateAction()
     {
     	$params = array('title' => $this->_getParam('title'));
     	$params['userid'] = array(za()->getUser()->getUsername());
@@ -248,7 +248,7 @@ class TaskController extends BaseController
 	/**
 	 * Display a list of actions that can be taken for a particular task
 	 */
-	public function taskActionsAction()
+	public function taskactionsAction()
 	{
 		$this->view->model = $this->byId();
 		$this->renderRawView('task/task-actions.php');
@@ -258,7 +258,7 @@ class TaskController extends BaseController
      * Returns details about a particular task.
      *
      */
-    public function taskDetailAction()
+    public function taskdetailAction()
     {
         $this->view->task = $this->projectService->getTask((int) $this->_getParam('id'));
     }
@@ -348,7 +348,7 @@ class TaskController extends BaseController
 	 * in its own right...
 	 *
 	 */
-	public function linkedTaskFormAction()
+	public function linkedtaskformAction()
 	{
 		$this->view->model = $this->byId($this->_getParam('id'), $this->_getParam('type'));
 
@@ -367,7 +367,7 @@ class TaskController extends BaseController
      * Create a new task that's linked from another object
      *
      */
-    public function newTaskAction()
+    public function newtaskAction()
     {
         $params = $this->_getAllParams();
         $params['createtype'] = 'Task';
@@ -401,7 +401,7 @@ class TaskController extends BaseController
     /**
      * Get a list of tasks that match the given search string
      */
-    public function taskListAction()
+    public function tasklistAction()
     {
         $return = array();
         $query = $this->_getParam('query', '');
@@ -421,7 +421,7 @@ class TaskController extends BaseController
 	/**
 	 * Create a link from another object to this task
 	 */
-    public function linkFromAction()
+    public function linkfromAction()
     {
         $to = $this->byId();
         $from = $this->byId($this->_getParam('fromid'), $this->_getParam('fromtype'));
@@ -441,7 +441,7 @@ class TaskController extends BaseController
         }
     }
     
-    public function removeLinkFromAction()
+    public function removelinkfromAction()
     {
         $to = $this->byId();
         $from = $this->byId($this->_getParam('fromid'), $this->_getParam('fromtype'));
@@ -461,7 +461,7 @@ class TaskController extends BaseController
         }
     }
     
-    public function addNoteAction()
+    public function addnoteAction()
     {
         $task = $this->byId();
         if ($task) { 

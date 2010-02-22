@@ -81,13 +81,13 @@ class FileController extends NovemberController
     /**
      * View the thumbnail for a given image
      */
-    public function viewThumbnailAction()
+    public function viewthumbnailAction()
     {
         $file = $this->fileService->getFile($this->_getParam('id'));
         $this->fileService->streamTumbnailFile($file);
     }
 
-    public function createFolderAction()
+    public function createfolderAction()
     {
         $parent = trim(base64_decode($this->_getParam('parent')), " /");
         $childName = trim($this->_getParam('child'), " /");

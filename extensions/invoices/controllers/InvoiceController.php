@@ -43,7 +43,7 @@ class InvoiceController extends BaseController
         $this->viewInvoiceAction();
     }
     
-    public function viewInvoiceAction()
+    public function viewinvoiceAction()
     {
         $this->getResponse()->setHeader('Content-type', 'text/plain');
 		$invoice = $this->byId();
@@ -67,7 +67,7 @@ class InvoiceController extends BaseController
     /**
      * Get the items that need to appear in the project listing
      */
-    public function projectListAction()
+    public function projectlistAction()
     {
         // $project = $this->projectService->getProject((int) $this->_getParam('projectid'));
         $project = $this->projectService->getProject((int) $this->_getParam('projectid'));

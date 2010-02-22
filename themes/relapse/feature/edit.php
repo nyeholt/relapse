@@ -31,7 +31,7 @@
 	</fieldset>
 	
 	<fieldset>
-		<?php $this->yesNoInput('Is this feature finished?', 'complete', true); ?>
+		<?php $this->selectList('Status', 'status', $this->statuses) ?>
 		<?php $this->selectList('Priority', 'priority', $this->priorities) ?>
 		<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
 			<p>

@@ -179,16 +179,41 @@ class SearchService implements Configurable
     }
     
     /**
-     * Search for a document
+     * Perform a search - the query is first parsed to make it a little more
+	 * simple for users to start searching
      *
      * @param string $query
      */
     public function search($query)
     {
-        if (!$this->index) return;
-        $hits = $this->index->find(strtolower($query));
-        return $hits;
+
+		// if there's a quote or a colon, we don't want to do anything
+		if (strpos($query, ':') === false || strpos($query, '"') === false || strpos($query, '(') === false) {
+			return $this->query($query);
+		}
+
+        $bits = explode(' ', $query);
+
+		$query = '';
+		foreach ($bits as $bit) {
+			$query .= $bit.'* ';
+		}
+
+		return $this->query($query);
     }
+
+	/**
+	 *
+	 * Perform a lucene query directly
+	 *
+	 * @param String $query
+	 * @return
+	 */
+	public function query($query)
+	{
+		$hits = $this->index->find(strtolower($query));
+        return $hits;
+	}
 
     
     /**
