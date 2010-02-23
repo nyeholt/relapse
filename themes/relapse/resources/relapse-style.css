@@ -118,6 +118,8 @@ a.abutton  { text-decoration: none;}
 
 .featureComplete {background-color: #deffde; }
 
+.editable-feature { border: 1px dashed #eee;}
+
 /** Timesheet **/
 
 #task-time { width: 80%; margin: 0px auto; font-weight: bold; padding: 10px; border: 1px solid #fff; background: #fefefe; color: #ccc; font-size: 52px; }

@@ -1119,8 +1119,9 @@ class ProjectService
 				$elapsed = $elapsed / 3600;
 			}
 
-			// update the issue
-			$issue->estimated = $estimated;
+			// update the issue's time spent, but NOT its estimate - this is
+			// separate from the task estimates. 
+			// $issue->estimated = $estimated;
 			$issue->elapsed = $elapsed;
 			$this->dbService->saveObject($issue);
 		}
@@ -1383,7 +1384,7 @@ class ProjectService
 	    if ($timesheet >= 0) {
     		$select->where('timesheetrecord.timesheetid = ?', $timesheet);		    
 		}
-		
+
 		$select->order($order);
 
 		return $this->dbService->fetchObjects('TimesheetRecord', $select);

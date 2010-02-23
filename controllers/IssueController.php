@@ -7,6 +7,7 @@ class IssueController extends BaseController
 	public static $list_fields = array(
 		'id' => 'ID',
 		'title' => 'Title',
+		'estimated' => 'Est Hours',
 		'status' => 'Status',
 		'severity' => 'Severity',
 		'userid' => 'User',

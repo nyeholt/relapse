@@ -100,7 +100,7 @@
 
 			if ($me.find('div.dialogClose').length == 0) {
 				$me.wrapInner('<div class="dialogContent" />');
-				$me.prepend('<div class="dialogClose" >X</div>');
+				$me.prepend('<div class="dialogClose">X</div>');
 
 				$me.find('div.dialogClose').click(function(){
 					$('body').find('select, input').css('visibility', 'visible');

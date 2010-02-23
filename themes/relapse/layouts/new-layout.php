@@ -22,10 +22,6 @@
 	<?php $this->script(theme_resource('jquery.simpledialog.js')); ?>
 	<?php $this->script(theme_resource('flexigrid/flexigrid.js')); ?>
 
-	<?php $this->script(theme_resource('jqGrid/js/i18n/grid.locale-en.js')); ?>
-	<?php // $this->script(theme_resource('jqGrid/js/jquery.jqGrid.min.js')); ?>
-	<?php $this->script(theme_resource('jqGridDev/jquery.jqGrid.js')); ?>
-
 	<?php $this->script(resource('time-table.js')); ?>
 	<?php $this->script(resource('jquery-treeview/jquery.treeview.js'))?>
 	<?php $this->script(resource('jquery-treeview/jquery.treeview.async.js'))?>

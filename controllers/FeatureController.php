@@ -69,11 +69,11 @@ class FeatureController extends BaseController
     	$feature = $this->byId(ifset($data, 'id'));
     	$field = ifset($data, 'field');
     	
-
-    		if ($field == 'id') exit("Invalid Field");
+		if ($field == 'id') exit("Invalid Field");
+		
     		$feature->$field = $this->_getParam('value');
     		$this->featureService->saveFeature($feature);
-    		echo $this->view->wikiCode($feature->$field);
+    		echo $this->view->o($feature->$field);
     		return;
     	// }
     	echo "Invalid request";
@@ -339,11 +339,14 @@ class FeatureController extends BaseController
 		}
 
         $this->view->projects = $this->projectService->getProjectsForClient($project->clientid);
-        $this->view->projectFeatures = $this->featureService->getFeatures(array('projectid=' => $model->projectid));
+        $this->view->projectFeatures = $this->featureService->getFeatures(array('projectid=' => $project->id));
         $this->view->projectTasks = $this->projectService->getTasks(array('projectid=' => $project->id), 'title asc');
         $this->view->priorities = array('Must Have', 'Should Have', 'Would Like', 'Nice To Have');
 		$this->view->statuses = $model->constraints['status']->getValues();
-        $this->view->linkedTasks = $this->itemLinkService->getLinkedItemsOfType($model, 'from', 'Task');
+		$this->view->linkedTasks = array();
+		if ($model->id) {
+			$this->view->linkedTasks = $this->itemLinkService->getLinkedItemsOfType($model, 'from', 'Task');
+		}
 
         parent::prepareForEdit($model);
     }

@@ -22,7 +22,7 @@
 				<?php $view->dialogPopin('featuredialog', $view->escape($feature->title), build_url('feature', 'edit', array('id' => $feature->id, 'projectid'=>$feature->projectid)), array('title'=> 'Edit Feature')) ?>
 				</h2>
 
-				<a title="Delete Feature" href="#" onclick="if (confirm('Are you sure')) $.post('<?php echo build_url('feature', 'delete', array('id' => $feature->id))?>', function () { location.reload(false) }); return false;"><img class="small-icon" src="<?php echo resource('images/delete.png')?>" /></a>
+				<a title="Delete Feature" href="#" onclick="if (confirm('Are you sure')) $.post('<?php echo build_url('feature', 'delete', array('__validation_token' => $view->requestValidator(true), 'id' => $feature->id))?>', function () { location.reload(false) }); return false;"><img class="small-icon" src="<?php echo resource('images/delete.png')?>" /></a>
 
 				<?php $view->dialogPopin('featuredialog', '<img src="'.resource('images/page_copy.png').'" />', build_url('feature', 'edit', array('parent' => $feature->id, 'projectid'=>$feature->projectid))) ?>
 			</div>

@@ -65,15 +65,24 @@ class TypeManager implements Configurable
         $file        = $class.'.php';
 
         $source = $dir.DIRECTORY_SEPARATOR.$file;
+		$found = false;
         if (!Zend_Loader::isReadable($source)) {
             $extensions = za()->getExtensions();
             foreach ($extensions as $extDir) {
                 $source = $extDir.DIRECTORY_SEPARATOR.'model'.DIRECTORY_SEPARATOR.$file;
                 if (Zend_Loader::isReadable($source)) {
+					$found = true;
                     break;
                 }
             }
-        }
+        } else {
+			$found = true;
+		}
+
+		if (!$found && endswith($class, 'Version')) {
+			// try including the non-version instance instead
+			return $this->includeType(substr($class, 0, strrpos($class, 'Version')));
+		}
 
         try {
             Zend_Loader::loadFile(basename($source), dirname($source), true);

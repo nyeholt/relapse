@@ -9,6 +9,10 @@ class Helper_Calendar extends NovemberHelper
 			$options->showTime = false;
 		}
 
+		if (!isset($options->dateFormat)) {
+			$options->dateFormat = "yy-mm-dd";
+		}
+
 		$options->showAnim = 'fadeIn';
 
 		$options = Zend_Json::encode($options);

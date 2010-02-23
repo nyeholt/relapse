@@ -18,6 +18,7 @@
 	$options->colModel = array(
 		array('display' => 'ID', 'name' => 'id', 'width' => '20', 'sortable' => true, 'align' => 'center'),
 		array('display' => 'Title', 'name' => 'title', 'width' => '400', 'sortable' => true, 'align' => 'left'),
+		array('display' => 'Est Hours', 'name' => 'estimated', 'width' => '40', 'sortable' => true, 'align' => 'left'),
 		array('display' => 'Status', 'name' => 'status', 'width' => '100', 'sortable' => true, 'align' => 'left'),
 		array('display' => 'Severity', 'name' => 'severity', 'width' => '100', 'sortable' => true, 'align' => 'left'),
 		array('display' => 'User', 'name' => 'userid', 'width' => '140', 'sortable' => true, 'align' => 'left'),

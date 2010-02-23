@@ -17,7 +17,14 @@
 				$('.feature-description', elem).text(feature.description);
 				$('.feature-assumptions', elem).text(feature.assumptions);
 				$('.feature-questions', elem).text(feature.questions);
+			} else {
+				// maybe we just added... check before refreshing
+				if ($('.enableReorder').length > 0) {
+					window.location.reload(true);
+					return;
+				}
 			}
+
 
 			// refresh any tablegrid lists too, just in case :p
 			$('.milestone-entry .pReload').click();

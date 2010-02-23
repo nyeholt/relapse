@@ -51,6 +51,7 @@ class Issue extends MappedObject
     public $userid;
 
     public $estimated = 0;
+	
     public $elapsed = 0;
 
     public $constraints = array();

@@ -29,7 +29,7 @@
 		<?php $this->textInput('Title', 'title') ?>
 		<p>Please provide as much information describing the impact of this request to help us better prioritise it</p>
 		<?php $this->textInput('Description', 'description', true) ?>
-
+		<?php $this->textInput('Estimated effort (hours)', 'estimated', false, ' size="4"'); ?>
 		<?php if ($this->model->id): ?>
 		<p>
 		<label>Created</label>

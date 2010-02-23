@@ -92,7 +92,7 @@ class Feature extends MappedObject
 	 */
 	public function listFields()
 	{
-		return array('id' => 'ID', 'title' => 'Title', 'description' => 'Description', 'estimated' => 'Estimated', 'status' => 'Status', 'getPercentageComplete' => 'Percentage Complete');
+		return array('id' => 'ID', 'title' => 'Title', 'estimated' => 'Estimated', 'status' => 'Status', 'getPercentageComplete' => 'Percentage Complete');
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Feature extends MappedObject
 			$otherParent = $this->projectService->getProject($current->projectid);
 		}
 		// $mostRecent = $this->versioningService->getMostRecentVersion($this);
-		if ($current->estimated != $this->estimated || $otherParent || $current->milestone != $this->milestone) {
+		if ($this->isChanged(array('estimated', 'title', 'description', 'milestone', 'projectid'), $current)) {
 			if ($otherParent) {
 				$this->versioningService->createVersion($otherParent, 'featureupdate');
 			}
@@ -141,6 +141,24 @@ class Feature extends MappedObject
 
 			$this->versioningService->createVersion($current);
 		}
+	}
+
+
+	/**
+	 * Compares this object to another, within the given records, and returns
+	 * true if so
+	 *
+	 * @param array $fields
+	 * @param Feature $compareWith
+	 */
+	protected function isChanged($fields, $compareWith)
+	{
+		foreach ($fields as $field) {
+			if ($this->$field != $compareWith->$field) {
+				return true;
+			}
+		}
+		return false;
 	}
 
     /**
