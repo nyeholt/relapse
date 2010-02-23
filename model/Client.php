@@ -45,6 +45,17 @@ class Client extends MappedObject
         $this->created = date('Y-m-d H:i:s', time());
     }
 
+	/**
+	 * Return an array of fields that will be used for displaying a JSON
+	 * serialisation of this object
+	 *
+	 * @return array
+	 */
+	public function listFields()
+	{
+		return array('id' => 'ID', 'title' => 'Title', 'relationship' => 'Type');
+	}
+
 	public function created()
 	{
 		$this->versioningService->createVersion($this);

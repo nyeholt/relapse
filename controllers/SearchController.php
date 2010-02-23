@@ -15,6 +15,12 @@ class SearchController extends BaseController
 
 	/**
 	 *
+	 * @var TypeManager
+	 */
+	public $typeManager;
+
+	/**
+	 *
 	 * @var DbService
 	 */
 	public $dbService;
@@ -101,7 +107,10 @@ class SearchController extends BaseController
 	public function listAction()
 	{
 		$type = $this->_getParam('type');
+
+		$this->typeManager->includeType($type);
 		$items = $this->getList($type);
+
 
 		$dummy = new $type;
 		$listFields = $dummy->listFields();

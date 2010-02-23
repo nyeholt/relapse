@@ -1,3 +1,4 @@
+<div class="std">
 <h2>
 Companies -
 <select name="relationships" id="relationships">
@@ -28,7 +29,7 @@ $().ready(function() {
         <td><a href="<?php echo build_url('client', 'view', array('id'=>$client->id))?>"><?php $this->o($client->title);?></a></td>
         <td>
             <a onclick="if (!confirm('Are you sure?')) return false; location.href='<?php echo build_url('client', 'delete', array('id'=>$client->id))?>'; return false;" href="#"><img src="<?php echo resource('images/delete.png')?>" /></a>
-            <a href="<?php echo build_url('client', 'edit', array('id'=>$client->id))?>"><img src="<?php echo resource('images/pencil.png')?>" /></a>
+			<?php $this->dialogPopin('clientdialog', '<img src="'.resource('images/pencil.png').'" />', build_url('client', 'edit', array('id'=>$client->id))); ?>
         </td>
     </tr>
     <?php endforeach; ?>
@@ -39,3 +40,4 @@ $().ready(function() {
 <?php // $this->pager($this->totalClients, $this->clientListSize, $this->clientPagerName); ?>
 
 <a href="<?php echo build_url('client', 'edit')?>" class="abutton">Add Client</a>
+</div>
