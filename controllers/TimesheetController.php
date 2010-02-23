@@ -269,7 +269,7 @@ class TimesheetController extends NovemberController
         	$client = $this->_getParam('clientid') ? $this->byId($this->_getParam('clientid'), 'Client') : null;
 		}
 		
-        $user = $this->userService->getUserByField('username', $this->_getParam('username'));
+        $user = $this->_getParam('username') ? $this->userService->getUserByField('username', $this->_getParam('username')) : null;
         
 		$this->view->user = $user;
 		$this->view->project = $project;

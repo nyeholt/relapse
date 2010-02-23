@@ -89,8 +89,9 @@ legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80
 .top-margin { margin-top: 1em; }
 
 a.abutton  { text-decoration: none;}
-.abutton { background: #9d4; border: 1px solid #ccc; min-width: 80px; padding: 0.2em; font-size: 10pt; font-weight: bold; color: #666; }
-.abutton:hover { background: #9f4; }
+.abutton { background: #F5F5F5; border: 1px solid #ccc; min-width: 80px; padding: 0.4em; font-size: 8pt; font-weight: normal; color: #222; }
+.abutton { border-color: #eee #dedede #dedede #eee; }
+.abutton:hover { background: #e5e5e5; }
 
 .task-summary { margin: 2em; }
 

@@ -98,6 +98,6 @@
 	</div>
 
 	<p style="clear: left;">
-	<a class="abutton" href="<?php echo build_url('client', 'edit', array('id' => $this->client->id))?>">Edit This Client</a>
+	<?php $this->dialogPopin('clientdialog', 'Edit client', build_url('client', 'edit', array('id' => $this->client->id)), array(), 'class="abutton"'); ?>
 	</p>
 </div>

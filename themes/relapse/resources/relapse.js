@@ -21,6 +21,12 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 					}
 				}
 			});
+			$form.submit(function () {
+				var submits = $form.find('input[type=submit]');
+				submits.attr("value", "Please wait...");
+				submits.attr('disabled', 'true');
+				return true;
+			});
 		});
 
 		Relapse.IssueManager = function () {}

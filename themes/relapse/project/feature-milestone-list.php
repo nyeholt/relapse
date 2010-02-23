@@ -11,7 +11,7 @@ unset($params['milestone']);
 $options->dataType = 'json';
 $options->colModel = array(
 	array('display' => 'ID', 'name' => 'id', 'width' => '20', 'sortable' => true, 'align' => 'center'),
-	array('display' => 'Title', 'name' => 'title', 'width' => '200', 'sortable' => true, 'align' => 'left'),
+	array('display' => 'Title', 'name' => 'title', 'width' => '400', 'sortable' => true, 'align' => 'left'),
 	array('display' => 'Estimated', 'name' => 'estimated', 'width' => '100', 'sortable' => true, 'align' => 'left'),
 	array('display' => 'Status', 'name' => 'status', 'width' => '100', 'sortable' => true, 'align' => 'left'),
 	array('display' => 'Percent Complete', 'name' => 'getPercentageComplete', 'width' => '100', 'sortable' => false, 'align' => 'left'),

@@ -70,9 +70,8 @@ class ClientController extends BaseController
      */
     protected function onModelSaved($model)
     {
-        // go to its view page
-        $this->redirect('client', 'view', array('id'=>$model->id));
-
+		// go to its view page
+		$this->redirect('client', 'view', array('id'=>$model->id));
     }
     
     /**
