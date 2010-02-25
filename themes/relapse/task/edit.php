@@ -43,9 +43,9 @@
 	    <?php $this->calendar('startdate', 'ifFormat:"%Y-%m-%d", showsTime:false'); ?>
 	    </p>
 	    <p>
-	    <label for="due">Due:</label>
-	    <input readonly="readonly" type="text" class="input calendarInput" name="due" id="due" value="<?php echo $this->model->due ? date('Y-m-d', strtotime($this->model->due)) : date('Y-m-d', time() + 86400)?>" />
-	    <?php $this->calendar('due', 'ifFormat:"%Y-%m-%d", showsTime:false'); ?>
+	    <label for="taskdue">Due:</label>
+	    <input readonly="readonly" type="text" class="input calendarInput" name="due" id="taskdue" value="<?php echo $this->model->due ? date('Y-m-d', strtotime($this->model->due)) : date('Y-m-d', time() + 86400)?>" />
+	    <?php $this->calendar('taskdue', 'ifFormat:"%Y-%m-%d", showsTime:false'); ?>
 	    </p>
 
 	    <?php $this->textInput('Estimated hours', 'estimated', false, 'size="4"') ?>

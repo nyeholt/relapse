@@ -9,7 +9,7 @@ h4 { font-family: Verdana; font-weight: bold; }
 a { text-decoration: underline; color: #a96; font-weight: bold; }
 p { padding: 0.3em 0; line-height: 10pt; }
 
-.std { border: 2px solid #000; background: #fff; padding: 1em; margin-bottom: 1em; overflow: hidden; }
+.std { -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #000; background: #fff; padding: 1em; margin-bottom: 1em; overflow: hidden; }
 .std h2 { font-size: 14pt; color: #666; border-bottom: 3px solid #eee; margin-bottom: 10px; }
 .clear { clear: both; }
 .inline { display: inline }
@@ -55,11 +55,13 @@ option, textarea, input[type=text], input[type=password] { border: 1px solid #dd
 .data-form input, .data-form select, .data-form textarea { width: 300px; }
 .data-form textarea, .data-form select, .data-form input[type=text] { font-size: 12pt }
 .data-form textarea { min-height: 150px; }
-.data-form input[size], textarea[cols] { width: auto; }
+input[size], textarea[cols] { width: auto; }
+.data-form input[type=radio], .data-form input[type=checkbox], .data-form input[type=submit], .data-form input[type=button] { width: auto; }
+
 .data-form p, .dataDetail p { padding: 0.7em; display: block; }
 .data-form .valuelisttext { width: 80px; }
 .data-form .valuelistselect { width: 210px; }
-.data-form input[type=submit], .data-form input[type=button] { width: auto; }
+
 .data-form .calendarInput { width: 100px }
 .data-form label, .dataDetail label { display: block; float: left; width: 150px; margin-right: 2em; }
 

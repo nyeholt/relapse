@@ -62,11 +62,7 @@
 	<fieldset>
 		<legend>Dates</legend>
 		<?php if (!$this->model->ismilestone): ?>
-		<p>
-		<label for="started">Start Date:</label>
-		<input readonly="readonly" type="text" class="input" name="started" id="started" value="<?php echo $this->model->started?>" />
-		<?php $this->calendar('started', 'ifFormat:"%Y-%m-%d", showsTime:false'); ?>
-		</p>
+
 
 		<p>
 		<label for="actualstarted">Actual Start:</label>
@@ -79,24 +75,13 @@
 		<?php endif; ?>
 		</p>
 		<?php endif; ?>
-		<p>
-		<label for="due">Due:</label>
-		<input readonly="readonly" type="text" class="input" name="due" id="due" value="<?php echo $this->model->due?>" />
-		<?php $this->calendar('due', 'ifFormat:"%Y-%m-%d", showsTime:false'); ?>
-		</p>
 
-		<p>
-		<label for="completed">Actual Completion:</label>
-		<input readonly="readonly" type="text" class="input" name="completed" id="completed" value="<?php echo $this->model->completed?>" />
-		<?php $this->calendar('completed', 'ifFormat:"%Y-%m-%d", showsTime:false'); ?>
-		</p>
+		<?php $this->calendarInput('projectdue', 'Due', 'due'); ?>
+		<?php $this->calendarInput('projectcompleted', 'Actual Completion', 'completed'); ?>
 
 		<?php if (!$this->model->ismilestone): ?>
-		<p>
-		<label for="invoiceissued">Invoice Issued:</label>
-		<input readonly="readonly" type="text" class="input" name="invoiceissued" id="invoiceissued" value="<?php echo $this->model->invoiceissued?>" />
-		<?php $this->calendar('invoiceissued', 'ifFormat:"%Y-%m-%d", showsTime:false'); ?>
-		</p>
+		<?php $this->calendarInput('Invoice Issued', 'invoiceissued'); ?>
+		
 		<?php endif; ?>
 	</fieldset>
 

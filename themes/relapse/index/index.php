@@ -3,7 +3,7 @@
 	<div class="std">
 		<ul class="largeDualList">
 			<li>
-				<?php $this->dialogPopin('cleintdialog', 'Add Client', build_url('client', 'edit', array('_ajax'=> 1)), array('title' => 'Create new client'), 'class="block"'); ?>
+				<a class="block" href="<?php echo build_url('client', 'index')?>">Clients</a>
 			</li>
 			<li>
 				<?php $this->dialogPopin('projectdialog', 'Add Project', build_url('project', 'edit', array('_ajax'=> 1)), array('title' => 'Create new project'), 'class="block"'); ?>
