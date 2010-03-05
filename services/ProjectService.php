@@ -60,6 +60,9 @@ class ProjectService
      */
     public function getProject($id)
     {
+		if (!$id) {
+			return null;
+		}
         $proj = $this->dbService->getById($id, 'Project');
         
         if ($proj == null) return null;

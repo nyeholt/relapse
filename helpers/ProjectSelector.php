@@ -53,6 +53,11 @@ class Helper_ProjectSelector extends NovemberHelper
 		for ($i = 0; $i < $level; $i++) {
 			$prepend .= '&nbsp;&nbsp;&nbsp;&nbsp;';
 		}
+
+		if ($project->id == $this->view->model->id) {
+			$disabled = 'disabled="disabled"';
+		}
+
 		$html = '<option value="'.$project->id.'" '.$disabled.' '.$selected.'>'.$prepend.$this->view->escape($project->title)." (".$project->id.")".'</option>';
 		
 		$children = $project->getChildProjects();

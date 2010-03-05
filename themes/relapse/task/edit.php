@@ -122,7 +122,7 @@
 			<?php endforeach; ?>
 		</ul>
 		<?php endif; ?>
-		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform ajaxForm">
+		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform data-form ajaxForm">
 			<input type="hidden" name="_ajax" value="1" />
 			<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
 			<input type="hidden" name="fromtype" value="Issue" />
@@ -163,7 +163,7 @@
 			<?php endforeach; ?>
 		</ul>
 		<?php endif; ?>
-		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform ajaxForm">
+		<form method="post" action="<?php echo build_url('task', 'linkFrom')?>" class="inlineform data-form ajaxForm">
 			<input type="hidden" name="_ajax" value="1" />
 			<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
 			<input type="hidden" name="fromtype" value="Feature" />

@@ -98,6 +98,9 @@ class UserService implements Configurable
      */
     public function getUserByField($field, $value)
     {
+		if (!$value) {
+			return null;
+		}
         return $this->dbService->getByField(array($field => $value), $this->userClass);
     }
 

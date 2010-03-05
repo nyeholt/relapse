@@ -245,6 +245,14 @@ class FeatureController extends BaseController
 		}
 	}
 
+	public function docAction()
+	{
+		$project = $this->projectService->getProject((int) $this->_getParam('projectid'));
+		$this->view->features = $this->featureService->getProjectFeatures($project);
+		$this->view->project = $project;
+		$this->renderView('feature/doco.php');
+	}
+
 	protected function listjsonAction()
 	{
 		$project = $this->projectService->getProject((int) $this->_getParam('projectid'));

@@ -62,8 +62,6 @@
 	<fieldset>
 		<legend>Dates</legend>
 		<?php if (!$this->model->ismilestone): ?>
-
-
 		<p>
 		<label for="actualstarted">Actual Start:</label>
 		<?php if ($this->model->actualstart): ?>
@@ -80,7 +78,7 @@
 		<?php $this->calendarInput('projectcompleted', 'Actual Completion', 'completed'); ?>
 
 		<?php if (!$this->model->ismilestone): ?>
-		<?php $this->calendarInput('Invoice Issued', 'invoiceissued'); ?>
+		<?php $this->calendarInput('invissued', 'Invoice Issued', 'invoiceissued'); ?>
 		
 		<?php endif; ?>
 	</fieldset>
@@ -131,25 +129,7 @@
 	</fieldset>
 	<?php endif; ?>
 
-	<?php if ($this->model->id): ?>
-	<div id="delete-panel" style="display: none;">
-	<form method="post" action="<?php echo build_url('project', 'delete')?>">
-		<?php $this->requestValidator(); ?>
-		<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
-		<p>Select a new parent for all tasks, issues and milestones to be moved to. </p>
-		<select name="parentid" id="parentid">
-			<option value="0"> </option>
-			<?php
-			foreach ($this->projects as $project): ?>
-				<?php if ($this->model->id == $project->id || $this->model->id == $project->parentid) continue; ?>
-				<option value="<?php echo $project->id?>"><?php $this->o($project->title);?></option>
-			<?php endforeach; ?>
-		</select>
-
-		<input type="submit" class="abutton warning" value="Delete" />
-	</form>
-	</div>
-	<?php endif; ?>
+	
 
 	<p class="clear">
 		<input type="submit" class="abutton" value="Save" accesskey="s" />
@@ -167,3 +147,21 @@
 		<?php endif; ?>
 	</p>
 </form>
+<?php if ($this->model->id): ?>
+<div id="delete-panel" style="display: none;">
+<form method="post" action="<?php echo build_url('project', 'delete')?>">
+	<?php $this->requestValidator(); ?>
+	<input type="hidden" name="id" value="<?php echo $this->model->id?>" />
+	<p>Select a new parent for all tasks, issues and milestones to be moved to. </p>
+	<select name="parentid" id="parentid">
+		<option value="0"> </option>
+		<?php
+		foreach ($this->projects as $project): ?>
+			<?php if ($this->model->id == $project->id || $this->model->id == $project->parentid) continue; ?>
+			<option value="<?php echo $project->id?>"><?php $this->o($project->title);?></option>
+		<?php endforeach; ?>
+	</select>
+	<input type="submit" class="abutton warning" value="Delete" />
+</form>
+</div>
+<?php endif; ?>

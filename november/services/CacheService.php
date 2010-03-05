@@ -31,7 +31,7 @@ class CacheService implements Configurable
 	 *
 	 * @var int
 	 */
-	private $expiry = 3600;
+	private $expiry = 300;
 	
 	private $items;
 	
