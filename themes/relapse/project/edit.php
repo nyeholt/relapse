@@ -27,17 +27,6 @@
 			<label for="parentid">Parent Project:</label>
 			<?php $this->projectSelector('parentid', $this->projects, 'project', true) ?>
 		</p>
-		
-		<p>
-		<label for="clientid">Client:</label>
-		<select name="clientid" id="clientid">
-			<?php
-			$sel = $this->model->clientid ? $this->model->clientid : $this->client->id;
-			foreach ($this->clients as $client): ?>
-				<option value="<?php echo $client->id?>" <?php echo $sel == $client->id ? 'selected="selected"' : '';?>><?php $this->o($client->title);?></option>
-			<?php endforeach; ?>
-		</select>
-		</p>
 	</fieldset>
 
 	<?php if (!$this->model->ismilestone): ?>
