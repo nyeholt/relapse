@@ -261,6 +261,10 @@ class ProjectService
 			$this->cacheService->expire($this->clientProjectsCacheKey($clientid));
    		}
 
+		if ($params instanceof Project) {
+			$this->updateProjectEstimate($params);
+		}
+
         $savedProject = $this->dbService->saveObject($params, 'Project');
         
         // If this project's due date is greater than the parent's due date,
@@ -1027,7 +1031,7 @@ class ProjectService
     	}
     	
     	// Now, get all the time for this project
-		$summary = $this->getSummaryTimesheet(null, null, $project->id, null, -1, '2000-01-01 00:00:00', date('Y-m-d H:i:s', time()));  
+		$summary = $this->getSummaryTimesheet(null, null, $project->id, null, -1, '2000-01-01 00:00:00', '2100-01-01 00:00:00');
 		$taken = 0;
 		foreach ($summary as $task) {
 			$taken += $task->timespent;
@@ -1039,15 +1043,14 @@ class ProjectService
 			$project->currenttime = $taken;
 			$update = true;
 		}
-    	
-    	if ($update) {
-        	$this->saveProject($project);
-        	// get its parent and update that too
-			if ($project->parentid) {
+
+		if ($update) {
+			// get its parent and update that too
+			if ($project->parentid && $project->ismilestone) {
 				$parent = $this->getProject($project->parentid);
-				$this->updateProjectEstimate($parent);
+				$this->saveProject($parent);
 			}
-    	}
+		}
     } 
     
     /**
@@ -1091,6 +1094,8 @@ class ProjectService
 			} 
 			
 			$this->dbService->commit();
+
+			$this->saveProject($project);
     	} catch (Exception $e) {
     		$this->dbService->rollback();
     		throw $e;

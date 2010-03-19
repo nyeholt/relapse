@@ -90,7 +90,7 @@
 	</p>
 	</fieldset>
 
-	<input type="submit" class="abutton" value="Save" accesskey="s" />
+	<input type="submit" class="abutton" value="Save" />
 	<?php if ($this->viaajax): ?>
 	<input type="button" class="abutton" onclick="$(this).parents('#taskdialog').simpleDialog('close');" value="Close" />
 	<?php else: ?>

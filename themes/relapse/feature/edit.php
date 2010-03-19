@@ -45,7 +45,7 @@
 		<?php endif; ?>
 	</fieldset>
 	<p class="clear">
-		<input type="submit" class="abutton" value="Save" accesskey="s" />
+		<input type="submit" class="abutton" value="Save"  />
 		<input type="button" class="abutton" onclick="$(this).parents('#featuredialog').simpleDialog('close');" value="Close" />
 	</p>
 </form>

@@ -121,7 +121,7 @@
 	
 
 	<p class="clear">
-		<input type="submit" class="abutton" value="Save" accesskey="s" />
+		<input type="submit" class="abutton" value="Save"  />
 		<input type="button" class="abutton" value="Delete" onclick="$('#delete-panel').show()"/>
 		<?php if ($this->model->id && !$this->model->ismilestone): ?>
 			<input type="button" class="abutton" onclick="location.href='<?php echo build_url('project', 'recalculate', array('id' => $this->model->id))?>'" value="Calculate Estimates" />

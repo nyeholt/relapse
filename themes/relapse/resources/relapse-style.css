@@ -133,3 +133,6 @@ a.abutton  { text-decoration: none;}
 #item-title {background: #fefefe;  font-weight: bold; font-size: 14pt; }
 
 .flexigrid { font-family:"Lucida Grande","Lucida Sans","Lucida Sans Unicode","Luxi Sans",Tahoma,sans-serif; }
+
+.project-banner p {text-align: center;  font-size: 20px; font-weight: bold; color: #666; }
+.largerText { font-size: 150%; }

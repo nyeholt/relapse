@@ -44,7 +44,7 @@
 	<p><label for="confirm" style="clear: both;">Confirm Password</label><input id="confirm" type="password" name="confirm" size="20" maxlength="40" /></p>
 	<?php $this->selectList('Theme', 'theme', $this->themes) ?>
 	<p>
-		<input type="submit" class="abutton" name="submit" value="Update" accesskey="s" />
+		<input type="submit" class="abutton" name="submit" value="Update"  />
 	</p>
 	</form>
 	</div>

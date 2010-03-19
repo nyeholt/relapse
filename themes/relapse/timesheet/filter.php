@@ -63,7 +63,7 @@ Select filter criteria for detailed timesheet report
 			<b>Half Day:</b> <?php echo(za()->getConfig('day_length', 8)/2);?> hours
 			</p>		    
 			<br/>
-		    <input type="submit" class="abutton" value="Send" accesskey="s" />
+		    <input type="submit" class="abutton" value="Send"  />
 		</div>
 	</div>
 	</form>

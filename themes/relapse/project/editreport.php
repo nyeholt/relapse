@@ -38,7 +38,7 @@
 </div>
 
 <p class="clear">
-    <input type="submit" class="abutton wymupdate" value="Save" accesskey="s" />
+    <input type="submit" class="abutton wymupdate" value="Save"  />
 </p>
 </form>
 </div>

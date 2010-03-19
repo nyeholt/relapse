@@ -32,6 +32,21 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 	</div>
 </div>
 
+<div class="std project-banner">
+	<?php if ($this->project->budgeted > 0 && $this->project->currenttime > 0): ?>
+	<?php $this->percentageBar($this->project->currenttime / $this->project->budgeted * 100, 2, '#0045FF')?>
+	<?php endif ;?> 
+	<p>
+	Budgeted <span class="largerText"><?php $this->o(sprintf('%.2f', $this->project->budgeted > 0 ? $this->project->budgeted / za()->getConfig('day_length', 8) : 0)); ?></span> days,
+	<?php if ($this->project->featureestimate): ?>
+	Estimated
+	<span class="largerText"><?php $this->o(sprintf('%.2f', $this->project->featureestimate > 0 ? $this->project->featureestimate : 0)); ?></span> days,
+	<?php endif ;?>
+	Spent <span class="largerText"><?php $this->o(sprintf('%.2f', $this->project->currenttime > 0 ? $this->project->currenttime / za()->getConfig('day_length', 8) : 0)); ?></span> days so far
+	</p>
+
+</div>
+
 <?php if ($this->newIssues): ?>
 <?php include dirname(__FILE__).'/../issue/issue-list.php'; ?>
 <?php endif; ?>
@@ -40,9 +55,6 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 	<ul class="largeDualList">
 		<li>
 			<a href="<?php echo build_url('feature', 'list', array('projectid'=> $this->project->id)) ?>" onclick="" class="block">Features</a>
-		</li>
-		<li>
-			<a href="#" onclick="" class="block">Current Status</a>
 		</li>
 		<li>
 			<a href="<?php echo build_url('timesheet', 'index', array('projectid'=>$this->project->id))?>" onclick="" class="block">Time Spent</a>

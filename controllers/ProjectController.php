@@ -258,7 +258,7 @@ class ProjectController extends BaseController
     public function recalculateAction()
     {
     	$project = $this->byId();
-        $this->projectService->updateProjectEstimate($project);
+		$this->projectService->saveProject($project);
 		$this->onModelSaved($project);
     }
     

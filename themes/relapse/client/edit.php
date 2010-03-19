@@ -28,7 +28,7 @@
 	</fieldset>
 
 	<p class="clear">
-        <input type="submit" class="abutton" value="Save" accesskey="s" />
+        <input type="submit" class="abutton" value="Save"  />
 		<?php if ($this->viaajax): ?>
 		<input type="button" class="abutton" onclick="Relapse.closeDialog('clientdialog');" value="Close" />
 		<?php else: ?>
