@@ -53,8 +53,6 @@
 			$('.disableReorder').hide();
 		});
 
-
-		
 		$('.saveOrder').click(function () {
 			$('#featureList ul').each(function() {
 				var ids = $(this).sortable('toArray');

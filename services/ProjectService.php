@@ -705,6 +705,10 @@ class ProjectService
 		$select->joinInner('project', 'project.id = task.projectid', 'project.title as projecttitle');
 		
 		$select->order('task.id desc');
+
+		if (!is_null($page)) {
+		    $select->limitPage($page, $number);
+		}
 		
 		$tasks = $this->dbService->fetchObjects('Task', $select);
 		return $tasks;
@@ -1095,7 +1099,6 @@ class ProjectService
 			
 			$this->dbService->commit();
 
-			$this->saveProject($project);
     	} catch (Exception $e) {
     		$this->dbService->rollback();
     		throw $e;

@@ -66,6 +66,15 @@ class Task extends MappedObject
 	}
 
 	/**
+	 *
+	 * @return array
+	 */
+	public function listFields()
+	{
+		return array('id' => 'ID', 'title' => 'Title', 'due' => 'Due', 'getPercentage' => 'Percentage Complete');
+	}
+
+	/**
 	 * Gets the hierarchy of this task
 	 * 
 	 * @return array()
@@ -105,7 +114,7 @@ class Task extends MappedObject
 	public function getPercentage()
 	{
 		if ($this->timespent && $this->estimated) {
-			return ($this->timespent / ($this->estimated * 3600)) * 100;
+			return sprintf('%.2f', ($this->timespent / ($this->estimated * 3600)) * 100);
 		}
 
 		return '0.0';
@@ -169,7 +178,6 @@ class Task extends MappedObject
 			$user = array($user);
 		}
 		$this->userid = $user;
-
 		$this->projectService->saveTask($this);
 	}
 

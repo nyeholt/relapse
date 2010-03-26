@@ -135,7 +135,8 @@ class SearchController extends BaseController
 			$asArr[] = $row;
 		}
 		$obj = new stdClass();
-		$obj->page = ifset($this->_getAllParams(), $this->view->pagerName, 1);
+		$obj->page = ifset($this->_getAllParams(), 'page', 1);
+		$this->_getParam('rp', za()->getConfig('project_list_size', 10));
 		$obj->total = $this->view->totalCount;
 		$obj->rows = $asArr;
 		$this->getResponse()->setHeader('Content-type', 'text/x-json');
@@ -195,8 +196,7 @@ class SearchController extends BaseController
         $sort .= ' '.$sortDir;
 		
         $this->view->totalCount = $this->dbService->getObjectCount($where, $type);
-        $this->view->pagerName = 'page';
-        $currentPage = ifset($params, $this->view->pagerName, 1);
+        $currentPage = ifset($params, 'page', 1);
         $this->view->listSize = $this->_getParam('rp', za()->getConfig('project_list_size', 10));
         if ($this->_getParam("unlimited")) {
         	$currentPage = null;

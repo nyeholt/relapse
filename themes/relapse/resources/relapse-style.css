@@ -9,7 +9,8 @@ h4 { font-family: Verdana; font-weight: bold; }
 a { text-decoration: underline; color: #a96; font-weight: bold; }
 p { padding: 0.3em 0; line-height: 10pt; }
 
-.std { -moz-border-radius: 5px; -webkit-border-radius: 5px; border: 2px solid #000; background: #fff; padding: 1em; margin-bottom: 1em; overflow: hidden; }
+.std { border: 2px solid #000; background: #fff; padding: 1em; margin-bottom: 1em; overflow: hidden; }
+.std { -moz-box-shadow: 0 0 10px #333; -webkit-box-shadow: 0 0 10px #333; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
 .std h2 { font-size: 14pt; color: #666; border-bottom: 3px solid #eee; margin-bottom: 10px; }
 .clear { clear: both; }
 .inline { display: inline }
@@ -79,6 +80,10 @@ legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80
 
 .newbutton { background: transparent url(../../../resources/images/add.png) no-repeat; }
 .editbutton { background: transparent url(../../../resources/images/pencil.png) no-repeat; }
+
+.timingbutton { background: transparent url(../../../resources/images/clock_play.png) no-repeat; }
+.timesheetbutton { background: transparent url(../../../resources/images/clock_red.png) no-repeat; }
+
 .deletebutton { background: transparent url(../../../resources/images/delete.png) no-repeat; }
 .viewbutton { background: transparent url(../../../resources/images/eye.png) no-repeat; }
 

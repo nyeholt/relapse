@@ -34,6 +34,7 @@
 	<?php $this->script(resource('general.js')); ?>
 	<?php $this->script(theme_resource('relapse.js')); ?>
 	<?php $this->script(theme_resource('relapse-features.js')); ?>
+	<?php $this->script(theme_resource('relapse-tasks.js')); ?>
 
 	<style type="text/css">
 	</style>
@@ -41,6 +42,8 @@
 	<script type="text/javascript">
 	var CURRENT_USER_ID = '<?php echo za()->getUser()->getUsername();?>';
 	var NOTES_URL = '<?php echo build_url('note', 'view')?>';
+	var VALIDATION_TOKEN = '<?php echo $this->requestValidator(true)?>';
+	var BASE_URL = '<?php echo build_url(); ?>';
 
 	$(document).ready(function() {
 		$('#ajax-loading').ajaxStart(function() {

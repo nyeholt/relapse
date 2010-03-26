@@ -30,9 +30,8 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 		});
 
 		Relapse.IssueManager = function () {}
-		Relapse.TaskManager = function () {}
+		
 		Relapse.Issues = new Relapse.IssueManager();
-		Relapse.Tasks = new Relapse.TaskManager();
 
 		Relapse.createDialog = function (name, options)  {
 			createDialogDiv(name);
@@ -50,4 +49,6 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 			$('body').append('<div class="std dialog" id="'+name+'"></div>');
 		}
 	}
+
+	
 })(jQuery);

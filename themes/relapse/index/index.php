@@ -6,13 +6,14 @@
 				<a class="block" href="<?php echo build_url('client', 'index')?>">Clients</a>
 			</li>
 			<li>
-				<?php $this->dialogPopin('projectdialog', 'Add Project', build_url('project', 'edit', array('_ajax'=> 1)), array('title' => 'Create new project'), 'class="block"'); ?>
-			</li>
-			<li>
-				<?php $this->dialogPopin('taskdialog', 'Add Task', build_url('task', 'edit', array('_ajax'=> 1)), array('title' => 'Create new task'), 'class="block"'); ?>
+				<a class="block" href="<?php echo build_url('project', 'index')?>">Projects</a>
 			</li>
 		</ul>
 		<div class="clear"></div>
+	</div>
+
+	<div class="std">
+		<?php include dirname(__FILE__).'/../task/list.php'; ?>
 	</div>
 	
 	<div class="std">

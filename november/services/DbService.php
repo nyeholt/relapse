@@ -18,7 +18,15 @@
  */
  
 include_once dirname(dirname(__FILE__)).'/exceptions/AccessDeniedException.php';
+include_once dirname(__FILE__).'/DbResultSet.php';
+include_once dirname(__FILE__).'/CountableSelect.php';
 
+/**
+ * A data access service that provides basic object mapping functionality
+ *
+ * It is not an ORM provider, as it doesn't make any assumption about how relationships
+ * between objects work. You must do this yourself.
+ */
 class DbService implements Configurable
 {
     /**
@@ -88,6 +96,16 @@ class DbService implements Configurable
     public function __get($k)
     {
         return $this->proxied->$k;
+    }
+
+	    /**
+     * Creates and returns a new Zend_Db_Select object for this adapter.
+     *
+     * @return Zend_Db_Select
+     */
+    public function select()
+    {
+        return new CountableSelect($this->proxied);
     }
 
 	/**
@@ -173,7 +191,6 @@ class DbService implements Configurable
 
         $select = $this->applyWhereToSelect($where, $select);
         
-        
         if (is_null($order)) {
             $order = mb_strtolower($type).'.id asc';
         }
@@ -245,7 +262,7 @@ class DbService implements Configurable
      */
     public function fetchObjects($class, $sql=null, $bind = array(), $authRole = null)
     {
-        $tmp = new ArrayObject();
+        $tmp = new DbResultSet();
         $this->typeManager->includeType($class);
         $map = $this->typeManager->getTypeMap($class);
         
@@ -266,7 +283,6 @@ class DbService implements Configurable
             $sql->where(new Zend_Db_Expr('userrole.role & '.$authRole)); 
         }
         
-
         $result = $this->query($sql, $bind);
 
         while ($row = $result->fetch(Zend_Db::FETCH_ASSOC)) {
@@ -278,6 +294,13 @@ class DbService implements Configurable
 			$tmp[$obj->id] = $obj;
             // $tmp->append($obj);
         }
+
+		if ($sql instanceof CountableSelect && $sql->isLimited()) {
+			$countSql = $sql->getCountQuery();
+			$count = $this->fetchOne($countSql);
+			$tmp->setTotalResults($count);
+			
+		}
 
         return $tmp;
     }

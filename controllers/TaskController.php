@@ -48,24 +48,7 @@ class TaskController extends BaseController
 		$this->validateActions['saveaction'] = true;
 	}
 
-    /**
-     * Get a list of all the current user's tasks
-     * 
-     */
-	public function listAction()
-    {
-    	$unassignedProject = $this->projectService->getUnassignedTaskProject();
-
-    	if ($this->_getParam('all')) {
-    		$this->view->tasks = $this->projectService->getTasks(array('projectid <>' => $unassignedProject->id, 'complete='=>0));
-	    	$this->view->unassignedTasks = $this->projectService->getTasks(array('projectid=' => $unassignedProject->id));
-    	} else {
-	    	$this->view->tasks = $this->projectService->getUserTasks(za()->getUser(), array('projectid <>' => $unassignedProject->id, 'complete='=>0));
-	    	$this->view->unassignedTasks = $this->projectService->getUserTasks(za()->getUser(), array('projectid=' => $unassignedProject->id)); 
-    	}
-
-    	$this->renderView('task/list.php');
-    }
+    
     
     public function viewAction()
     { 
@@ -83,28 +66,25 @@ class TaskController extends BaseController
 
         // check the existence of the client to add this contact to
         $pid = (int) $this->_getParam('projectid') ? (int) $this->_getParam('projectid') : $this->view->model->projectid;
-        $project = $this->projectService->getProject($pid);
+		
+		$project = new Project();
+		if ($pid) {
+			$project = $this->projectService->getProject($pid);
+		}
         
-        if ($project == null) {
-			/* $this->flash("Specified project not found");
-            $this->renderView('error.php');
-            return;*/
-            $project = new Project();
-        }
-
         $this->view->project = $project;
-        $this->view->projectUsers = $this->projectService->getProjectUsers($project);
+
+		$this->view->projectUsers = $this->projectService->getProjectUsers($project);
         if ($project->id) {
             $this->view->projects = $this->projectService->getProjectsForClient($project->clientid);
+			$this->view->activeTasks = $this->projectService->getActiveProjectTasks($project);
         } else {
             $this->view->projects = new ArrayObject();
         }
-
-        $this->view->activeTasks = $this->projectService->getActiveProjectTasks($project);
         
         $this->view->categories = $this->view->model->constraints['category']->getValues();
         $this->view->clients = $this->clientService->getClients();
-        
+
         $this->view->model->tags = "";
 	    if ($this->view->model->id) {
             $this->view->notes = $this->notificationService->getNotesFor($this->view->model);
@@ -417,6 +397,49 @@ class TaskController extends BaseController
         $this->_response->setHeader('Content-type', 'text/javascript');
         echo Zend_Json_Encoder::encode($return);
     }
+
+	/**
+     * Get a list of all the current user's tasks in JSON format
+     *
+     */
+	public function listAction()
+    {
+		$page = ifset($this->_getAllParams(), 'page', 1);
+		$number = $this->_getParam('rp', za()->getConfig('project_list_size', 10));
+		$items = $this->projectService->getUserTasks(za()->getUser(), array('complete='=>0), 'task.due asc', $page, $number);
+
+		$dummy = new Task();
+		$listFields = $dummy->listFields();
+
+		$asArr = array();
+		$aggrRow = array();
+		foreach ($items as $item) {
+			$cell = array();
+			foreach ($listFields as $name => $display) {
+				if (method_exists($item, $name)) {
+					$cell[] = $item->$name();
+				} else {
+					$cell[] = $item->$name;
+				}
+			}
+
+			$row = array(
+				'id' => $item->id,
+				'cell' => $cell,
+			);
+
+			$asArr[] = $row;
+		}
+
+		$obj = new stdClass();
+		$obj->page = ifset($this->_getAllParams(), 'page', 1);
+		$obj->total = $items->getTotalResults();
+		$obj->rows = $asArr;
+		$this->getResponse()->setHeader('Content-type', 'text/x-json');
+		$json = Zend_Json::encode($obj);
+		echo $json;
+    }
+
 
 	/**
 	 * Create a link from another object to this task

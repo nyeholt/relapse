@@ -1,8 +1,6 @@
 <?php
 class IndexController extends BaseController 
 {
-    const FEED_URL = 'http://del.icio.us/rss/tag/lmintra';
-    
     /**
      * The project service
      *
@@ -42,11 +40,13 @@ class IndexController extends BaseController
         $startDay = date('Y-m-d').' 00:00:00';
     	$endDay = date('Y-m-d').' 23:59:59';
     	
-    	$this->view->taskInfo = $this->projectService->getTimesheetReport($user, null, null, -1, $start, $end, $cats, $order);
-    	$this->view->dayTasks = $this->projectService->getDetailedTimesheet($user, null, null, null, -1, $startDay, $endDay);
+//    	$this->view->taskInfo = $this->projectService->getTimesheetReport($user, null, null, -1, $start, $end, $cats, $order);
+//    	$this->view->dayTasks = $this->projectService->getDetailedTimesheet($user, null, null, null, -1, $startDay, $endDay);
 
 		$this->view->latest = $this->projectService->getProjects(array('ismilestone=' => 0), 'updated desc', 1, 10);
-    	
+  
+		
+
     	$task = new Task();
     	$this->view->categories = $task->constraints['category']->getValues();
     	$this->view->startDate = $start;
