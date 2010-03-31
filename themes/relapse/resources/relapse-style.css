@@ -141,3 +141,6 @@ a.abutton  { text-decoration: none;}
 
 .project-banner p {text-align: center;  font-size: 20px; font-weight: bold; color: #666; }
 .largerText { font-size: 150%; }
+
+.ui-timepickr { background-color: #33a; }
+.ui-timepickr { -moz-box-shadow: 0 0 5px #333; -webkit-box-shadow: 0 0 5px #333; -moz-border-radius: 3px; -webkit-border-radius: 3px; }

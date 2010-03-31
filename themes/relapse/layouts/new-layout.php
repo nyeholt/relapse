@@ -12,11 +12,15 @@
 	<?php $this->style(theme_resource('rounded-buttons/rounded-buttons.css')); ?>
 	<?php $this->style(theme_resource('jquery.simpledialog.css')); ?>
 	<?php $this->style(theme_resource('flexigrid/css/flexigrid/flexigrid.css')); ?>
+	<?php $this->style(theme_resource('jquery.ui/css/ui-lightness/ui.timepickr.css'))?>
+	<?php $this->style(theme_resource('jquery.timepickr.css')); ?>
+	
 	<?php $this->style(theme_resource('relapse-style.css')); ?>
 
 	<?php $this->script(theme_resource('jquery-1.4.1.min.js')); ?>
 	<?php $this->script(theme_resource('jquery.ui/js/jquery-ui-1.7.2.custom.min.js')); ?>
-	<?php $this->script(theme_resource('jquery.ui/js/timepicker.js')); ?>
+
+	<?php $this->script(theme_resource('jquery.timepickr.min.js')); ?>
 
 	<?php $this->script(theme_resource('rounded-buttons/rounded-buttons.js')); ?>
 	<?php $this->script(theme_resource('jquery.livequery.js')); ?>

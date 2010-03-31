@@ -1,9 +1,10 @@
 <form class="ajaxForm" id="task-timesheet-form" action="<?php echo build_url('timesheet', 'addtime', array('taskid'=>$this->task->id))?>" method="post">
 	<input type="hidden" name="_ajax" value="1" />
-     From <input type="text" id="task-time-beginning" name="start" size="15" />,
+     From <input type="text" id="task-time-beginning" name="start" size="15" /> <input type="text" id="task-time-start" name="start-time" size="6" />,
      add <input type="text" id="total-<?php echo $this->task->id?>" name="total" size="3" /> hours.
      <input type="submit" value="Add" class="abutton" />
      <?php $obj->showTime = true; $this->calendar('task-time-beginning', $obj) ?>
+	 <?php $this->timePicker('task-time-start'); ?>
 </form>
 
 <table class="item-table">

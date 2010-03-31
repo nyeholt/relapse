@@ -520,11 +520,11 @@ class TimesheetController extends NovemberController
      */
     public function addtimeAction()
     {
-        $start = strtotime($this->_getParam('start'));
+		$start = strtotime($this->_getParam('start', date('Y-m-d')) . ' ' . $this->_getParam('start-time', '12:00') . ':00');
         $end = $start + $this->_getParam('total') * 3600;
         $task = $this->projectService->getTask($this->_getParam('taskid'));
         $user = za()->getUser();
-        
+
         $this->projectService->addTimesheetRecord($task, $user, $start, $end);
 
 		$reloadUrl = build_url('timesheet','detailedTimesheet', array('taskid' => $task->id));
