@@ -17,7 +17,7 @@
 
 	<a title="Start Timer" href="#" onclick="popup('<?php echo build_url('timesheet', 'record', array('id' => $this->model->id))?>', 'timer', '500', '300'); return false;"><img class="small-icon" src="<?php echo resource('images/clock_play.png')?>" />
     </a>
-	<form method="post" action="<?php echo build_url('task', 'save');?>" class="data-form ajaxForm">
+	<form method="post" action="<?php echo build_url('task', 'save');?>" class="data-form ajaxForm" id="taskEditForm">
 
     <?php $this->requestValidator() ?>
 	<?php if ($this->viaajax): ?>
@@ -29,7 +29,7 @@
 	<?php endif; ?>
 	<fieldset class="primaryDetails">
 		<legend>Task Info</legend>
-		<?php $this->textInput('Task Title', 'title') ?>
+		<?php $this->textInput('Task Title', 'title', false, 'class="required"') ?>
 		<?php $this->textInput('Description', 'description', true); ?>
 		<?php $this->selectList('Category', 'category', $this->categories, '', '', '', false, true) ?>
 	    <?php $this->selectList('Assigned To', 'userid', $this->projectUsers, $this->u()->getUsername(), 'username', 'username', 5)?>
@@ -50,7 +50,7 @@
 
 	    <?php $this->textInput('Estimated hours', 'estimated', false, 'size="4"') ?>
 
-	    <?php $this->selectList('Client', 'clientid', $this->clients, $this->project->clientid, 'id', 'title') ?>
+	    <?php $this->selectList('Client', 'clientid', $this->clients, $this->project->clientid, 'id', 'title', false, true, 'class="required"') ?>
 	    <p>
 	    <label for="project">Milestone:</label>
 	    <?php $this->projectSelector('projectid', $this->projects, 'milestone', false, $this->project->id) ?>

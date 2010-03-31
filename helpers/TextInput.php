@@ -19,7 +19,7 @@ class Helper_TextInput extends NovemberHelper
         ?>
     <p>
     <label for="<?php echo $forField?>"><?php $this->view->o($label)?>:</label>
-    <textarea class="input" <?php echo $extra?> name="<?php echo $forField?>" id="<?php echo $forField?>"><?php $this->view->o($value, false) ?></textarea>
+    <textarea <?php echo $extra?> name="<?php echo $forField?>" id="<?php echo $forField?>"><?php $this->view->o($value, false) ?></textarea>
     </p>
         
         <?php    
@@ -27,7 +27,7 @@ class Helper_TextInput extends NovemberHelper
         ?>
     <p>
     <label for="<?php echo $forField?>"><?php $this->view->o($label)?>:</label>
-    <input class="input" type="text" name="<?php echo $forField?>"
+    <input type="text" name="<?php echo $forField?>"
         id="<?php echo $forField?>" value="<?php $this->view->o($value)?>" <?php echo $extra?>/>&nbsp;<?php echo $postFixLabel?>
     </p>
         

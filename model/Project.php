@@ -152,6 +152,18 @@ class Project extends MappedObject
         $this->durationfgp = za()->getConfig('free_support_period', 90);
     }
 
+		/**
+	 *
+	 * @return array
+	 */
+	public function listFields()
+	{
+		return array('id' => 'ID', 'title' => 'Title', 'description' => 'Description');
+	}
+
+	/**
+	 * Create a version when this project is created
+	 */
 	public function created()
 	{
 		$this->versioningService->createVersion($this);

@@ -66,12 +66,11 @@ class Task extends MappedObject
 	}
 
 	/**
-	 *
 	 * @return array
 	 */
 	public function listFields()
 	{
-		return array('id' => 'ID', 'title' => 'Title', 'due' => 'Due', 'getPercentage' => 'Percentage Complete');
+		return array('id' => 'ID', 'title' => 'Title', 'timespent' => 'Time Spent', 'due' => 'Due', 'getPercentage' => 'Percentage Complete');
 	}
 
 	/**

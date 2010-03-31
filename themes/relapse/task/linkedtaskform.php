@@ -4,7 +4,7 @@
 	<input type="hidden" name="type" value="<?php echo get_class($this->model) ?>" />
 	<p>
 		<label for="tasktitle">Add New Task</label>
-		<input class="input" type="text" id="tasktitle" name="tasktitle" />
+		<input class="required" type="text" id="tasktitle" name="tasktitle" />
 	</p>
 	<?php if ($this->projects): ?>
 	<p>In Milestone</p>

@@ -19,10 +19,10 @@
 
 	<?php $this->script(theme_resource('jquery-1.4.1.min.js')); ?>
 	<?php $this->script(theme_resource('jquery.ui/js/jquery-ui-1.7.2.custom.min.js')); ?>
-
+	<?php $this->script(theme_resource('jquery.metadata.js')); ?>
+	<?php $this->script(theme_resource('jquery.validate.pack.js')); ?>
 	<?php $this->script(theme_resource('jquery.timepickr.min.js')); ?>
 
-	<?php $this->script(theme_resource('rounded-buttons/rounded-buttons.js')); ?>
 	<?php $this->script(theme_resource('jquery.livequery.js')); ?>
 	<?php $this->script(theme_resource('jquery.simpledialog.js')); ?>
 	<?php $this->script(theme_resource('flexigrid/flexigrid.js')); ?>

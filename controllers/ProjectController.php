@@ -58,19 +58,6 @@ class ProjectController extends BaseController
     
     public function indexAction()
     {
-        $totalCount = $this->projectService->getProjectCount(array('parentid='=>0));
-        
-        $this->view->pagerName = 'proj-page';
-        $currentPage = ifset($this->_getAllParams(), $this->view->pagerName, 1);
-        $this->view->letters = $this->projectService->getTitleLetters();
-        
-        $this->view->totalProjects = $totalCount;
-        $this->view->projectListSize = za()->getConfig('project_list_size');
-        
-        $currentLetter = ifset($this->_getAllParams(), $this->view->pagerName, ifset($this->view->letters, 0, 'A'));
-
-        // Get all projects
-        $this->view->projects = $this->projectService->getProjects(array('parentid='=>0, 'title like '=>$currentLetter.'%'), array('clienttitle asc','title asc'), $currentPage, za()->getConfig('project_list_size'));
         $this->renderView('project/index.php');
     }
 
@@ -323,30 +310,10 @@ class ProjectController extends BaseController
     
     /**
      * Load the contacts for a given client id
-     *
      */
     public function listAction()
     {
-        $client = $this->clientService->getClient((int) $this->_getParam('clientid'));
-        if (!$client) {
-            echo "Failed loading projects";
-            return;
-        }
-
-        $this->view->hideHeader = true;
-        $this->view->client = $client;
-        
-        $totalCount = $this->projectService->getProjectCount(array('clientid=' => $client->id, 'parentid='=> 0));
-        
-        $this->view->pagerName = 'ptasks';
-        $currentPage = ifset($this->_getAllParams(), $this->view->pagerName, 1);
-        
-        $this->view->totalProjects = $totalCount;
-        $this->view->projectListSize = za()->getConfig('project_task_list_size');
-        
-        $this->view->projects = $this->projectService->getProjectsForClient($client);
-
-        $this->renderRawView('project/index.php');
+        $this->renderView('project/index.php');
     }
     
     /**

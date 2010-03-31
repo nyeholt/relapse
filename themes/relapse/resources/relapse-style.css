@@ -47,7 +47,7 @@ a.inlineAction { display: inline; padding: 5px 0;}
 .dialog { display: none; }
 .dialogContent {overflow: auto; min-height: 300px; max-height: 480px; padding: 0.3em; }
 .dialogClose { background:#000000; color:#FFFFFF; cursor:pointer; font-weight:bold; position:absolute; right:0; text-align:center; top:0; width:20px; }
-input, select, textarea { font-size: 1em; padding: 0.4em; }
+input, select, textarea { font-size: 1em; padding: 4px; }
 option, textarea, input[type=text], input[type=password] { border: 1px solid #ddd; background: #fff url(input-bg.png) repeat-x scroll bottom; }
 
 .calendar { z-index: 1001 }
@@ -64,7 +64,7 @@ input[size], textarea[cols] { width: auto; }
 .data-form .valuelistselect { width: 210px; }
 
 .data-form .calendarInput { width: 100px }
-.data-form label, .dataDetail label { display: block; float: left; width: 150px; margin-right: 2em; }
+.data-form label, .dataDetail label { display: block; float: left; width: 150px; margin-right: 10px; }
 
 fieldset { margin-bottom: 1em; background-color: #ffffdc; }
 fieldset { border-bottom: 1px solid #000; border-right: 1px solid #000; border-top: 1px solid #fff; border-left: 1px solid #fff; }
@@ -144,3 +144,6 @@ a.abutton  { text-decoration: none;}
 
 .ui-timepickr { background-color: #33a; }
 .ui-timepickr { -moz-box-shadow: 0 0 5px #333; -webkit-box-shadow: 0 0 5px #333; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
+
+.error { border: 1px solid #a33 !important; }
+label.error { background-color: #a33; color: #fff; padding: 4px; display: block; width: auto; margin: 0 0 0 160px; float: none; width: 300px; }

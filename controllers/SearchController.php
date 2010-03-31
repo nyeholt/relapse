@@ -175,7 +175,7 @@ class SearchController extends BaseController
 		foreach ($fields as $name => $val) {
 			// if we have a param with $name, add it to the filter
 			$val = ifset($params, $name, null);
-			if ($val) {
+			if (!is_null($val)) {
 				$where[$name.' ='] = $val;
 			}
 		}

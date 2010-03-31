@@ -15,6 +15,8 @@
 	<div class="std">
 		<?php include dirname(__FILE__).'/../task/list.php'; ?>
 	</div>
+
+	<?php include dirname(__FILE__).'/../issue/issue-list.php'; ?>
 	
 	<div class="std">
 		<h2>Go to...</h2>

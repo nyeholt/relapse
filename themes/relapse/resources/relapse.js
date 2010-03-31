@@ -9,28 +9,30 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 
 		$('.ajaxForm').livequery(function () {
 			var $form = $(this);
-			$(this).ajaxForm({
-				success: function (data) {
-					// if the form has the 'noreplace' class, we don't replace
-					// the content
-					var d = $form.parents('.dialogContent');
-					if (d.hasClass('appendresult')) {
-						d.append(data);
-					} else {
-						d.html(data);
-					}
+			$form.validate({
+				submitHandler: function () {
+
+					var submits = $form.find('input[type=submit]');
+					submits.attr("value", "Please wait...");
+					submits.attr('disabled', 'true');
+
+					$form.ajaxSubmit({
+						success: function (data) {
+							// if the form has the 'noreplace' class, we don't replace
+							// the content
+							var d = $form.parents('.dialogContent');
+							if (d.hasClass('appendresult')) {
+								d.append(data);
+							} else {
+								d.html(data);
+							}
+						}
+					});
 				}
-			});
-			$form.submit(function () {
-				var submits = $form.find('input[type=submit]');
-				submits.attr("value", "Please wait...");
-				submits.attr('disabled', 'true');
-				return true;
 			});
 		});
 
 		Relapse.IssueManager = function () {}
-		
 		Relapse.Issues = new Relapse.IssueManager();
 
 		Relapse.createDialog = function (name, options)  {

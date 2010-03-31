@@ -5,6 +5,23 @@
 	}
 
 	Relapse.TaskManager.prototype = {
+		/**
+		 * Make sure that the timespent is formatted nicely
+		 */
+		preProcessTableData: function (data) {
+			if (data && data.rows && data.rows.length) {
+				for (var i = 0; i < data.rows.length; i++) {
+					var row = data.rows[i];
+					var timespent = parseFloat(row.cell[2]);
+					if (timespent > 0) {
+						timespent = timespent / 3600;
+						row.cell[2] = timespent.toFixed(2);
+					}
+				}
+			}
+			return data;
+		},
+
 		tableCommand: function (cmd, grid) {
 			if (cmd == 'New') {
 				Relapse.createDialog('taskdialog', {title: 'Create Task', url: BASE_URL + 'task/edit'});

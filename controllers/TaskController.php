@@ -406,7 +406,11 @@ class TaskController extends BaseController
     {
 		$page = ifset($this->_getAllParams(), 'page', 1);
 		$number = $this->_getParam('rp', za()->getConfig('project_list_size', 10));
-		$items = $this->projectService->getUserTasks(za()->getUser(), array('complete='=>0), 'task.due asc', $page, $number);
+
+		$sort = $this->_getParam('sortname', 'due');
+		$order = $this->_getParam('sortorder', 'asc');
+
+		$items = $this->projectService->getUserTasks(za()->getUser(), array('complete='=>0), 'task.'.$sort.' '.$order, $page, $number);
 
 		$dummy = new Task();
 		$listFields = $dummy->listFields();

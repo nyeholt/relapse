@@ -4,11 +4,11 @@
 	$options = new stdClass();
 	$params = array('json' => 1);
 	$model = null;
-	if ($this->project) {
+	if (isset($this->project)) {
 		$model = $this->project;
 		$params['projectid'] = $this->project->id;
 	}
-	if ($this->client) {
+	if (isset($this->client)) {
 		$model = $this->client;
 		$params['clientid'] = $this->client->id;
 	}

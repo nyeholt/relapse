@@ -25,9 +25,7 @@
 
 
 <div id="projects" class="std">
-	<div id="client-info-<?php echo $this->client->id?>-projects">
-		<?php $this->dispatch('project', 'list', array('clientid'=> $this->client->id)); ?>
-	</div>
+	<?php include dirname(__FILE__).'/../project/list.php'; ?>
 	<p>
 	<a class="abutton" href="<?php echo build_url('project', 'edit', array('clientid' => $this->client->id))?>">Add Project</a>
 	</p>

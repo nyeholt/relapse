@@ -26,9 +26,9 @@
 		<input type="hidden" value="<?php echo $this->model->id?>" name="id" />
 		<?php else: ?>
 		<?php endif; ?>
-		<?php $this->textInput('Title', 'title') ?>
+		<?php $this->textInput('Title', 'title', false, 'class="required"') ?>
 		<p>Please provide as much information describing the impact of this request to help us better prioritise it</p>
-		<?php $this->textInput('Description', 'description', true) ?>
+		<?php $this->textInput('Description', 'description', true, 'class="required"') ?>
 		<?php $this->textInput('Estimated effort (hours)', 'estimated', false, ' size="4"'); ?>
 		<?php if ($this->model->id): ?>
 		<p>
@@ -92,7 +92,8 @@
 			<?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
 				<p>
 				<label for="clientid">Client:</label>
-				<select name="clientid" id="clientid">
+				<select name="clientid" id="clientid" class="required">
+					<option></option>
 					<?php
 					$sel = $this->model->clientid ? $this->model->clientid : $this->client->id;
 					foreach ($this->clients as $client): ?>

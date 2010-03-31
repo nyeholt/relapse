@@ -704,7 +704,7 @@ class ProjectService
 		
 		$select->joinInner('project', 'project.id = task.projectid', 'project.title as projecttitle');
 		
-		$select->order('task.id desc');
+		$select->order($order);
 
 		if (!is_null($page)) {
 		    $select->limitPage($page, $number);
@@ -983,6 +983,9 @@ class ProjectService
      */
     public function updateProjectEstimate(Project $project)
     {
+		if (!$project->id) {
+			return;
+		}
     	$estimate = 0;
     	// do we actually save this project and update its parents? 
     	$update = false;

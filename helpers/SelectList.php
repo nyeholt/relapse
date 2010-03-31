@@ -14,7 +14,7 @@ class Helper_SelectList extends NovemberHelper
     	if ($empty) {
     	    echo '<option value=""></option>'."\n";
     	}
-    	
+
         $sel = isset($this->view->model->$forField) && !is_null($this->view->model->$forField) ? $this->view->model->$forField: $default;
 
         foreach ($options as $option): 
