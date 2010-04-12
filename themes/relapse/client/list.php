@@ -17,8 +17,8 @@ $options->searchitems = array(
 	array('display' => 'All', 'name' => 'all'),
 );
 
-$options->sortname = 'id';
-$options->sortorder = 'desc';
+$options->sortname = 'title';
+$options->sortorder = 'asc';
 $options->usepager = true;
 $options->singleSelect = true;
 $options->useRp = true;

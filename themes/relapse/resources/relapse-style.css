@@ -53,7 +53,8 @@ option, textarea, input[type=text], input[type=password] { border: 1px solid #dd
 .calendar { z-index: 1001 }
 .ui-datepicker { z-index: 2000 }
 
-.data-form input, .data-form select, .data-form textarea { width: 300px; }
+.data-form input, .data-form textarea { width: 500px; }
+.data-form select { width: 300px }
 .data-form textarea, .data-form select, .data-form input[type=text] { font-size: 12pt }
 .data-form textarea { min-height: 150px; }
 input[size], textarea[cols] { width: auto; }

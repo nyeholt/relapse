@@ -86,7 +86,8 @@
 	</p>
 
 	<p style="margin-bottom: 1em;">
-	<?php $this->dialogPopin('featuredialog', 'Add', build_url('feature', 'edit', array('projectid'=>$feature->projectid)), array(), 'class="abutton"', 'input') ?>
+	<a href="<?php echo build_url('feature', 'doc', array('projectid' => $this->project->id))?>" class="abutton">Read</a>
+	<?php $this->dialogPopin('featuredialog', 'Add', build_url('feature', 'edit', array('projectid'=>$this->project->id)), array(), 'class="abutton"', 'input') ?>
 	<input type="button" class="abutton enableReorder" value="Sort" />
 	<input type="button" class="abutton disableReorder" value="Done" style="display:none;" />
 	<input type="button" class="abutton saveOrder" value="Save" style="display:none;" />
@@ -96,7 +97,8 @@
 	</ul>
 	<?php if($tmpFeature != null): ?>
 	<p>
-	<?php $this->dialogPopin('featuredialog', 'Add', build_url('feature', 'edit', array('projectid'=>$feature->projectid)), array(), 'class="abutton"', 'input') ?>
+		<a href="<?php echo build_url('feature', 'doc', array('projectid' => $this->project->id))?>" class="abutton">Read</a>
+	<?php $this->dialogPopin('featuredialog', 'Add', build_url('feature', 'edit', array('projectid'=>$this->project->id)), array(), 'class="abutton"', 'input') ?>
 	<input type="button" class="abutton enableReorder" value="Sort" />
 	<input type="button" class="abutton disableReorder" value="Done" style="display:none;" />
 	<input type="button" class="abutton saveOrder" value="Save" style="display:none;" />
