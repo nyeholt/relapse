@@ -309,7 +309,7 @@ class ProjectService
      * 
      * @return the created subproject 
      */
-    public function createSubProject(Project $project, $newTitle)
+    public function createSubProject(Project $project, $newTitle, $asmilestone = 0)
     {
         $newProject = new Project();
         
@@ -324,7 +324,8 @@ class ProjectService
 		$newProject->rate = $project->rate;
 		$newProject->url = $project->url;
 		$newProject->svnurl = $project->svnurl;
-		$newProject->isprivate = $project->isprivate ;
+		$newProject->isprivate = $project->isprivate;
+		$newProject->ismilestone = $asmilestone;
 
         // save the project 
         return $this->saveProject($newProject); 
@@ -340,8 +341,7 @@ class ProjectService
      */
     public function createMilestone(Project $project, $title, $dueDate)
     {
-    	$milestone = $this->createSubProject($project, $title);
-    	$milestone->ismilestone = 1;
+    	$milestone = $this->createSubProject($project, $title, true);
     	$milestone->due = $dueDate;
     	return $this->saveProject($milestone);
     }

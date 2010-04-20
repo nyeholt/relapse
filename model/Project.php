@@ -166,6 +166,10 @@ class Project extends MappedObject
 	 */
 	public function created()
 	{
+		if (!$this->ismilestone) {
+			$this->createDefaultMilestone();
+		}
+
 		$this->versioningService->createVersion($this);
 	}
     
@@ -194,7 +198,12 @@ class Project extends MappedObject
     {
     	return mb_strlen($this->completed);
     }
-    
+
+	/**
+	 * Has this project started?
+	 *
+	 * @return boolean
+	 */
     public function hasStarted()
     {
     	return mb_strlen($this->actualstart);
@@ -405,6 +414,7 @@ class Project extends MappedObject
 	 * @var unmapped
 	 */
 	public $milestones = null;
+	
 	/**
 	 * Gets the milestones of this project, which are
 	 * all the child projects with ismilestone set to true
@@ -418,6 +428,13 @@ class Project extends MappedObject
 		}
 
 		return $this->milestones;
+	}
+
+	/**
+	 * Create a default milestone for this project if none exists
+	 */
+	public function createDefaultMilestone($name="Project Completion") {
+		return $this->projectService->createMilestone($this, $name, $this->due);
 	}
 	
 	/**

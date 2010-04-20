@@ -343,6 +343,59 @@ class TaskController extends BaseController
 		$this->renderRawView('task/linkedtaskform.php');
 	}
 
+	/**
+	 * Creates a new task and begins timing immediately
+	 */
+	public function startnewtaskAction() {
+		$params = $this->_getAllParams();
+        $params['createtype'] = 'Task';
+        if (!isset($params['newtaskProjectid']) && ($params['type'] == 'Issue' || $params['type'] == 'Feature')) {
+			switch ($params['type']) {
+				case 'Issue': {
+					$issue = $this->byId($params['id'], 'Issue');
+					// get its project, then a milestone in that project
+					$project = $this->projectService->getProject($issue->projectid);
+					$possibles = $project->getMilestones();
+					if (!count($possibles)) {
+						$milestone = $project->createDefaultMilestone();
+						$params['newtaskProjectid'] = $milestone->id;
+					} else {
+						$milestone = $possibles->getIterator()->current();
+						$params['newtaskProjectid'] = $milestone->id;
+					}
+					break;
+				}
+				case 'Feature': {
+					$feature = $this->byId($params['id'], 'Feature');
+					// get its project, then a milestone in that project
+					if ($feature->milestone) {
+						$params['newtaskProjectid'] = $feature->milestone;
+					} else {
+						$project = $feature->projectid;
+						$possibles = $project->getMilestones();
+						if (!count($possibles)) {
+							$milestone = $project->createDefaultMilestone();
+							$params['newtaskProjectid'] = $milestone->id;
+						} else {
+							$milestone = $possibles->getIterator()->current();
+							$params['newtaskProjectid'] = $milestone->id;
+						}
+					}
+					break;
+				}
+			}
+        }
+
+        $task = $this->itemLinkService->createNewItem($params);
+        $prefix = ifset($params, 'prefix', '');
+        $task->title = $prefix . ifset($params, 'tasktitle', $task->title);
+
+        $task->projectid = ifset($params, 'projectid', ifset($params, 'newtaskProjectid'));
+		$task->assignTo(za()->getUser()->username);
+
+		echo $task->id;
+	}
+
     /**
      * Create a new task that's linked from another object
      *

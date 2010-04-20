@@ -157,7 +157,7 @@ class NovemberController extends Zend_Controller_Action
      */
     protected function getCallingUrl()
     {
-        return ifset($_SERVER, 'HTTP_REFERER');
+		return $this->_getParam('__return_url', ifset($_SERVER, 'HTTP_REFERER'));
     }
     
     /**

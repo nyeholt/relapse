@@ -36,7 +36,7 @@
 				$('.trSelected',grid).each (function () {
 					var id = $(this).attr('id').replace('row', '');
 					if (id > 0) {
-						popup(BASE_URL + 'timesheet/record/id/' + id, 'timer', '500', '300');
+						this.startTiming(id);
 					}
 				});
 				
@@ -56,6 +56,15 @@
 						});
 					}
 				});
+			}
+		},
+
+		/**
+		 * Call to start timing a task
+		 */
+		startTiming: function (taskId) {
+			if (taskId) {
+				popup(BASE_URL + 'timesheet/record/id/' + taskId, 'timer', '500', '300');
 			}
 		}
 	}

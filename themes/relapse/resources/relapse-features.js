@@ -28,6 +28,45 @@
 
 			// refresh any tablegrid lists too, just in case :p
 			$('.milestone-entry .pReload').click();
+		},
+
+		tableCommand: function (cmd, grid, contextUrl) {
+			if (cmd == 'New') {
+				Relapse.createDialog('featuredialog', {title: 'Create Feature', url: contextUrl});
+			} else if (cmd == 'Edit') {
+				$('.trSelected',grid).each (function () {
+					var id = $(this).attr('id').replace('row', '');
+					if (id > 0) {
+						Relapse.createDialog('featuredialog', {title: 'Edit Feature', url: BASE_URL + 'feature/edit/id/'+id});
+					}
+				});
+			} else if (cmd == 'Delete') {
+				$('.trSelected',grid).each (function () {
+					var id = $(this).attr('id').replace('row', '');
+					if (id > 0 && confirm("Are you sure you want to delete this?")) {
+						$.post(BASE_URL + 'feature/delete/_ajax/1/__validation_token/' + VALIDATION_TOKEN, {id: id}, function () {
+							$('.pReload',grid).click();
+						});
+					}
+				});
+			}
+		},
+
+		/**
+		 * Immediately start timing this feature
+		 */
+		startTiming: function (grid) {
+			// first create the task, then launch timer for it
+			$('.trSelected',grid).each (function () {
+				var id = $(this).attr('id').replace('row', '');
+				$.post(BASE_URL + 'task/startnewtask', {id: id, type: 'Feature', prefix: 'Working on Feature '}, function (data) {
+					if (parseInt(data)) {
+						// lets start timing for this one
+						Relapse.Tasks.startTiming(parseInt(data));
+						$('.pReload',grid).click();
+					}
+				});
+			});
 		}
 	}
 

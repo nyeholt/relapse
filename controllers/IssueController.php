@@ -284,6 +284,8 @@ class IssueController extends BaseController
             $this->issueService->saveIssue($issue);
             $this->notificationService->sendWatchNotifications($note, array('controller' => 'issue', 'action' => 'edit', 'params'=>array('id'=>$issue->id))); 
         }
+
+		
  
         $this->redirect('issue', 'edit', array('id'=>$issue->id, '#notes'));
     }

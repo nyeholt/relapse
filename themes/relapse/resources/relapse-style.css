@@ -87,6 +87,7 @@ legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80
 
 .deletebutton { background: transparent url(../../../resources/images/delete.png) no-repeat; }
 .viewbutton { background: transparent url(../../../resources/images/eye.png) no-repeat; }
+.startbutton { background: transparent url(../../../resources/images/bullet_go.png) no-repeat; }
 
 .exportbutton { background: transparent url(database_go.png) no-repeat; }
 
@@ -148,3 +149,10 @@ a.abutton  { text-decoration: none;}
 
 .error { border: 1px solid #a33 !important; }
 label.error { background-color: #a33; color: #fff; padding: 4px; display: block; width: auto; margin: 0 0 0 160px; float: none; width: 300px; }
+
+.note { background-color: #fff; border: 1px solid #dda; width: 480px; margin: 0px auto; margin-bottom: 2em; padding: 10px; }
+.note input, .note textarea { width: 460px; }
+.note { -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+
+fieldset ul li { width: 60%; background-color: #fff; border: 1px solid #dda; margin-bottom: 1em; padding: 1em; }
+fieldset ul li { -moz-border-radius: 5px; -webkit-border-radius: 5px; }

@@ -117,7 +117,14 @@
 	</p>
 
 </form>
-        
+
+<?php if ($this->model->id): ?>
+	<fieldset class="data-form">
+		<legend>Notes</legend>
+	<?php $this->noteList($this->notes, build_url('issue', 'addNote'), $this->allUsers, $this->subscribers); ?>
+	</fieldset>
+<?php endif; ?>
+
 <?php if ($this->model->id && $this->u()->hasRole(User::ROLE_EXTERNAL)): ?>
 <fieldset class="data-form">
 	<legend>Tasks</legend>
@@ -149,8 +156,6 @@
 	</p>
 	<?php endif; ?>
 </fieldset>
-
-<?php $this->noteList($this->notes, build_url('issue', 'addNote'), $this->allUsers, $this->subscribers); ?>
 
 
 <fieldset id="files">

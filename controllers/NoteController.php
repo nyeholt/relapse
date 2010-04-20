@@ -57,7 +57,9 @@ class NoteController extends BaseController
 		}
 		
     	$caller = $this->getCallingUrl();
-        if (mb_strlen($caller)) {
+		if ($this->_getParam('_ajax')) {
+
+		} else if (mb_strlen($caller)) {
             $this->_redirect($caller);
         }
     }
@@ -69,12 +71,13 @@ class NoteController extends BaseController
      */
     protected function onModelDeleted($model)
     {
-        $this->flash('Deleted '.get_class($model).' #'.$model->id);
-        
-        // $this->redirect('note', 'viewthread', array('toid'=>$model->attachedtoid, 'totype'=>$model->attachedtotype));
-        $this->_redirect($this->getCallingUrl());
+		if ($this->_getParam('_ajax')) {
+			// do nothing, assume that it'll just be dumped
+		} else {
+			$this->_redirect($this->getCallingUrl());
+		}
     }
-    
+
     /**
      * Get the list of notes for a given item of a given type
      *

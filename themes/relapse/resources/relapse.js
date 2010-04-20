@@ -32,9 +32,6 @@ var Relapse = typeof(Relapse) == "undefined" ? {} : Relapse;
 			});
 		});
 
-		Relapse.IssueManager = function () {}
-		Relapse.Issues = new Relapse.IssueManager();
-
 		Relapse.createDialog = function (name, options)  {
 			createDialogDiv(name);
 			$('#'+name).simpleDialog(options);
