@@ -2,7 +2,7 @@
 
 include_once 'model/Contact.php';
 
-class ContactController extends BaseController 
+class ContactController extends NovemberController
 {
     /**
      * Client Service

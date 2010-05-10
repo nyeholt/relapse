@@ -135,9 +135,42 @@ class ProjectController extends BaseController
         
 		za()->recordStat('projectcontroller::setupview', getmicrotime() - $__start);
 		$__start = getmicrotime();
-        $this->renderView('project/view.php');
+		if ($this->_getParam('_ajax')) {
+			$this->renderRawView('project/ajaxView.php');
+		} else {
+			$this->renderView('project/view.php');
+		}
+        
         za()->recordStat('projectcontroller::viewrendered', getmicrotime() - $__start);
     }
+
+	public function milestoneslistAction() {
+		$project = $this->projectService->getProject((int) $this->_getParam('projectid'));
+        if ($project == null) {
+            $this->flash("Project not found");
+            $this->renderRawView('error.php');
+            return;
+        }
+
+		$this->view->projectuser = za()->getUser();
+        if ($this->_getParam('projectuser')) {
+            if ($this->_getParam('projectuser') == 'all') {
+                $this->view->projectuser = null;
+            } else {
+            	$this->view->projectuser = $this->userService->getUser($this->_getParam('projectuser'));
+            }
+        }
+
+		$this->view->groupusers = $project->getUsers();
+
+        if ($this->view->projectuser && !isset($this->view->groupusers[$this->view->projectuser->id])) {
+        	$this->view->projectuser = null;
+        }
+
+		$this->view->project = $project;
+
+		$this->renderRawView('project/milestone-list.php');
+	}
     
     
     public function childprojectsAction()
@@ -281,19 +314,12 @@ class ProjectController extends BaseController
     {
     	// if it's a project, we'll use the project service to save stuff
 		if ($modelType == 'Project') {
-			try {
-				return $this->projectService->saveProject($params);
-			} catch (Exception $e) {
-				$this->flash($e->getMessage());
-				// try getting the current project if any
-				
-				return $this->byId();
-			}
+			return $this->projectService->saveProject($params);
 		} else {
 			return parent::saveObject($params, $modelType);
 		}
     }
-    
+
     /**
      * Called to redirect after saving a model object
      *
@@ -307,13 +333,17 @@ class ProjectController extends BaseController
 		}
     }
     
-    
-    /**
-     * Load the contacts for a given client id
-     */
     public function listAction()
     {
-        $this->renderView('project/index.php');
+		$cid = (int) $this->_getParam('clientid');
+		if ($cid) {
+			$this->view->client = $this->clientService->getClient($cid);
+		}
+		if ($this->_getParam('_ajax')) {
+			$this->renderRawView('project/list.php');
+		} else {
+			$this->renderView('project/list.php');
+		}
     }
     
     /**

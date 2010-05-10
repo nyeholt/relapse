@@ -216,10 +216,19 @@ if ($this->showLinks) {
 	
 	$this->params['start'] = date('Y-m-d', $start - (7 * 86400)); 
 	?>
+
+<?php if (isset($this->params['_ajax'])): ?>
+	<?php $this->dialogPopin('currenttimes', 'Previous Week', build_url('timesheet', 'index', $this->params), array('closeExisting' => true, 'width' => 1000)); ?>
+<?php else: ?>
 	<a href="<?php echo build_url('timesheet', 'index', $this->params);?>">Previous Week</a>
-	
+<?php endif; ?>
 	<?php 
 	$this->params['start'] = date('Y-m-d', $end + 86400); 
 	?>
+<?php if (isset($this->params['_ajax'])): ?>
+	<?php $this->dialogPopin('currenttimes', 'Next Week', build_url('timesheet', 'index', $this->params), array('closeExisting' => true, 'width' => 1000)); ?>
+<?php else: ?>
 	<a href="<?php echo build_url('timesheet', 'index', $this->params);?>">Next Week</a>
+<?php endif; ?>
+	
 <?php } ?>

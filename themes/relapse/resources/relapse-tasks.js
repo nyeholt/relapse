@@ -23,6 +23,7 @@
 		},
 
 		tableCommand: function (cmd, grid) {
+			var $this = this;
 			if (cmd == 'New') {
 				Relapse.createDialog('taskdialog', {title: 'Create Task', url: BASE_URL + 'task/edit'});
 			} else if (cmd == 'Edit') {
@@ -36,7 +37,7 @@
 				$('.trSelected',grid).each (function () {
 					var id = $(this).attr('id').replace('row', '');
 					if (id > 0) {
-						this.startTiming(id);
+						$this.startTiming(id);
 					}
 				});
 				

@@ -69,10 +69,20 @@ class IssueController extends BaseController
     {
         $this->bindIssueListViewData(array('status <>'=>Issue::CLOSED_STATUS));
 
-        if ($this->_getParam('__ajax')) {
-            $this->renderRawView('issue/list.php');            
+		$pid = (int) $this->_getParam('projectid');
+		$cid = (int) $this->_getParam('clientid');
+
+		if ($pid) {
+			$this->view->project = $this->projectService->getProject($pid);
+		}
+		if ($cid) {
+			$this->view->client = $this->clientService->getClient($cid);
+		}
+
+        if ($this->_getParam('__ajax') || $this->_getParam('_ajax')) {
+            $this->renderRawView('issue/issue-list.php');
         } else {
-            $this->renderView('issue/list.php');
+            $this->renderView('issue/issue-list.php');
         }
     }
 
@@ -302,7 +312,6 @@ class IssueController extends BaseController
 
         $this->view->model = $project; 
         $this->view->attachedToType = 'projectid';
-
         $this->view->minimal = true; 
 
         $this->renderRawView('issue/list.php'); //ajax-issue-list.php');

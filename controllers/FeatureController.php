@@ -47,6 +47,7 @@ class FeatureController extends BaseController
 			<script>
 			Relapse.Features.updateFeatureList($f);
 			Relapse.closeDialog('featuredialog');
+			// and just in case we're in the sidebar...
 			</script>";
 		} else {
 			if ($model->projectid) {
@@ -241,7 +242,11 @@ class FeatureController extends BaseController
 			$project = $this->projectService->getProject((int) $this->_getParam('projectid'));
 			$this->view->features = $this->featureService->getProjectFeatures($project);
 			$this->view->project = $project;
-			$this->renderView('feature/list.php');
+			if ($this->_getParam('_ajax')) {
+				$this->renderRawView('feature/list.php');
+			} else {
+				$this->renderView('feature/list.php');
+			}
 		}
 	}
 
@@ -250,7 +255,11 @@ class FeatureController extends BaseController
 		$project = $this->projectService->getProject((int) $this->_getParam('projectid'));
 		$this->view->features = $this->featureService->getProjectFeatures($project);
 		$this->view->project = $project;
-		$this->renderView('feature/doco.php');
+		if ($this->_getParam('_ajax')) {
+			$this->renderRawView('feature/doco.php');
+		} else {
+			$this->renderView('feature/doco.php');
+		}
 	}
 
 	protected function listjsonAction()
@@ -287,6 +296,16 @@ class FeatureController extends BaseController
 		$this->getResponse()->setHeader('Content-type', 'text/x-json');
 		$json = Zend_Json::encode($obj);
 		echo $json;
+	}
+
+	/**
+	 * List all the features that appear in a milestone in a flexigrid view
+	 */
+	public function milestonelistAction() {
+		$this->view->milestone = $this->projectService->getProject((int) $this->_getParam('milestoneid'));
+		$this->view->project = $this->projectService->getProject($this->view->milestone->parentid);
+
+		$this->renderRawView('feature/milestone-list.php');
 	}
     
     /**
@@ -435,7 +454,9 @@ class FeatureController extends BaseController
                 $this->log->debug("Setting order for {$feature->title} to {$i}");
                 $this->projectService->saveFeature($feature);
             }
-            $this->redirect('project', 'view', array('id' => $feature->projectid, '#features'));
+			if (!$this->_getParam('_ajax')) {
+				$this->redirect('project', 'view', array('id' => $feature->projectid, '#features'));
+			}
         }
     }
     

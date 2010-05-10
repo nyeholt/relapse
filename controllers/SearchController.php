@@ -38,7 +38,12 @@ class SearchController extends BaseController
         $this->view->results = $this->filterResults($hits);
         $this->view->query = $query;
         $this->view->perPage = 6;
-        $this->renderView('search/results.php');
+		if ($this->_getParam('_ajax')) {
+			$this->renderRawView('search/results.php');
+		} else {
+			$this->renderView('search/results.php');
+		}
+        
     }
 	
 	public function searchContacts($query)
@@ -59,8 +64,12 @@ class SearchController extends BaseController
 
         // Otherwise, just look for contacts with a firstname or lastname like the entered name
         $this->view->contacts = $this->clientService->getContactsByNames($names);
-        
-		$this->renderView('search/contacts.php');
+        if ($this->_getParam('_ajax')) {
+			$this->renderRawView('search/contacts.php');
+		} else {
+			$this->renderView('search/contacts.php');
+		}
+		
 	}
     
     private function filterResults($hits)

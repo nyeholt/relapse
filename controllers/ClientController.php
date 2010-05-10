@@ -42,8 +42,17 @@ class ClientController extends BaseController
         }else{
         	$this->view->clients = $this->clientService->getClients(array('relationship='=>$this->view->relationship, 'title like '=>$currentLetter.'%'), 'title asc'); // , $currentPage, za()->getConfig('project_list_size'));
         }
-        $this->renderView('client/list.php');
+		if ($this->_getParam('_ajax')) {
+			$this->renderRawView('client/list.php');
+		} else {
+			$this->renderView('client/list.php');
+		}
+        
     }
+
+	public function listAction() {
+		$this->indexAction();
+	}
     
     /**
      * View a single client
@@ -54,7 +63,11 @@ class ClientController extends BaseController
         $this->view->client = $this->byId();
         $this->view->title = $this->view->client->title;
         $this->view->existingWatch = $this->notificationService->getWatch(za()->getUser(), $this->view->client);
-        $this->renderView('client/view.php');
+		if ($this->_getParam('_ajax')) {
+			$this->renderRawView('client/ajaxView.php');
+		} else {
+			$this->renderView('client/view.php');
+		}
     }
     
 

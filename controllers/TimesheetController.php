@@ -330,7 +330,11 @@ class TimesheetController extends NovemberController
 
 	        echo $this->renderRawView('timesheet/csv-export.php');
         } else {
-        	$this->renderView('timesheet/'.$format.'-report.php');
+			if ($this->_getParam('_ajax')) {
+				$this->renderRawView('timesheet/'.$format.'-report.php');
+			} else {
+				$this->renderView('timesheet/'.$format.'-report.php');
+			}
         }
     }
     
@@ -527,13 +531,10 @@ class TimesheetController extends NovemberController
 
         $this->projectService->addTimesheetRecord($task, $user, $start, $end);
 
-		$reloadUrl = build_url('timesheet','detailedTimesheet', array('taskid' => $task->id));
+		$this->view->task = $task;
 		
 		if ($this->_getParam('_ajax')) {
-			echo '<script>
-			$("#timesheetdialog").simpleDialog("close");
-			$("#timesheetdialog").simpleDialog({url: "'.$reloadUrl.'"});
-</script>';
+			$this->renderRawView('timesheet/timesheet-submitted.php');
 		}
     }
     

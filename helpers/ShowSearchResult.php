@@ -36,7 +36,7 @@ class Helper_ShowSearchResult
     function showDefault($result) {
         echo '<li class="search-result">';
     
-        echo '<h3><a href="'.build_url($result->type, 'view', array('id'=>$result->__get('id'))).'">'.$result->title.'</a> ('.ucfirst($result->type).')</h3>';
+        echo '<h3><a target="CenterPane" class="targeted" href="'.build_url($result->type, 'view', array('id'=>$result->__get('id'))).'">'.$result->title.'</a> ('.ucfirst($result->type).')</h3>';
         if (isset($result->description)) {
             @print($result->description);
         }
@@ -53,7 +53,7 @@ class Helper_ShowSearchResult
     {
         echo '<li class="search-result">';
     
-        echo '<h3><a href="'.build_url($result->type, 'edit', array('id'=>$result->__get('id'))).'">'.$result->title.'</a> ('.ucfirst($result->type).')</h3>';
+        echo '<h3><a target="RightPane" class="targeted" href="'.build_url($result->type, 'edit', array('id'=>$result->__get('id'))).'">'.$result->title.'</a> ('.ucfirst($result->type).')</h3>';
         if (isset($result->description)) {
             @print($result->description);
         }
@@ -62,14 +62,14 @@ class Helper_ShowSearchResult
     
     function showTask($result) {
         echo '<li class="search-result">';
-        echo '<h3><a href="'.build_url('task', 'edit', array('id'=>$result->__get('id'))).'">'.$result->title.'</a> ('.ucfirst($result->type).')</h3>';
+        echo '<h3><a target="RightPane" class="targeted" href="'.build_url('task', 'edit', array('id'=>$result->__get('id'))).'">'.$result->title.'</a> ('.ucfirst($result->type).')</h3>';
         print($result->description);
         echo '</li>';
     }
     
     function showProject($result) {
         echo '<li class="search-result">';
-        echo '<h3><a href="'.build_url('project', 'view', array('id'=>$result->__get('id'))).'">'.$result->title.'</a> ('.ucfirst($result->type).')</h3>';
+        echo '<h3><a target="CenterPane" class="targeted" href="'.build_url('project', 'view', array('id'=>$result->__get('id'))).'">'.$result->title.'</a> ('.ucfirst($result->type).')</h3>';
     }
     
     function showNote($result) {
@@ -97,7 +97,7 @@ class Helper_ShowSearchResult
         }
         
         echo '<li class="search-result">';
-        echo '<h3><a href="'.build_url('contact', 'edit', array('id'=>$result->__get('id'))).'">'.$firstname.' '.$lastname.'</a></h3>';
+        echo '<h3><a target="RightPane" class="targeted" href="'.build_url('contact', 'edit', array('id'=>$result->__get('id'))).'">'.$firstname.' '.$lastname.'</a></h3>';
         echo '<p>Email: <a href="mailto:'.$result->email.'">'.$result->email.'</a></p>'.(isset($result->mobile) ? '<p>Mobile: '.$result->mobile.'</p>' : '');
         echo '</li>';
     }

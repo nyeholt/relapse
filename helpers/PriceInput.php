@@ -7,10 +7,9 @@ class Helper_PriceInput extends NovemberHelper
         ?>
     <p>
     <label for="<?php echo $forField?>"><?php $this->view->o($label)?>:</label>
-    $ <input class="input price" type="text" name="<?php echo $forField?>"
+    $ <input class="input price" size="8" type="text" name="<?php echo $forField?>"
         id="<?php echo $forField?>" value="<?php $this->view->o($this->view->model->$forField)?>" <?php echo $extra?>/>
     </p>
-        
         <?php
     }
 }

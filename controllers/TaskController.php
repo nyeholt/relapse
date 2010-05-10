@@ -457,44 +457,48 @@ class TaskController extends BaseController
      */
 	public function listAction()
     {
-		$page = ifset($this->_getAllParams(), 'page', 1);
-		$number = $this->_getParam('rp', za()->getConfig('project_list_size', 10));
+		if ($this->_getParam('_ajax')) {
+			$this->renderRawView('task/list.php');
+		} else {
+			$page = ifset($this->_getAllParams(), 'page', 1);
+			$number = $this->_getParam('rp', za()->getConfig('project_list_size', 10));
 
-		$sort = $this->_getParam('sortname', 'due');
-		$order = $this->_getParam('sortorder', 'asc');
+			$sort = $this->_getParam('sortname', 'due');
+			$order = $this->_getParam('sortorder', 'asc');
 
-		$items = $this->projectService->getUserTasks(za()->getUser(), array('complete='=>0), 'task.'.$sort.' '.$order, $page, $number);
+			$items = $this->projectService->getUserTasks(za()->getUser(), array('complete='=>0), 'task.'.$sort.' '.$order, $page, $number);
 
-		$dummy = new Task();
-		$listFields = $dummy->listFields();
+			$dummy = new Task();
+			$listFields = $dummy->listFields();
 
-		$asArr = array();
-		$aggrRow = array();
-		foreach ($items as $item) {
-			$cell = array();
-			foreach ($listFields as $name => $display) {
-				if (method_exists($item, $name)) {
-					$cell[] = $item->$name();
-				} else {
-					$cell[] = $item->$name;
+			$asArr = array();
+			$aggrRow = array();
+			foreach ($items as $item) {
+				$cell = array();
+				foreach ($listFields as $name => $display) {
+					if (method_exists($item, $name)) {
+						$cell[] = $item->$name();
+					} else {
+						$cell[] = $item->$name;
+					}
 				}
+
+				$row = array(
+					'id' => $item->id,
+					'cell' => $cell,
+				);
+
+				$asArr[] = $row;
 			}
 
-			$row = array(
-				'id' => $item->id,
-				'cell' => $cell,
-			);
-
-			$asArr[] = $row;
+			$obj = new stdClass();
+			$obj->page = ifset($this->_getAllParams(), 'page', 1);
+			$obj->total = $items->getTotalResults();
+			$obj->rows = $asArr;
+			$this->getResponse()->setHeader('Content-type', 'text/x-json');
+			$json = Zend_Json::encode($obj);
+			echo $json;
 		}
-
-		$obj = new stdClass();
-		$obj->page = ifset($this->_getAllParams(), 'page', 1);
-		$obj->total = $items->getTotalResults();
-		$obj->rows = $asArr;
-		$this->getResponse()->setHeader('Content-type', 'text/x-json');
-		$json = Zend_Json::encode($obj);
-		echo $json;
     }
 
 

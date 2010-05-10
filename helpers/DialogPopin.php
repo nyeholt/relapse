@@ -30,7 +30,6 @@ class Helper_DialogPopin extends NovemberHelper
     //put your code here
 	public function DialogPopin($name, $label, $url = false, $options = array(), $extra = '', $tag='a')
 	{
-		
 		if ($url) {
 			$options['url'] = $url;
 		}

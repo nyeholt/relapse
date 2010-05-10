@@ -209,6 +209,24 @@ class NovemberController extends Zend_Controller_Action
         $response = $this->view->clearMaster()->render($script);
         $this->getResponse()->appendBody($response);
     }
+
+	/**
+	 * package up a JSON response
+	 *
+	 * @param mixed $data
+	 * @param string $message
+	 * @param boolean $success
+	 * @return string
+	 */
+	protected function ajaxResponse($data, $message = 'Success', $success = true) {
+		$response = array(
+			'data' => $data,
+			'message' => $message,
+			'success' => $success
+		);
+
+		return Zend_Json::encode($response);
+	}
     
     /**
      * Flash something up to the user.
