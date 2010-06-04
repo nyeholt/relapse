@@ -7,7 +7,7 @@
 	Relapse.IssueManager.prototype = {
 		tableCommand: function (cmd, grid, contextUrl) {
 			if (cmd == 'New') {
-				Relapse.addToPane('RightPane', contextUrl, 'Add new issue ' + title);
+				Relapse.addToPane('RightPane', contextUrl, 'Add new issue ');
 			} else if (cmd == 'Open') {
 				$('.trSelected',grid).each (function () {
 					var id = $(this).attr('id').replace('row', '');

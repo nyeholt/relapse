@@ -146,6 +146,7 @@
 
 	$.fn.simpleDialog.defaults = {
 		width: 800,
+		height: 700,
 		top: 20,
 		modal: true	// is this dialog locked open (as in, the dialog has to handle closing itself)
 	};

@@ -45,9 +45,9 @@ a.inlineAction { display: inline; padding: 5px 0;}
 
 
 /** Form fields **/
-.simpleDialog { background: #efefef; max-height: 500px; }
+.simpleDialog { background: #efefef; max-height: 900px; }
 .dialog { display: none; }
-.dialogContent {overflow: auto; min-height: 300px; max-height: 480px; padding: 0.3em; }
+.dialogContent {overflow: auto; min-height: 300px; height: 95%; max-height: 880px; padding: 0.3em; }
 .dialogClose { background:#000000; color:#FFFFFF; cursor:pointer; font-weight:bold; position:absolute; right:0; text-align:center; top:0; width:20px; }
 input, select, textarea { font-size: 1em; padding: 4px; }
 option, textarea, input[type=text], input[type=password] { border: 1px solid #ccc; background: #fff url(input-bg-top.png) repeat-x scroll 0px -5px; }

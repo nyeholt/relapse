@@ -61,7 +61,7 @@
 		<div class="inner-column">
 			<ul class="largeList">
 				<li><?php $this->addToPane(build_url('project', 'milestoneslist', array('projectid' => $this->project->id)), 'Milestones', 'Milestones for '.$this->project->title) ?></li>
-				<li><?php $this->dialogPopin('featurelist', "Feature Overview", build_url('feature', 'list', array('projectid'=>$this->project->id)), array('width' => 1000)) ?></li>
+				<li><?php $this->dialogPopin('featurelist', "Feature Overview", build_url('feature', 'list', array('projectid'=>$this->project->id)), array('width' => 1000, 'height' => '90%')) ?></li>
 				<li><?php $this->addToPane(build_url('issue', 'list', array('projectid' => $this->project->id)), 'Issues', 'Issues for '.$this->project->title) ?></li>
 				<li><?php $this->dialogPopin('currenttimes', "Current Timesheet", build_url('timesheet', 'index', array('projectid'=>$this->project->id)), array('width' => 1000)) ?></li>
 				<li><?php $this->addToPane(build_url('project', 'statuslist', array('projectid'=>$this->project->id)), 'Status Reports', 'Status reports for '.$this->project->title) ?></li>
