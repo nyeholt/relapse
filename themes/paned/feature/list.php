@@ -86,6 +86,7 @@
 	</p>
 
 	<p style="margin-bottom: 1em;">
+		<a class="abutton" href="<?php echo build_url('feature', 'export', array('projectid' => $this->project->id))?>" target="_blank">Export</a>
 		<?php $this->dialogPopin('readfeatures', 'Read', build_url('feature', 'doc', array('projectid' => $this->project->id)), array('width' => 1000), 'class="abutton"'); ?>
 		<?php $this->dialogPopin('featuredialog', 'Add', build_url('feature', 'edit', array('projectid'=>$this->project->id)), array(), 'class="abutton"', 'input') ?>
 		<input type="button" class="abutton enableReorder" value="Sort" />

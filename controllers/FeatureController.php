@@ -62,7 +62,6 @@ class FeatureController extends BaseController
     /**
      * Update the contents of a feature via an ajax request made from the
 	 * 'document' style view of the feature
-     * 
      */
     public function readupdateAction()
     {
@@ -111,6 +110,22 @@ class FeatureController extends BaseController
     		echo $feature->$field;
     	}
     }
+
+	public function exportAction() {
+		$project = $this->projectService->getProject($this->_getParam('projectid'));
+		if (!$project) {
+			throw new Exception("Invalid projectid");
+		}
+
+		$this->view->features = $this->featureService->getOrderedFeatures(null, $project);
+		$this->view->project = $project;
+
+		$this->_response->setHeader("Content-type", "text/csv");
+		$exportFile = preg_replace('/-+/', '-', preg_replace('/[^A-Za-z0-9_.]/', '-', $project->title)) . '-feature-export.csv';
+		$this->_response->setHeader("Content-Disposition", "inline; filename=\"$exportFile\"");
+
+		$this->renderRawView('feature/csv-export.php');
+	}
     
 
 	/**
@@ -125,9 +140,10 @@ class FeatureController extends BaseController
 		$where = array(
 			'estimated <>' => 0,
 			'created > ' => $date,
-			'complete = ' => 1,
+			'status = ' => 'Complete',
 			'hours <> ' => 0,
 		);
+
 		$features = $this->featureService->getFeatures($where);
 		
 		$velocities = array();
