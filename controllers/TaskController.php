@@ -349,12 +349,13 @@ class TaskController extends BaseController
 	public function startnewtaskAction() {
 		$params = $this->_getAllParams();
         $params['createtype'] = 'Task';
+		$context = null;
         if (!isset($params['newtaskProjectid']) && ($params['type'] == 'Issue' || $params['type'] == 'Feature')) {
 			switch ($params['type']) {
 				case 'Issue': {
-					$issue = $this->byId($params['id'], 'Issue');
+					$context = $this->byId($params['id'], 'Issue');
 					// get its project, then a milestone in that project
-					$project = $this->projectService->getProject($issue->projectid);
+					$project = $this->projectService->getProject($context->projectid);
 					$possibles = $project->getMilestones();
 					if (!count($possibles)) {
 						$milestone = $project->createDefaultMilestone();
@@ -366,12 +367,12 @@ class TaskController extends BaseController
 					break;
 				}
 				case 'Feature': {
-					$feature = $this->byId($params['id'], 'Feature');
+					$context = $this->byId($params['id'], 'Feature');
 					// get its project, then a milestone in that project
-					if ($feature->milestone) {
-						$params['newtaskProjectid'] = $feature->milestone;
+					if ($context->milestone) {
+						$params['newtaskProjectid'] = $context->milestone;
 					} else {
-						$project = $feature->projectid;
+						$project = $context->projectid;
 						$possibles = $project->getMilestones();
 						if (!count($possibles)) {
 							$milestone = $project->createDefaultMilestone();
@@ -386,12 +387,22 @@ class TaskController extends BaseController
 			}
         }
 
-        $task = $this->itemLinkService->createNewItem($params);
-        $prefix = ifset($params, 'prefix', '');
-        $task->title = $prefix . ifset($params, 'tasktitle', $task->title);
+		$prefix = ifset($params, 'prefix', '');
+        $taskTitle = $prefix . ifset($params, 'tasktitle', $context->title);
 
-        $task->projectid = ifset($params, 'projectid', ifset($params, 'newtaskProjectid'));
-		$task->assignTo(za()->getUser()->username);
+		// first lets see if there's an existing one
+		$existing = $this->projectService->getTasks(array('title =' => $taskTitle));
+		$task = null;
+		if (count($existing)) {
+			$task = $existing->getIterator()->current();
+		} else {
+			$task = $this->itemLinkService->createNewItem($params);
+
+			$task->title = $taskTitle;
+
+			$task->projectid = ifset($params, 'projectid', ifset($params, 'newtaskProjectid'));
+			$task->assignTo(za()->getUser()->username);
+		}
 
 		echo $task->id;
 	}

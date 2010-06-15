@@ -1,15 +1,16 @@
-Title,Description,Estimate
+Estimate,Title,Description
 <?php
 function outputFeature($feature, $view) {
-	$view->csv($feature->title);
-	echo ',';
-	$view->csv($feature->description);
-	echo ',';
 	if ($feature->estimated) {
 		$view->featureEstimate += $feature->estimated;
 		$view->featureCompleted += ($feature->status == 'Complete') ? $feature->estimated : 0;
 		echo $feature->estimated;
 	}
+	echo ',';
+	$view->csv($feature->title);
+	echo ',';
+	$view->csv($feature->description);
+	
 	echo "\n";
 
 	$children = $feature->getChildFeatures();
@@ -25,5 +26,6 @@ $view->featureCompleted = 0;
 foreach ($this->features as $feature) {
 	outputFeature($feature, $this);
 }
-echo ',Total,' .$this->featureEstimate;
+echo "\n";
+echo $this->featureEstimate.',Total Days,';
 ?>
