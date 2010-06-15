@@ -35,12 +35,15 @@
 					}
 				});
 			} else if (cmd == 'Start') {
+				var id = null;
 				$('.trSelected',grid).each (function () {
-					var id = $(this).attr('id').replace('row', '');
-					if (id > 0) {
-						$this.startTiming(id);
-					}
+					id = $(this).attr('id').replace('row', '');
+					
 				});
+
+				if (id > 0) {
+					$this.startTiming(id);
+				}
 				
 			} else if (cmd == 'Timesheet') {
 				$('.trSelected',grid).each (function () {
@@ -60,6 +63,17 @@
 					}
 				});
 			}
+		},
+
+		completeTasks: function (cmd, grid) {
+			$('.trSelected',grid).each (function () {
+				var id = $(this).attr('id').replace('row', '');
+				if (id > 0) {
+					$.post(BASE_URL + 'task/complete/id/'+id+'/__validation_token/' + VALIDATION_TOKEN+'/_ajax/1', {id: id}, function () {
+					});
+				}
+			});
+			$('.pReload',grid).click();
 		},
 
 		/**

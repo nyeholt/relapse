@@ -23,7 +23,7 @@ $options->sortorder = 'desc';
 $options->usepager = true;
 $options->useRp = true;
 $options->rp = 10;
-$options->singleSelect = true;
+$options->singleSelect = false;
 $options->width = 'auto';
 $options->height = 'auto';
 $options->pagestat = 'Displaying: {from} to {to} of {total} items.';
@@ -33,6 +33,7 @@ $options->buttons = array(
 	array('name' => 'New', 'bclass' => 'newbutton', 'onpress' => 'function(cmd, data) { Relapse.Tasks.tableCommand(cmd, data) }'),
 	array('name' => 'Edit', 'bclass' => 'editbutton', 'onpress' => 'function(cmd, data) { Relapse.Tasks.tableCommand(cmd, data) }'),
 	array('name' => 'Start', 'bclass' => 'timingbutton', 'onpress' => 'function(cmd, data) { Relapse.Tasks.tableCommand(cmd, data) }'),
+	array('name' => 'Complete', 'bclass' => 'completebutton', 'onpress' => 'function(cmd, data) { Relapse.Tasks.completeTasks(cmd, data) }'),
 	array('name' => 'Timesheet', 'bclass' => 'timesheetbutton', 'onpress' => 'function(cmd, data) { Relapse.Tasks.tableCommand(cmd, data) }'),
 	array('name' => 'Delete', 'bclass' => 'deletebutton', 'onpress' => 'function(cmd, data) { Relapse.Tasks.tableCommand(cmd, data) }')
 );
