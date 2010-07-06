@@ -174,7 +174,7 @@ var Relapse;
 			$('#LeftPane').prepend(panel);
 			panel.show(this.effect);
 			
-			var deleteButton = $('<img src="'+BASE_URL+'/resources/images/delete.png" style="float: left;" />').prependTo(panel);
+			var deleteButton = $('<img src="'+BASE_URL+'resources/images/delete.png" style="float: left;" />').prependTo(panel);
 			deleteButton.click(function () {
 				$.post(BASE_URL + 'index/deletefavourite', {id: id}, function (data) {
 					var response = $.parseJSON(data);

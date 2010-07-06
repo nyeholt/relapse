@@ -12,6 +12,5 @@
 				
 			</li>
 		<?php endfor; ?>
-		</ul>
-	
+	</ul>
 </div>
