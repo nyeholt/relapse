@@ -1,12 +1,4 @@
 <div class="std">
-<?php if ($this->model->id): ?>
-    <div id="parent-links">
-        <a title="Parent Client" href="<?php echo build_url('client', 'view', array('id'=>$this->client->id, '#contacts'));?>"><img src="<?php echo resource('images/client.png')?>"/></a>
-    </div>
-<?php endif; ?>
-</div>
-
-<div class="std">
 <h2><?php $this->o($this->model->id ? 'Edit contact '.$this->model->firstname.' '.$this->model->lastname : 'New Contact')?></h2>
 
 <?php if ($this->u()->hasRole(User::ROLE_USER)): ?>
@@ -27,10 +19,15 @@
 	
 <?php endif; ?>
 
-<form method="post" action="<?php echo build_url('contact', 'save');?>" class="data-form">
+<form method="post" action="<?php echo build_url('contact', 'save');?>" class="data-form ajaxForm">
 <?php if ($this->model->id): ?>
     <input type="hidden" value="<?php echo $this->model->id?>" name="id" />
 <?php endif; ?>
+
+	<?php $this->requestValidator() ?>
+	<?php if ($this->viaajax): ?>
+		<input type="hidden" name="_ajax" value="1" />
+	<?php endif; ?>
 
 	<fieldset>
 		<legend>User details</legend>
@@ -41,10 +38,6 @@
 		<?php $this->textInput('Department', 'department'); ?>
 	
 	</fieldset>
-	
-	
-	
-
 	
 	<fieldset>
 		<legend>Contact Info</legend>
@@ -73,11 +66,17 @@
 	
 	<p class="clear">
 		<input type="submit" class="abutton" value="Save" accesskey="s" />
-		<?php if ($this->model->id): ?>
-		<input type="button" class="abutton" onclick="location.href='<?php echo build_url('client', 'view', array('id'=>$this->model->clientid, '#contacts')) ?>'" value="Close" />
+
+		<?php if ($this->viaajax): ?>
+			<input type="button" class="abutton" onclick="Relapse.closeDialog('contactdialog', this)" value="Close" />
 		<?php else: ?>
-		<input type="button" class="abutton" onclick="location.href='<?php echo build_url('client', 'view', array('id'=>$this->client->id, '#contacts')) ?>'" value="Close" />
+			<?php if ($this->model->id): ?>
+			<input type="button" class="abutton" onclick="location.href='<?php echo build_url('client', 'view', array('id'=>$this->model->clientid, '#contacts')) ?>'" value="Close" />
+			<?php else: ?>
+			<input type="button" class="abutton" onclick="location.href='<?php echo build_url('client', 'view', array('id'=>$this->client->id, '#contacts')) ?>'" value="Close" />
+			<?php endif; ?>
 		<?php endif; ?>
+		
 	</p>
 </form>
 

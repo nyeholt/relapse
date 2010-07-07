@@ -15,4 +15,3 @@ class ActionAccess extends MappedObject
     
     public $role;
 }
-?>

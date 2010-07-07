@@ -117,21 +117,22 @@ class DbAuthService extends AuthService implements Configurable
 			$email = $user->email;
 		}
 
-		$new_pass = substr(md5(uniqid(rand(),1)), 3, 5);
-		$user->password = md5($new_pass);
+
+
+		// store it, then create a URL that will directly auth that ticket, letting them login and
+		// change their password
+		$user->ticket = $this->generateTicket($email);
 		$this->dbService->updateObject($user);
 		//exit("Updating user ".print_r($user, true)." to $new_pass");
-		$this->authComponent->updateUser($user, $new_pass);
-		
+		$ticketLogin = build_url('user', 'edit', '', true) . '?ticket='.$user->ticket.'&user='.urlencode($user->username);
 		$this->trackerService->track('password-reset', $email);
 		
 		if ($notify) {
 			include_once 'Zend/Mail.php';
-			
+
 			$msg = "Hi $user->username,\n\r";
-			$msg .= "The password for your account has been reset due to a request from the website.\r\n";
-			$msg .= "Your account's new password is $new_pass\r\n";
-			$msg .= "Please login to your account with your email address and this new password. You may change your password once logged in.\r\n";
+			$msg .= "A request was made to reset your password. To do so, please follow the following URL and reset it.\r\n";
+			$msg .= "Login at $ticketLogin\r\n";
 			
 			$mail = new Zend_Mail();
 			$mail->setBodyText($msg);

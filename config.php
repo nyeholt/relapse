@@ -41,7 +41,7 @@ $config['services'] = array (
       'authenticators' => 
       array (
         0 => 'DbAuthComponent',
-        1 => 'LdapAuthComponent',
+        // 1 => 'LdapAuthComponent',
       ),
     ),
     'FileService' => 
@@ -66,6 +66,7 @@ $config['plugins'] = array(
             'leave' => array('save' => 'Admin', 'edit'=>'Admin', 'list'=>'Admin', 'changestatus'=>'Admin'),
             'user' => array(
 //                 'register' => 'Guest',
+				'password' => 'Guest',
             ),
             'index' => array(
                 'index' => 'External',

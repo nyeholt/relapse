@@ -57,7 +57,6 @@ class UserController extends NovemberController
 		if ($this->_getParam('email')) { // $post->getAlpha('email')) {
 			$email = $this->_getParam('email'); // $post->testEmail('email');
 			$emailValidator = new Zend_Validate_EmailAddress();
-			
 			if ($emailValidator->isValid($this->_getParam('email')) === false) {
 				$this->view->addError('email', 'Invalid email address.');
 			} else {
@@ -70,10 +69,9 @@ class UserController extends NovemberController
 				}
 			}
 		}
-
 		$this->getResponse()->appendBody($this->view->render('user/password.php'));
 	}
-	
+
 	/**
 	 * Log the user out.
 	 *

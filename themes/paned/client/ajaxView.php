@@ -47,15 +47,9 @@
 			<li><?php $this->addToPane(build_url('project', 'edit', array('clientid' => $this->client->id)), 'Add Project', 'Add project to '.$this->client->title, 'RightPane') ?></li>
 			<li><?php $this->addToPane(build_url('issue', 'list', array('clientid' => $this->client->id)), 'Issues', 'Issues for '.$this->client->title) ?></li>
 			<li><?php $this->dialogPopin('currenttimes', "Current Timesheet", build_url('timesheet', 'index', array('clientid'=>$this->client->id)), array('width' => 1000)) ?></li>
-			<li><?php $this->addToPane(build_url('contact', 'list', array('clientid'=>$this->client->id)), 'Contact List', 'Contacts for '.$this->client->title) ?></li>
+			<li><?php $this->addToPane(build_url('contact', 'contactlist', array('clientid'=>$this->client->id)), 'Contact List', 'Contacts for '.$this->client->title) ?></li>
 			<li><?php $this->addToPane(build_url('client', 'edit', array('id'=>$this->client->id)), 'Edit this client', 'Edit '.$this->client->title, 'RightPane') ?></li>
 		</ul>
 	</div>
 </div>
-<div id="timesheet" class="std">
-	<?php $this->dispatch('timesheet', 'list', array('clientid'=> $this->client->id)); ?>
-	<p>
-		<a class="abutton" href="<?php echo build_url('timesheet', 'edit', array('clientid'=>$this->client->id))?>">Add Timesheet</a>
-		<a class="abutton" href="<?php echo build_url('timesheet', 'index', array('clientid'=>$this->client->id))?>">View Current Times</a>
-	</p>
-</div>
+<div class="clear"></div>

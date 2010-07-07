@@ -21,7 +21,7 @@
     <tr class="<?php echo $index++ % 2 == 0 ? 'even' : 'odd'?>">
         <td><p><?php $this->o($this->ellipsis($user->getUsername(), 40));?></p></td>
         <td align="right">
-        <form method="post" action="<?php echo build_url('admin', 'changerole')?>">
+        <form method="post" action="<?php echo build_url('admin', 'changerole')?>" class="inline">
         	<input type="hidden" name="id" value="<?php echo $user->id?>" />
         	<select name="role">
         		<?php foreach ($this->roles as $role): ?>
@@ -30,11 +30,12 @@
         	</select>
         	<input type="submit" value="Change Role" />
         </form>
+		<input type="button" value="Reset Password" onclick="resetPass('<?php $this->o($user->email)?>')"/>
         </td>
         <td>
-        	
         	<a href="<?php echo build_url('user', 'edit', array('id' => $user->getId()));?>"><img src="<?php echo resource('images/pencil.png')?>" /></a>
         	<a href="<?php echo build_url('admin', 'useraccess', array('username' => $user->getUsername()));?>" title="User Access"><img src="<?php echo resource('images/bullet_go.png')?>" /></a>
+			
         </td>
     </tr>
     <?php endforeach; ?>
@@ -42,3 +43,11 @@
 </table>
 
 </div>
+
+<script type="text/javascript">
+	function resetPass(email) {
+		if (confirm("Really reset "+email+"?")) {
+			jQuery.post('<?php echo build_url('user', 'password')?>', {email: email});
+		}
+	}
+</script>

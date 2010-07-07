@@ -206,4 +206,3 @@ class User extends MappedObject implements NovemberUser
     	return date($format, strtotime($date));
     }
 }
-?>

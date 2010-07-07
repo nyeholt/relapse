@@ -47,6 +47,7 @@
 	<?php $this->script(theme_resource('relapse-features.js')); ?>
 	<?php $this->script(theme_resource('relapse-tasks.js')); ?>
 	<?php $this->script(theme_resource('relapse-issues.js')); ?>
+	<?php $this->script(theme_resource('relapse-clients.js')); ?>
 
 	<script type="text/javascript">
 	var CURRENT_USER_ID = '<?php echo za()->getUser()->getUsername();?>';

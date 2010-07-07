@@ -163,7 +163,6 @@ var Relapse;
 				if (response.data && response.success) {
 					_this.addQuickLink(title, url, pane, response.data.id);
 				}
-				
 			});
 		},
 
@@ -202,6 +201,7 @@ var Relapse;
 				// see if we're a side panel object that needs closing
 				var panel = $(context).parents('.panePanel');
 				this.closePanel(panel);
+				$('.pReload',grid).click();
 			}
 		}
 	};

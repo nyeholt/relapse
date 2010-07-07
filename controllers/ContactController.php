@@ -26,7 +26,7 @@ class ContactController extends NovemberController
         
         $this->renderView('contact/index.php');
     }
-    
+
     public function prepareForEdit($model)
     {
         // check the existence of the client to add this contact to
@@ -52,14 +52,13 @@ class ContactController extends NovemberController
      * Load the contacts for a given client id
      *
      */
-    public function contactlistAction()
-    {
+    public function contactlistAction() {
         $client = $this->clientService->getClient((int) $this->_getParam('clientid'));
         if (!$client) {
             echo "Failed loading contacts";
             return;
         }
-        
+
         $this->view->client = $client;
         $this->view->contacts = $this->clientService->getContacts($client);
         
@@ -79,9 +78,12 @@ class ContactController extends NovemberController
      * When the model is saved, 
      * redirect to view the client, not the contact
      */
-    public function onModelSaved($model)
-    {
-        $this->redirect('client', 'view', array('id'=>$model->clientid, '#contacts'));
+    public function onModelSaved($model) {
+		if ($this->_getParam('_ajax')) {
+			echo $this->ajaxResponse("Saved ".$model->firstname.' ' .$model->lastname);
+		} else {
+			$this->redirect('client', 'view', array('id'=>$model->clientid, '#contacts'));
+		}
     }
 
     /**

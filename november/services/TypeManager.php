@@ -85,7 +85,9 @@ class TypeManager implements Configurable
 		}
 
         try {
-            Zend_Loader::loadFile(basename($source), dirname($source), true);
+			if (!class_exists($class, false)) {
+				Zend_Loader::loadFile(basename($source), dirname($source), true);
+			}
         } catch (Zend_Exception $ze) {
             // ignore it, we'll just assume it was loaded elsewhere
         }

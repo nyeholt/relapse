@@ -322,7 +322,6 @@ class ProjectController extends BaseController
 
     /**
      * Called to redirect after saving a model object
-     *
      */
     protected function onModelSaved($model)
     {

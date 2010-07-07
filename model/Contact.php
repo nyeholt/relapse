@@ -29,5 +29,15 @@ class Contact extends MappedObject
         $this->updated = date('Y-m-d H:i:s');
         $this->constraints['__this'] = new UniqueValueValidator('email');
     }
+
+	/**
+	 * Return an array of fields that will be used for displaying a JSON
+	 * serialisation of this object
+	 *
+	 * @return array
+	 */
+	public function listFields() {
+		return array('firstname' => 'First Name', 'lastname' => 'Last Name', 'email' => 'Email', 'mobile' => 'Mobile', 'directline' => 'Phone');
+	}
 }
 ?>

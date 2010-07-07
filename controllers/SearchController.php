@@ -113,8 +113,7 @@ class SearchController extends BaseController
 	/**
 	 * Get a list of items suitable for a flexigrid display
 	 */
-	public function listAction()
-	{
+	public function listAction() {
 		$type = $this->_getParam('type');
 
 		$this->typeManager->includeType($type);
