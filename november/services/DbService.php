@@ -18,8 +18,8 @@
  */
  
 include_once dirname(dirname(__FILE__)).'/exceptions/AccessDeniedException.php';
-include_once dirname(__FILE__).'/DbResultSet.php';
-include_once dirname(__FILE__).'/CountableSelect.php';
+include_once NOVEMBER_APP_DIR.'/model/DbResultSet.php';
+include_once NOVEMBER_APP_DIR.'/model/CountableSelect.php';
 
 /**
  * A data access service that provides basic object mapping functionality
@@ -71,9 +71,18 @@ class DbService implements Configurable
 	 */
 	public $typeManager;
 
+	/**
+	 * An array of types that should have at least 'read' permission checks applied
+	 * when querying
+	 *
+	 * @var Array
+	 */
+	public $protectedTypes;
+
     public function configure($config)
     {
         $this->proxied = Zend_Db::factory($config['db_type'], $config['db_params']);
+		$this->protectedTypes = ifset($config, 'protected', array());
     }
 
     /**
@@ -98,7 +107,19 @@ class DbService implements Configurable
         return $this->proxied->$k;
     }
 
-	    /**
+	/**
+	 * Add a type to be restricted
+	 *
+	 * @param String $type
+	 *			The name of a class to force query restrictions on
+	 * @param int $restriction
+	 *			The restriction for this type
+	 */
+	public function addProtectedType($type, $restriction = UserRole::PERM_READ) {
+		$this->protectedTypes[$type] = $restriction;
+	}
+
+	/**
      * Creates and returns a new Zend_Db_Select object for this adapter.
      *
      * @return Zend_Db_Select
@@ -136,6 +157,7 @@ class DbService implements Configurable
             $this->transactionDepth = 0;
             $this->proxied->beginTransaction();
         }
+
         $this->transactionDepth++;
         $this->log->debug("BEGIN: Transaction depth of $this->transactionDepth");
     }
@@ -278,17 +300,17 @@ class DbService implements Configurable
             
             $sql->joinInner('userrole', 'userrole.itemid='.$itemtype.'.id', new Zend_Db_Expr('userrole.itemtype as userrole_itemtype'));
             // $select->joinInner($usertable, $usertable.'.username=userrole.authority', new Zend_Db_Expr('userrole.authority as userrole_authority'));
-            
+
             $sql->where('userrole.authority = ?', $currentUser);
             $sql->where(new Zend_Db_Expr('userrole.role & '.$authRole)); 
         }
-        
+
         $result = $this->query($sql, $bind);
 
         while ($row = $result->fetch(Zend_Db::FETCH_ASSOC)) {
             $obj = new $class();
             $obj = $this->unwrapRowToObject($obj, $row, $map);
-            
+
             za()->inject($obj);
 
 			$tmp[$obj->id] = $obj;

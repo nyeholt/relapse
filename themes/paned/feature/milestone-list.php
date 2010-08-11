@@ -34,5 +34,8 @@ $options->buttons = array(
 	array('name' => 'Start', 'bclass' => 'timingbutton', 'onpress' => 'function(cmd, data) { Relapse.Features.startTiming(data) }'),
 	array('name' => 'Delete', 'bclass' => 'deletebutton', 'onpress' => 'function(cmd, data) { Relapse.Features.tableCommand(cmd, data) }')
 );
+
 $this->flexiGrid('feature-list'.$this->milestone->id, $options);
+
+$this->addToPane(build_url('project', 'view', array('id'=> $this->project->id)), 'Back to Project');
 ?>

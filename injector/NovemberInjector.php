@@ -101,6 +101,9 @@ class NovemberInjector
 	            
 	            $name = substr($value, 0, strrpos($value, '.'));
 	            include_once $serviceDir.'/'.$value;
+				if (interface_exists($name)) {
+					continue;
+				}
 	            $service = new $name;
 	            if (method_exists($service, 'configure')) {
 	                if (isset($config[$name])) {

@@ -21,7 +21,6 @@ function __autoload($class)
     Zend_Loader::loadClass($class);
 }
 
-
 include_once 'november/NovemberApplication.php';
 
 $app = NovemberApplication::getInstance($config);
@@ -42,7 +41,8 @@ $reporter = php_sapi_name() == 'cli' ? 'TextReporter' : 'HtmlReporter';
 // so we iterate over the directory, creating test groups as we go
 // down the list
 foreach ($groups as $testGroup) {
-	$testGroup->run(new $reporter());
+	$r = new $reporter;
+	$testGroup->run($r);
 }
 
 /**

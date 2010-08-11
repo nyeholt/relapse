@@ -1,6 +1,6 @@
 <?php
 
-include_once 'model/UserGroup.php';
+include_once 'november/model/UserGroup.php';
 include_once 'Zend/Feed.php';
 
 class AdminController extends NovemberController

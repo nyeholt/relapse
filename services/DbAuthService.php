@@ -1,6 +1,6 @@
 <?php
 
-include_once 'model/UserRole.php';
+include_once 'november/model/UserRole.php';
 
 /**
  * Manages both authentication and authorization
@@ -183,6 +183,9 @@ class DbAuthService extends AuthService implements Configurable
      */
     public function removeAccess($item, $user, $role=null)
     {
+		if (!$item) {
+			throw new Exception("Cannot remove access from null object");
+		}
         $fields = array(
             'itemid' => $item->id,
             'itemtype' => get_class($item),

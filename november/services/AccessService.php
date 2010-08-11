@@ -1,5 +1,5 @@
 <?php
-include_once dirname(__FILE__).'/ActionAccess.php';
+include_once NOVEMBER_APP_DIR .'/model/ActionAccess.php';
 
 class AccessService
 {

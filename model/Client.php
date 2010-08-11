@@ -56,8 +56,7 @@ class Client extends MappedObject
 		return array('id' => 'ID', 'title' => 'Title', 'relationship' => 'Type');
 	}
 
-	public function created()
-	{
+	public function created() {
 		$this->versioningService->createVersion($this);
 	}
 

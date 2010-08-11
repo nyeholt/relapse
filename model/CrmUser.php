@@ -37,6 +37,6 @@ class CrmUser extends User
         }
         return $this->defaultmodule; 
     }
-}
 
-?>
+
+}

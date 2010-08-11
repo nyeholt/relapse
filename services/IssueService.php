@@ -421,7 +421,6 @@ class IssueService
                 $subject = "Support request from $from";
             }
             
-
             $textBody = $this->emailService->getTextBody($mail);
             $issue = null;
             // Try and get an existing ticket

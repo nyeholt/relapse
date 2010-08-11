@@ -52,8 +52,8 @@ class TestIssueService extends UnitTestCase
         $dbService->delete('contact');
         $dbService->delete('project');
         
-        Mock::generate('POP3');
-        $popService = new MockPOP3();
+        Mock::generate('pop3_class');
+        $popService = new Mockpop3_class();
         $popService->setReturnValue('connect', true);
         $popService->setReturnValue('login', true);
         $popService->setReturnValue('get_office_status', array('count_mails'=>2, 1 => array('size'=>2000), 2=> array('size'=>2000)));
@@ -81,37 +81,6 @@ class TestIssueService extends UnitTestCase
         
     }
     
-    public function testPermissions()
-    {
-        $dbService = za()->getService('DbService');
-        $dbService->delete('userrole');
-        
-        $plainitems = $dbService->getObjects('Issue');
-        
-        $authService = za()->getService('AuthService');
-        
-        
-        foreach ($plainitems as $item) {
-            $authService->grantAccess($item, za()->getUser(), UserRole::getRole(UserRole::ROLE_ADMIN));
-        }
-        
-        // $where=array(), $order='id asc', $page=null, $number=null, $auth='')
-        $items = $dbService->getObjects('Issue', array(), null, null, null, UserRole::PERM_READ);
-        $this->assertEqual(count($items), count($plainitems));
-        
-        // $where=array(), $order='id asc', $page=null, $number=null, $auth='')
-        $items = $dbService->getObjects('Issue', array(), null, null, null, UserRole::PERM_WRITE);
-        $this->assertEqual(count($items), count($plainitems));
-        
-        $items = $dbService->getObjects('Issue', array(), null, null, null, UserRole::PERM_ADMIN);
-        $this->assertEqual(count($items), count($plainitems));
-        
-        $item = $items[0];
-        $authService->removeAccess($item, za()->getUser());
-        
-        $items = $dbService->getObjects('Issue', array(), null, null, null, UserRole::PERM_ADMIN);
-        $this->assertEqual(count($items), count($plainitems)-1);
-    }
 }
 
 

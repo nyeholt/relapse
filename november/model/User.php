@@ -16,8 +16,9 @@
  * @version    $Id$
  * @license    New BSD License
  */
+include_once dirname(__FILE__).'/AuthoritySpecifier.php';
 
-class User extends MappedObject implements NovemberUser
+class User extends MappedObject implements NovemberUser, AuthoritySpecifier
 {
 	const ROLE_ADMIN = 'Admin';
 	const ROLE_POWER = 'Power';
@@ -67,6 +68,12 @@ class User extends MappedObject implements NovemberUser
      * @var String
      */
     public $theme;
+
+	/**
+	 *
+	 * @var unmapped
+	 */
+	public $groupService;
 	
 	public $constraints = array();
 	public $searchableFields = array();
@@ -104,26 +111,45 @@ class User extends MappedObject implements NovemberUser
 
     public function getDefaultModule() { return $this->defaultmodule; } 
     
-    public function getAvailableRoles()
-    {
+    public function getAvailableRoles() {
         return array_keys($this->roleMapping);
     }
 
-    public function hasRole($role)
-    {
+    public function hasRole($role) {
         return $this->getRoleValue() >= $this->getRoleValue($role); 
     }
-    
+
     /**
      * Get the value for a given role, or the current role
      */
-    public function getRoleValue($role=-1)
-    {
+    public function getRoleValue($role=-1) {
         if ($role == -1) $role = $this->role;
         
         $value = ifset($this->roleMapping, $role, 0);
         return $value;
     }
+
+	/**
+	 * How should this authority be represented? 
+	 *
+	 * @return String
+	 */
+	public function getAuthorityName() {
+		return 'USER_'.$this->username;
+	}
+
+	/**
+	 * Gets all the authorities that represent this user.
+	 *
+	 * This includes Users and Groups
+	 *
+	 * @return DbResultSet
+	 */
+	public function getUserAuthorities() {
+		$groups = $this->groupService->getGroupsForUser($this, false);
+
+		
+	}
     
     /**
      * When getting the last login date, we don't want the
@@ -205,4 +231,13 @@ class User extends MappedObject implements NovemberUser
     	$format = $this->longdateformat ? $this->longdateformat : 'F jS, Y';
     	return date($format, strtotime($date));
     }
+
+	/**
+	 * gets all the authorities relevant for this user
+	 *
+	 * @return 
+	 */
+	public function getAuthorities() {
+		
+	}
 }

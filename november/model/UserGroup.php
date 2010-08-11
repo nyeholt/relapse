@@ -27,5 +27,13 @@ class UserGroup extends MappedObject
 	    $path .= '-'.$this->id.'-';
 	    return trim($path);
     }
+
+		/**
+	 * How should this authority be represented?
+	 *
+	 * @return String
+	 */
+	public function getAuthorityName() {
+		return 'GROUP_'.$this->title;
+	}
 }
-?>

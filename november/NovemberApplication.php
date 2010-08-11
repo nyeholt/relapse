@@ -19,7 +19,7 @@
 
 define('NOVEMBER_APP_DIR', dirname(__FILE__));
 
-include_once NOVEMBER_APP_DIR.'/GuestUser.php';
+include_once NOVEMBER_APP_DIR.'/model/GuestUser.php';
 include_once NOVEMBER_APP_DIR.'/Configurable.php';
 include_once NOVEMBER_APP_DIR.'/CompositeView.php';
 include_once NOVEMBER_APP_DIR.'/MasterView.php';
@@ -48,7 +48,7 @@ include_once NOVEMBER_APP_DIR.'/validators/UniqueValueValidator.php';
 
 include_once NOVEMBER_APP_DIR.'/exceptions/InvalidRequestMethodException.php';
 
-include_once NOVEMBER_APP_DIR.'/User.php';
+include_once NOVEMBER_APP_DIR.'/model/User.php';
 
 include_once NOVEMBER_APP_DIR.'/web-helper.php';
 include_once NOVEMBER_APP_DIR.'/utils.php';
@@ -207,24 +207,28 @@ class NovemberApplication
         Zend_Session::start(array('name' => $session_name));
         
         $this->injector->addAutoProperty('log', $this->logger);
-        $this->injector->addServiceDirectory(ifset($this->config, 'services_dir', APP_DIR.'/services'));
+        
         
         $__start = getmicrotime();
         
-        $services = $this->loadDefaultServices();
+        // $services = $this->loadDefaultServices();
+		$this->injector->addServiceDirectory(NOVEMBER_APP_DIR.'/services');
+		// $this->injector->loadServices($this->config['services']);
 
         $this->recordStat('za::initdefaultservices', getmicrotime() - $__start);
         $__start = getmicrotime();
-        
-        foreach ($services as $defaultService) {
-            $this->injector->inject($defaultService);
-        }
-        
+//
+//        foreach ($services as $defaultService) {
+//            $this->injector->inject($defaultService);
+//        }
+//        
         $this->recordStat('za::initinjectdefaultservices', getmicrotime() - $__start);
         $__start = getmicrotime();
         
         // Load extensions
         $this->loadExtensions();
+
+		$this->injector->addServiceDirectory(ifset($this->config, 'services_dir', APP_DIR.'/services'));
 
         $this->recordStat('za::initloadext', getmicrotime() - $__start);
         $__start = getmicrotime();

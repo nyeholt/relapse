@@ -67,7 +67,7 @@ class TypeManager implements Configurable
         $source = $dir.DIRECTORY_SEPARATOR.$file;
 		$found = false;
         if (!Zend_Loader::isReadable($source)) {
-            $extensions = za()->getExtensions();
+            $extensions = array_merge(array('november'), za()->getExtensions());
             foreach ($extensions as $extDir) {
                 $source = $extDir.DIRECTORY_SEPARATOR.'model'.DIRECTORY_SEPARATOR.$file;
                 if (Zend_Loader::isReadable($source)) {
@@ -86,7 +86,7 @@ class TypeManager implements Configurable
 
         try {
 			if (!class_exists($class, false)) {
-				Zend_Loader::loadFile(basename($source), dirname($source), true);
+				Zend_Loader::loadFile(basename($source), APP_DIR.DIRECTORY_SEPARATOR.dirname($source), true);
 			}
         } catch (Zend_Exception $ze) {
             // ignore it, we'll just assume it was loaded elsewhere

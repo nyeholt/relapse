@@ -50,4 +50,3 @@ class CheckEmails implements RunnableTask
         return 5 * 60;
     }
 }
-?>

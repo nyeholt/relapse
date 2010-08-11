@@ -4,7 +4,7 @@ include_once dirname(__FILE__).'/exceptions/ExistingUserException.php';
 include_once dirname(__FILE__).'/exceptions/RecursiveGroupException.php';
 include_once dirname(__FILE__).'/exceptions/NonEmptyGroupException.php';
 
-include_once 'model/GroupMember.php';
+include_once 'november/model/GroupMember.php';
 include_once 'model/LeaveApplication.php';
 
 /**
