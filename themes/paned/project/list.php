@@ -18,7 +18,8 @@ $options->colModel = array(
 	array('display' => 'ID', 'name' => 'id', 'width' => '20', 'sortable' => true, 'align' => 'center'),
 	array('display' => 'Title', 'name' => 'title', 'width' => '400', 'sortable' => true, 'align' => 'left'),
 	array('display' => 'Time Spent', 'name' => 'currenttime', 'width' => '50', 'sortable' => true, 'align' => 'center'),
-	array('display' => 'Estimate', 'name' => 'budgeted', 'width' => '50', 'sortable' => true, 'align' => 'center'),
+	array('display' => 'Estimate', 'name' => 'featureestimate', 'width' => '50', 'sortable' => true, 'align' => 'center'),
+	array('display' => 'Budget', 'name' => 'budgeted', 'width' => '50', 'sortable' => true, 'align' => 'center'),
 	array('display' => 'Description', 'name' => 'description', 'width' => '400', 'sortable' => false, 'align' => 'left'),
 );
 
