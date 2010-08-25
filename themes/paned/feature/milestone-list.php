@@ -38,4 +38,3 @@ $options->buttons = array(
 $this->flexiGrid('feature-list'.$this->milestone->id, $options);
 
 $this->addToPane(build_url('project', 'view', array('id'=> $this->project->id)), 'Back to Project');
-?>
