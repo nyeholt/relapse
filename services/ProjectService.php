@@ -1090,8 +1090,11 @@ class ProjectService
 					// make sure it has a start date
 					if (!mb_strlen($project->actualstart)) {
 						$project->actualstart = date('Y-m-d H:i:s', time());
-						$this->saveProject($project);
+						
 					}
+
+					// save to force a time update
+					$this->saveProject($project);
 				}
 
 	    		$this->saveTask($task);

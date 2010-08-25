@@ -40,6 +40,11 @@ class FeatureController extends BaseController
             }
         }
 
+		$project = $this->projectService->getProject($model->projectid);
+		if ($project) {
+			$this->projectService->saveProject($project);
+		}
+
 		if ($this->_getParam('_ajax')) {
 			$f = $model->unBind(true);
 			$f = Zend_Json::encode($f);

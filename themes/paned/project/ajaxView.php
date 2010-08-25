@@ -9,8 +9,9 @@
 	<span><?php $this->o(sprintf('%.2f', $this->project->featureestimate > 0 ? $this->project->featureestimate : 0)); ?></span> days,
 	<?php endif ;?>
 	Spent <span><?php $this->o(sprintf('%.2f', $this->project->currenttime > 0 ? $this->project->currenttime / za()->getConfig('day_length', 8) : 0)); ?></span> days so far
+
 	<?php if ($this->project->budgeted > 0 && $this->project->currenttime > 0): ?>
-	<?php $this->o(sprintf('%.2f', $this->project->currenttime / $this->project->budgeted * 100)) ?>
+	<?php $this->o(sprintf('%.2f', $this->project->currenttime / $this->project->budgeted * 100)) ?>% of budget.
 	<?php endif ;?>
 </p>
 </div>
