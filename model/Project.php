@@ -158,7 +158,7 @@ class Project extends MappedObject
 	 */
 	public function listFields()
 	{
-		return array('id' => 'ID', 'title' => 'Title', 'description' => 'Description');
+		return array('id' => 'ID', 'title' => 'Title', 'currenttime' => 'Time Spent', 'budgeted' => 'Estimate', 'description' => 'Description');
 	}
 
 	/**
