@@ -1025,6 +1025,7 @@ class ProjectService
 			foreach ($children as $child) {
 				$taskestimate += $child->taskestimate;
 				$featureestimate += $child->featureestimate;
+				
 			}
 			
 			if ($taskestimate && $taskestimate != $project->taskestimate) {
@@ -1033,6 +1034,7 @@ class ProjectService
 			}
 			if ($featureestimate && $featureestimate != $project->featureestimate) {
 				$project->featureestimate = $featureestimate;
+				$project->estimated = $featureestimate * za()->getConfig('day_length', 8);
 				$update = true;
 			}
     	}
