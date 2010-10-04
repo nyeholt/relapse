@@ -13,6 +13,7 @@
 	</div>
 
 	<div class="std">
+		<h2>Tasks</h2>
 		<?php include dirname(__FILE__).'/../task/list.php'; ?>
 	</div>
 
