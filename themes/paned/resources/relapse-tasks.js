@@ -25,7 +25,7 @@
 		tableCommand: function (cmd, grid) {
 			var $this = this;
 			if (cmd == 'New') {
-				Relapse.addToPane('RightPane', BASE_URL + 'task/edit', 'New task ' + title);
+				Relapse.addToPane('RightPane', BASE_URL + 'task/edit', 'New task');
 			} else if (cmd == 'Edit') {
 				$('.trSelected',grid).each (function () {
 					var id = $(this).attr('id').replace('row', '');

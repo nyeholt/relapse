@@ -17,6 +17,11 @@
 	</div>
 
 	<?php include dirname(__FILE__).'/../issue/issue-list.php'; ?>
+
+	<div class="std">
+		<h2>Projects</h2>
+		<?php include dirname(__FILE__).'/../project/list.php'; ?>
+	</div>
 	
 	<div class="std">
 		<h2>Go to...</h2>
@@ -43,14 +48,5 @@
 			<?php endforeach; ?>
 		</ul>
 		<div class="clear"></div>
-	</div>
-
-	<div class="std">
-		<h2>Latest</h2>
-		<ul class="largeDualList">
-			<?php foreach ($this->latest as $l): ?>
-			<li><a class="block" href="<?php echo build_url('project', 'view', array('id'=> $l->id))?>"><?php echo $this->ellipsis($this->escape($l->title), 22);?></a></li>
-			<?php endforeach; ?>
-		</ul>
 	</div>
 </div>

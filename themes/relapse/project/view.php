@@ -117,7 +117,7 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 		</div>
 		<div class="inner-column">
 			<ul class="largeList">
-				<li>something</li>
+				<li><a href="<?php echo build_url('timesheet', 'index', array('projectid'=>$this->project->id)) ?>">Current Times</a></li>
 				<li>something</li>
 				<li>something</li>
 				<li>something</li>

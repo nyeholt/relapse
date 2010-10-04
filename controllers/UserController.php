@@ -151,8 +151,8 @@ class UserController extends NovemberController
 	protected function getThemes()
 	{
 		// $themes = array('Default');
-		$themes = array('Relapse', 'Paned');
-		return $themes;
+//		$themes = array('Relapse', 'Paned');
+//		return $themes;
 		
 		if (is_dir(BASE_DIR.'/themes')) {
 			$themeDir = new DirectoryIterator(BASE_DIR.'/themes');
