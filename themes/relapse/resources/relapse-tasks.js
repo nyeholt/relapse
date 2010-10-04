@@ -29,23 +29,27 @@
 			} else if (cmd == 'Edit') {
 				$('.trSelected',grid).each (function () {
 					var id = $(this).attr('id').replace('row', '');
+					var title = $($(this).find("td")[1]).find('div').text();
 					if (id > 0) {
 						Relapse.createDialog('taskdialog', {title: 'Edit Task', url: BASE_URL + 'task/edit/id/'+id});
 					}
 				});
 			} else if (cmd == 'Start') {
+				var id = null;
 				$('.trSelected',grid).each (function () {
-					var id = $(this).attr('id').replace('row', '');
-					if (id > 0) {
-						$this.startTiming(id);
-					}
+					id = $(this).attr('id').replace('row', '');
 				});
+
+				if (id > 0) {
+					$this.startTiming(id);
+				}
 				
 			} else if (cmd == 'Timesheet') {
 				$('.trSelected',grid).each (function () {
 					var id = $(this).attr('id').replace('row', '');
+					var title = $($(this).find("td")[1]).find('div').text();
 					if (id > 0) {
-						Relapse.createDialog('timesheetdialog', {title: 'Timesheet', url: BASE_URL + 'timesheet/detailedTimesheet/taskid/'+id});
+						$this.openTimesheet(id, title);
 					}
 				});
 			} else if (cmd == 'Delete') {
@@ -60,6 +64,17 @@
 			}
 		},
 
+		completeTasks: function (cmd, grid) {
+			$('.trSelected',grid).each (function () {
+				var id = $(this).attr('id').replace('row', '');
+				if (id > 0) {
+					$.post(BASE_URL + 'task/complete/id/'+id+'/__validation_token/' + VALIDATION_TOKEN+'/_ajax/1', {id: id}, function () {
+						$('.pReload',grid).click();
+					});
+				}
+			});
+		},
+
 		/**
 		 * Call to start timing a task
 		 */
@@ -67,6 +82,14 @@
 			if (taskId) {
 				popup(BASE_URL + 'timesheet/record/id/' + taskId, 'timer', '500', '300');
 			}
+		},
+
+		openTimesheet: function (id, title) {
+			Relapse.createDialog('timesheetdialog', {title: 'Timesheet', url: BASE_URL + 'timesheet/detailedTimesheet/taskid/'+id});
+		},
+
+		addTimeToTask: function (taskid, date, amount) {
+			
 		}
 	}
 

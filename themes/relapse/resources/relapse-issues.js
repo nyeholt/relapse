@@ -18,7 +18,7 @@
 					var id = $(this).attr('id').replace('row', '');
 					if (confirm("Are you sure you want to delete this?")) {
 						$.post(BASE_URL + 'issue/delete/__validation_token/'+VALIDATION_TOKEN, {id: id}, function () {
-							$('.pReload',grid).click();
+							$('.pReload').click();
 						});
 					}
 				});
@@ -37,7 +37,7 @@
 					if (parseInt(data)) {
 						// lets start timing for this one
 						Relapse.Tasks.startTiming(parseInt(data));
-						$('.pReload',grid).click();
+						$('.pReload').click();
 					}
 				});
 			});
