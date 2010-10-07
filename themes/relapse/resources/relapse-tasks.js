@@ -1,7 +1,6 @@
 
 (function ($) {
 	Relapse.TaskManager = function () {
-		
 	}
 
 	Relapse.TaskManager.prototype = {

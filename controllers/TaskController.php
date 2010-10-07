@@ -114,7 +114,6 @@ class TaskController extends BaseController
 
 			$this->view->selectableRequests = $client->getIssues();
         }
-        
     }
     
     public function quickcreateAction()
@@ -343,6 +342,14 @@ class TaskController extends BaseController
 	}
 
 	/**
+	 * Displays the UI for creating a task using a simple UI that prompts users for the issue/feature to create
+	 * it against. If none supplied, will just create a
+	 */
+	public function simpletaskAction() {
+		
+	}
+
+	/**
 	 * Creates a new task and begins timing immediately
 	 */
 	public function startnewtaskAction() {
@@ -408,9 +415,8 @@ class TaskController extends BaseController
 
     /**
      * Create a new task that's linked from another object
-     *
      */
-    public function newtaskAction()
+    public function newtaskAction($return = false)
     {
         $params = $this->_getAllParams();
         $params['createtype'] = 'Task';
@@ -430,6 +436,7 @@ class TaskController extends BaseController
         } else {
         	$this->projectService->saveTask($task);
         }
+
 
 		// if we're here by way of ajax, then lets send some js back that will
 		// load a new dialog with the appropriate editing interface

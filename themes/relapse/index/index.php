@@ -6,10 +6,15 @@
 				<a class="block" href="<?php echo build_url('client', 'index')?>">Clients</a>
 			</li>
 			<li>
-				<a class="block" href="<?php echo build_url('project', 'index')?>">Projects</a>
+				<?php $this->dialogPopin('simpletask', 'New Task', build_url('task', 'simpletask'), array(), 'class="block"') ?>
 			</li>
 		</ul>
 		<div class="clear"></div>
+	</div>
+
+	<div class="std">
+		<h2>Projects</h2>
+		<?php include dirname(__FILE__).'/../project/list.php'; ?>
 	</div>
 
 	<div class="std">
@@ -19,10 +24,7 @@
 
 	<?php include dirname(__FILE__).'/../issue/issue-list.php'; ?>
 
-	<div class="std">
-		<h2>Projects</h2>
-		<?php include dirname(__FILE__).'/../project/list.php'; ?>
-	</div>
+	
 	
 	<div class="std">
 		<h2>Go to...</h2>
