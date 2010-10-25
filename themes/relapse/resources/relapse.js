@@ -82,6 +82,7 @@ var Relapse;
 		},
 
 		createPanel: function (content, title, url, pane) {
+			alert("CREATE");
 			var _this = this;
 			
 			var panel = $('<div class="panePanel" style="display: none"></div>');

@@ -55,7 +55,7 @@ class PhpAuthPlugin extends Zend_Controller_Plugin_Abstract
 	{
 	    // Checks PHP_AUTH_USER and PHP_AUTH_PW and uses those values
 	    // to authenticate a user
-	    if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+	    if (!za()->getUser()->getId() > 0 && isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
 	        // Get the auth service and authenticate the user
 	        $auth = za()->getService('AuthService');
 	        /* @var $auth AuthService */

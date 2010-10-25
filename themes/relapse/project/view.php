@@ -117,8 +117,8 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 		</div>
 		<div class="inner-column">
 			<ul class="largeList">
+				<li><?php $this->dialogPopin('projectdialog', 'Edit this '.$label, build_url('project', 'edit', array('id'=> $this->project->id)), array('title' => 'Edit Project')); ?></li>
 				<li><a href="<?php echo build_url('timesheet', 'index', array('projectid'=>$this->project->id)) ?>">Current Times</a></li>
-				<li>something</li>
 				<li>something</li>
 				<li>something</li>
 			</ul>
@@ -126,7 +126,7 @@ $addStyle = $deleteStyle == 'inline' ? 'none' : 'inline';
 		 <div style="clear: left;"></div>
 		<div>
 		<p>
-			<?php $this->dialogPopin('projectdialog', 'Edit this '.$label, build_url('project', 'edit', array('id'=> $this->project->id)), array('title' => 'Edit Project'), 'class="abutton"'); ?>
+			
 		<!-- <a class="abutton" title="View Traceability" href="<?php echo build_url('project', 'traceability', array('id'=> $this->project->id))?>">
 			Trace the <?php echo $label ?>
 		</a> -->
