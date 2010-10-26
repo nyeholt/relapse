@@ -201,7 +201,7 @@ var Relapse;
 				// see if we're a side panel object that needs closing
 				var panel = $(context).parents('.panePanel');
 				this.closePanel(panel);
-				$('.pReload',grid).click();
+				$('.pReload').click();
 			}
 		}
 	};
