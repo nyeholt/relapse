@@ -65,7 +65,7 @@ $config['plugins'] = array(
             'file' => 'ReadOnly',
             'leave' => array('save' => 'Admin', 'edit'=>'Admin', 'list'=>'Admin', 'changestatus'=>'Admin'),
             'user' => array(
-//                 'register' => 'Guest',
+                'register' => 'Guest',
 				'password' => 'Guest',
             ),
             'index' => array(

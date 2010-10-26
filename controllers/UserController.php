@@ -85,7 +85,7 @@ class UserController extends NovemberController
 	/**
 	 * Display the register form
 	 *
-	 
+	 */
 	public function registerAction()
 	{
 		
@@ -108,7 +108,7 @@ class UserController extends NovemberController
 			}
 		}
 		$this->getResponse()->appendBody($this->view->render('user/signup.php'));
-	}*/
+	}
 
 	/**
 	 * Edit a user object.
