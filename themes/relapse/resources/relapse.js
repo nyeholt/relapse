@@ -202,8 +202,9 @@ var Relapse;
 				// see if we're a side panel object that needs closing
 				var panel = $(context).parents('.panePanel');
 				this.closePanel(panel);
-				$('.pReload',grid).click();
 			}
+
+			$('.pReload').click();
 		}
 	};
 
@@ -239,7 +240,17 @@ var Relapse;
 								if (d.hasClass('appendresult')) {
 									d.append(data);
 								} else {
-									d.html(data);
+									try {
+										var res = $.parseJSON(data);
+										if (res && res.success) {
+											Relapse.closeDialog('all');
+											return;
+										} else {
+											d.html(data);
+										}
+									} catch (e) {
+										d.html(data);
+									}
 								}
 							} else if ($form.hasClass('replacecontent')) {
 								$form.html(data);

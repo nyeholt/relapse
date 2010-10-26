@@ -217,7 +217,7 @@ class TaskController extends BaseController
         }
 
 		if ($this->_getParam('_ajax')) {
-			$this->ajaxResponse("Saved ".$model->title);
+			echo $this->ajaxResponse("Saved ".$model->title);
 		} else {
 			$this->redirect('task', 'edit', array('id'=>$model->id));
 		}

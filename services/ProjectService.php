@@ -7,8 +7,7 @@ include_once 'model/TimesheetRecord.php';
 include_once 'model/ProjectStatus.php';
 include_once 'services/exceptions/InvalidTimesheetRecordException.php';
 
-class ProjectService 
-{
+class ProjectService {
     const TASK_UPDATE_TIME = 60;
 
     const MAX_RECORD_LENGTH = 7200;
@@ -68,17 +67,11 @@ class ProjectService
         if ($proj == null) return null;
 
         if (!$proj->ownerid || $proj->ownerid == ' ') {
-            // create a default project for this item.
-//            $projectGroup = $this->groupService->getGroupByField('title', $proj->title.' Project Group');
-//            if ($projectGroup) {
-//                $proj->ownerid = $projectGroup->id;
-//            } else {
-//
-//                $newGroup = $this->groupService->createGroup(array('title' => $proj->title.' Project Group'));
-//                $proj->ownerid = $newGroup->id;
-//            }
-//
-//            $this->saveProject($proj);
+			$group = $this->groupService->getGroupByField('title', za()->getConfig('issue_group'));
+			if ($group && $group->id) {
+				$proj->ownerid = $group->id;
+				$this->saveProject($proj);
+			}
         }
 
         return $proj;
@@ -594,7 +587,7 @@ class ProjectService
 	                    $groups = $this->groupService->getGroupsForUser($user, false);
 	
 	                    // Note here that ownerid == the group that owns this project
-	                    if (!isset($groups[$project->ownerid])) {
+	                    if ($project->ownerid && !isset($groups[$project->ownerid])) {
 	                        $group = $this->groupService->getGroup($project->ownerid);
 	                        if ($group) {
 	                            // Add the user to this group
@@ -603,9 +596,11 @@ class ProjectService
 	                        } else {
 	                            $this->log->warn(__CLASS__.':'.__LINE__.": Group not found for $project->ownerid");
 	                        } 
-	                    } else {
+	                    } else if ($project->ownerid) {
 	                        $this->log->debug(__CLASS__.':'.__LINE__.": User $user->username is already in group ".$groups[$project->ownerid]->title);
-	                    }
+	                    } else {
+							$this->log->debug(__CLASS__.':'.__LINE__.": Project does not have an owner for assigning a group");
+						}
 	                } 
 	
 	                $this->dbService->saveObject($params, 'UserTaskAssignment');
