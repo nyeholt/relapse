@@ -4,7 +4,6 @@
         	$('#projectSelector-projectid').load('<?php echo build_url('project', 'projectSelector')?>', {clientid: $(this).val(), selectorType: 'milestone', fieldName: 'projectid'});
            
            });
-        
         <?php if (!$this->project->id): ?>
         	$("select#clientid").change();
         <?php endif; ?>
@@ -53,7 +52,7 @@
 	    <?php $this->selectList('Client', 'clientid', $this->clients, $this->project->clientid, 'id', 'title', false, true, 'class="required"') ?>
 	    <p>
 	    <label for="project">Milestone:</label>
-	    <?php $this->projectSelector('projectid', $this->projects, 'milestone', false, $this->project->id) ?>
+	    <?php $this->projectSelector('projectid', $this->projects, 'milestone', false, $this->project->id, true, true) ?>
 	    </p>
 	    
 	    <p>

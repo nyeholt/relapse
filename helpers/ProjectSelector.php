@@ -12,7 +12,7 @@ class Helper_ProjectSelector extends NovemberHelper
 	 * @param array $projects
 	 * @param String $select What kind of projects can be selected? project|milestone|any 
 	 */
-	public function ProjectSelector($forField, $projects, $select = 'any', $empty = false, $default=null, $showmilestones=true)
+	public function ProjectSelector($forField, $projects, $select = 'any', $empty = false, $default=null, $showmilestones=true, $required=false)
 	{
 		// Build up the HTML cause we'll try and cache this at a later point
 		// based on the clientid
@@ -22,6 +22,8 @@ class Helper_ProjectSelector extends NovemberHelper
 		    $value = $default;
 		}
 		
+		$req = $required ? ' required' : '';
+
         $html = '<span id="projectSelector-'.$forField.'"><select class="input" name="'.$forField.'" id="'.$forField.'">';
         if ($empty) {
         	$html  .= '<option value=""> </option>';

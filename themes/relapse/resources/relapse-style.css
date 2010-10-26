@@ -47,7 +47,8 @@ a.inlineAction { display: inline; padding: 5px 0;}
 .dialog { display: none; }
 .dialogContent {overflow: auto; min-height: 300px; max-height: 480px; padding: 0.3em; }
 .dialogClose { background:#000000; color:#FFFFFF; cursor:pointer; font-weight:bold; position:absolute; right:0; text-align:center; top:0; width:20px; }
-input, select, textarea { font-size: 1em; padding: 4px; }
+input, textarea { font-size: 1em; padding: 4px; }
+select { padding: 0px;}
 option, textarea, input[type=text], input[type=password] { border: 1px solid #ddd; background: #fff url(input-bg.png) repeat-x scroll bottom; }
 
 .calendar { z-index: 1001 }

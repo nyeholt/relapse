@@ -89,6 +89,13 @@
 
 		addTimeToTask: function (taskid, date, amount) {
 			
+		},
+
+		deleteTimesheetRecord: function (id, trigger) {
+			if (!confirm('Are you sure?')) return false; 
+			$.post(BASE_URL + 'timesheet/deleterecord/', {id: id}, function() {
+				$(trigger).closest('tr').remove();
+			});
 		}
 	}
 

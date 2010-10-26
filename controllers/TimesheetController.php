@@ -524,7 +524,16 @@ class TimesheetController extends NovemberController
      */
     public function addtimeAction()
     {
-		$start = strtotime($this->_getParam('start', date('Y-m-d')) . ' ' . $this->_getParam('start-time', '12:00') . ':00');
+		$date = $this->_getParam('start', date('Y-m-d'));
+		$time = $this->_getParam('start-time');
+
+		if (!$time) {
+			$hour = $this->_getParam('start-hour');
+			$min = $this->_getParam('start-min');
+			$time = $hour.':'.$min;
+		}
+
+		$start = strtotime($date . ' ' . $time . ':00');
         $end = $start + $this->_getParam('total') * 3600;
         $task = $this->projectService->getTask($this->_getParam('taskid'));
         $user = za()->getUser();
