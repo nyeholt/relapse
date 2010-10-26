@@ -6,7 +6,7 @@
     });
 </script>
 
-<form method="post" action="<?php echo build_url('project', 'save');?>" class="data-form">
+<form method="post" action="<?php echo build_url('project', 'save');?>" class="data-form ajaxForm">
 
 <?php if ($this->viaajax): ?>
 <input type="hidden" value="1" name="_ajax" />

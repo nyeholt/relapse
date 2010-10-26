@@ -36,6 +36,7 @@ $options->height = 'auto';
 $options->pagestat = 'Displaying: {from} to {to} of {total} items.';
 $options->onError = "function() { if (true) {}; alert(data); }";
 $options->buttons = array(
+	array('name' => 'New', 'bclass' => 'newbutton', 'onpress' => 'function(cmd, data) { Relapse.createDialog("projectdialog", {url: BASE_URL + "project/edit/", title: "New Project"}); }'),
 	array('name' => 'Open', 'bclass' => 'viewbutton', 'onpress' => 'function(cmd, data) { $(".trSelected",data).each (function () { var id = $(this).attr("id").replace("row", ""); if (id > 0) { location.href = BASE_URL + "project/view/id/" + id; } }); }')
 );
 $this->flexiGrid('projects-list', $options);

@@ -1020,7 +1020,6 @@ class ProjectService {
 			foreach ($children as $child) {
 				$taskestimate += $child->taskestimate;
 				$featureestimate += $child->featureestimate;
-				
 			}
 			
 			if ($taskestimate && $taskestimate != $project->taskestimate) {

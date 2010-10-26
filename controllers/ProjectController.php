@@ -325,10 +325,14 @@ class ProjectController extends BaseController
      */
     protected function onModelSaved($model)
     {
-		if ($model == null) {
-			$this->redirect('project');
+		if ($this->_getParam('_ajax')) {
+			echo $this->ajaxResponse("Saved ".$model->title);
 		} else {
-			$this->redirect('project', 'view', array('id'=>$model->id));
+			if ($model == null) {
+			$this->redirect('project');
+			} else {
+				$this->redirect('project', 'view', array('id'=>$model->id));
+			}
 		}
     }
     
