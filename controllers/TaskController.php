@@ -75,6 +75,7 @@ class TaskController extends BaseController
         $this->view->project = $project;
 
 		$this->view->projectUsers = $this->projectService->getProjectUsers($project);
+		$this->view->activeTasks = array();
         if ($project->id) {
             $this->view->projects = $this->projectService->getProjectsForClient($project->clientid);
 			$this->view->activeTasks = $this->projectService->getActiveProjectTasks($project);
