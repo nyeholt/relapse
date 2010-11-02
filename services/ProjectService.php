@@ -975,6 +975,9 @@ class ProjectService {
 
     /**
      * Update a project's estimated time
+	 *
+	 * This method does NOT save the project explicitly - it is assumed that
+	 * our caller will do that.
      */
     public function updateProjectEstimate(Project $project)
     {
@@ -1039,17 +1042,24 @@ class ProjectService {
 		foreach ($summary as $task) {
 			$taken += $task->timespent;
 		}
-		
+
+		$grandchildren = $project->getAllSubProjects();
+		foreach ($grandchildren as $grandkid) {
+			$taken += $grandkid->currenttime;
+		}
+
 		$taken = $taken > 0 ? $taken / 3600 : 0;
  
 		if ($taken > 0 && $project->currenttime != $taken) {
 			$project->currenttime = $taken;
+			// note that we do NOT save this here; we're assuming our caller will
+			// save when appropriate
 			$update = true;
 		}
 
 		if ($update) {
 			// get its parent and update that too
-			if ($project->parentid && $project->ismilestone) {
+			if ($project->parentid/* && $project->ismilestone*/) {
 				$parent = $this->getProject($project->parentid);
 				$this->saveProject($parent);
 			}

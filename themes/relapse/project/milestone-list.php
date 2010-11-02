@@ -91,7 +91,7 @@
 			<?php
 			$completed = 0;
 			$estimated = 0;
-			foreach ($childProject->getContainedOpenTasks($this->projectuser) as $openTask):
+			foreach ($childProject->getContainedTasks($this->projectuser) as $openTask):
 				$completed += $openTask->timespent;
 				$estimated += $openTask->estimated;
 			?>
@@ -105,7 +105,7 @@
 				</li>
 			<?php endforeach; ?>
 			</ul><br/>
-			<p>Time spent on open tasks: <?php $this->o(sprintf('%.2f', ($completed > 0 ? $completed / 3600 : 0))) ?> / <?php $this->o($estimated) ?></p>
+			<p>Time spent on tasks: <?php $this->o(sprintf('%.2f', ($completed > 0 ? $completed / 3600 : 0))) ?> / <?php $this->o($estimated) ?></p>
 			</div>
 		<?php endforeach; ?>
 
