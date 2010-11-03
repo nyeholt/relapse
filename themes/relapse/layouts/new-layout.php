@@ -37,6 +37,8 @@
 
 	<?php $this->script(resource('general.js')); ?>
 	<?php $this->script(theme_resource('relapse.js')); ?>
+	<?php $this->script(theme_resource('relapse-projects.js')); ?>
+	<?php $this->script(theme_resource('relapse-clients.js')); ?>
 	<?php $this->script(theme_resource('relapse-features.js')); ?>
 	<?php $this->script(theme_resource('relapse-tasks.js')); ?>
 	<?php $this->script(theme_resource('relapse-issues.js')); ?>

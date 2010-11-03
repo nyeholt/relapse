@@ -18,7 +18,7 @@
 		<legend>Info</legend>
 		<?php $this->textInput('Title', 'title') ?>
 		<?php $this->textInput('Description', 'description', true); ?>
-		<?php $this->selectList('Client', 'clientid', $this->clients) ?>
+		<?php $this->selectList('Client', 'clientid', $this->clients, $this->client ? $this->client->id : null) ?>
 		<?php if ($this->model->parentid): // If this project has a parent, we can make it a milestone instead ?>
 			<?php $this->yesNoInput('Milestone?', 'ismilestone'); ?>
 		<?php endif; ?>
