@@ -37,6 +37,7 @@ $options->pagestat = 'Displaying: {from} to {to} of {total} items.';
 $options->onError = "function() { if (true) {}; alert(data); }";
 $options->buttons = array(
 	array('name' => 'New', 'bclass' => 'newbutton', 'onpress' => 'function(cmd, data) { Relapse.Projects.newProject('. ($this->client ? $this->client->id : 0) . ')}'),
-	array('name' => 'Open', 'bclass' => 'viewbutton', 'onpress' => 'function(cmd, data) { Relapse.Projects.open(cmd, data) }')
+	array('name' => 'Open', 'bclass' => 'viewbutton', 'onpress' => 'function(cmd, data) { Relapse.Projects.open(cmd, data) }'),
+	array('name' => 'Edit', 'bclass' => 'editbutton', 'onpress' => 'function(cmd, data) { Relapse.Projects.edit(cmd, data) }')
 );
 $this->flexiGrid('projects-list', $options);

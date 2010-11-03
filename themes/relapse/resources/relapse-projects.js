@@ -16,6 +16,15 @@
 				window.location.href =  BASE_URL + 'project/view/id/'+id;
 				return;
 			});
+		},
+
+		edit: function (cmd, grid) {
+			$('.trSelected',grid).each (function () {
+				var id = $(this).attr('id').replace('row', '');
+				var title = $($(this).find("td")[1]).find('div').text();
+				Relapse.createDialog('projectdialog', {title: 'Edit ' + title, url: BASE_URL + 'project/edit/id/' + id});
+				return;
+			});
 		}
 	}
 })(jQuery);
