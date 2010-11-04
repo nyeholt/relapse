@@ -335,8 +335,11 @@ class TaskController extends BaseController
 			$project = $this->projectService->getProject($this->view->model->projectid);
 			$this->view->projects = $this->projectService->getProjectsForClient($project->clientid);
 		}
+
 		if (isset($this->view->model->milestone)) {
 			$this->view->defaultmilestone = $this->view->model->milestone;
+		} else {
+			$this->view->defaultmilestone = $this->findPossibleParentForTaskAgainst(get_class($this->view->model), $this->view->model->id);
 		}
 		
 		$this->renderRawView('task/linkedtaskform.php');
@@ -358,40 +361,8 @@ class TaskController extends BaseController
         $params['createtype'] = 'Task';
 		$context = null;
         if (!isset($params['newtaskProjectid']) && ($params['type'] == 'Issue' || $params['type'] == 'Feature')) {
-			switch ($params['type']) {
-				case 'Issue': {
-					$context = $this->byId($params['id'], 'Issue');
-					// get its project, then a milestone in that project
-					$project = $this->projectService->getProject($context->projectid);
-					$possibles = $project->getMilestones();
-					if (!count($possibles)) {
-						$milestone = $project->createDefaultMilestone();
-						$params['newtaskProjectid'] = $milestone->id;
-					} else {
-						$milestone = $possibles->getIterator()->current();
-						$params['newtaskProjectid'] = $milestone->id;
-					}
-					break;
-				}
-				case 'Feature': {
-					$context = $this->byId($params['id'], 'Feature');
-					// get its project, then a milestone in that project
-					if ($context->milestone) {
-						$params['newtaskProjectid'] = $context->milestone;
-					} else {
-						$project = $context->projectid;
-						$possibles = $project->getMilestones();
-						if (!count($possibles)) {
-							$milestone = $project->createDefaultMilestone();
-							$params['newtaskProjectid'] = $milestone->id;
-						} else {
-							$milestone = $possibles->getIterator()->current();
-							$params['newtaskProjectid'] = $milestone->id;
-						}
-					}
-					break;
-				}
-			}
+			$context = $this->byId($params['id'], $params['type']);
+			$params['newtaskProjectid'] = $this->findPossibleParentForTaskAgainst($params['type'], $params['id']);
         }
 
 		$prefix = ifset($params, 'prefix', '');
@@ -412,6 +383,43 @@ class TaskController extends BaseController
 		}
 
 		echo $task->id;
+	}
+
+	protected function findPossibleParentForTaskAgainst($type, $id) {
+		switch ($type) {
+			case 'Issue': {
+				$context = $this->byId($id, 'Issue');
+				// get its project, then a milestone in that project
+				$project = $this->projectService->getProject($context->projectid);
+				$possibles = $project->getMilestones();
+				if (!count($possibles)) {
+					$milestone = $project->createDefaultMilestone();
+					return $milestone->id;
+				} else {
+					$milestone = $possibles->getIterator()->current();
+					return $milestone->id;
+				}
+				break;
+			}
+			case 'Feature': {
+				$context = $this->byId($id, 'Feature');
+				// get its project, then a milestone in that project
+				if ($context->milestone) {
+					return $context->milestone;
+				} else {
+					$project = $context->projectid;
+					$possibles = $project->getMilestones();
+					if (!count($possibles)) {
+						$milestone = $project->createDefaultMilestone();
+						return $milestone->id;
+					} else {
+						$milestone = $possibles->getIterator()->current();
+						return $milestone->id;
+					}
+				}
+				break;
+			}
+		}
 	}
 
     /**

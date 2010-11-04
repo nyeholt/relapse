@@ -9,10 +9,7 @@
 			if (cmd == 'New') {
 				Relapse.createDialog('issuedialog', {title: 'Add new Issue', url: contextUrl});
 			} else if (cmd == 'Open') {
-				$('.trSelected',grid).each (function () {
-					var id = $(this).attr('id').replace('row', '');
-					Relapse.createDialog('issuedialog', {title: 'Edit Issue', url: BASE_URL + 'issue/edit/id/'+id});
-				});
+				
 			} else if (cmd == 'Delete') {
 				$('.trSelected',grid).each (function () {
 					var id = $(this).attr('id').replace('row', '');
@@ -26,6 +23,33 @@
 				location.href = BASE_URL + 'issue/csvExport/unlimited/1';
 			}
 		},
+
+		exportIssues: function (clientid, projectid) {
+			var url = BASE_URL + 'issue/csvExport/unlimited/1';
+			if (clientid) {
+				url += '/clientid/'+clientid;
+			}
+			if (projectid) {
+				url += '/projectid/'+projectid;
+			}
+			location.href = url;
+		},
+
+		editIssue: function (grid) {
+			$('.trSelected',grid).each (function () {
+				var id = $(this).attr('id').replace('row', '');
+				Relapse.createDialog('issuedialog', {title: 'Edit Issue', url: BASE_URL + 'issue/edit/id/'+id});
+			});
+		},
+
+		createTask: function (grid) {
+			$('.trSelected',grid).each (function () {
+				var id = $(this).attr('id').replace('row', '');
+				var url = BASE_URL + 'task/linkedtaskform/id/'+id+'/type/Issue';
+				Relapse.createDialog('newLinkedTask', {title: 'Add Task', url: url});
+			});
+		},
+
 		/**
 		 * Immediately start timing this task
 		 */

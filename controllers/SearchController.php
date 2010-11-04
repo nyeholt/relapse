@@ -119,7 +119,6 @@ class SearchController extends BaseController
 		$this->typeManager->includeType($type);
 		$items = $this->getList($type);
 
-
 		$dummy = new $type;
 		$listFields = $dummy->listFields();
 

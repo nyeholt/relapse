@@ -30,8 +30,9 @@ $options->pagestat = 'Displaying: {from} to {to} of {total} items.';
 $options->onError = "function() { if (true) {}; alert(data); }";
 $options->buttons = array(
 	array('name' => 'New', 'bclass' => 'newbutton', 'onpress' => 'function(cmd, data) { Relapse.Features.tableCommand(cmd, data, "'.build_url('feature', 'edit', $params).'") }'),
-	array('name' => 'Start', 'bclass' => 'timingbutton', 'onpress' => 'function(cmd, data) { Relapse.Features.startTiming(data) }'),
 	array('name' => 'Edit', 'bclass' => 'editbutton', 'onpress' => 'function(cmd, data) { Relapse.Features.tableCommand(cmd, data) }'),
+	array('name' => 'Start', 'bclass' => 'timingbutton', 'onpress' => 'function(cmd, data) { Relapse.Features.startTiming(data) }'),
+	array('name' => 'New Task', 'bclass' => 'taskbutton', 'onpress' => 'function(cmd, data) { Relapse.Features.createTask(data) }'),
 	array('name' => 'Delete', 'bclass' => 'deletebutton', 'onpress' => 'function(cmd, data) { Relapse.Features.tableCommand(cmd, data) }')
 );
 $this->flexiGrid('feature-list'.$childProject->id, $options);

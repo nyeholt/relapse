@@ -63,13 +63,13 @@ class ClientController extends BaseController
         $this->view->client = $this->byId();
         $this->view->title = $this->view->client->title;
         $this->view->existingWatch = $this->notificationService->getWatch(za()->getUser(), $this->view->client);
+
 		if ($this->_getParam('_ajax')) {
 			$this->renderRawView('client/ajaxView.php');
 		} else {
 			$this->renderView('client/view.php');
 		}
     }
-    
 
     protected function prepareForEdit($model)
     {
@@ -83,8 +83,12 @@ class ClientController extends BaseController
      */
     protected function onModelSaved($model)
     {
-		// go to its view page
-		$this->redirect('client', 'view', array('id'=>$model->id));
+		if ($this->_getParam('_ajax')) {
+			echo $this->ajaxResponse(array('id' => $model->id), 'success');
+		} else {
+			// go to its view page
+			$this->redirect('client', 'view', array('id'=>$model->id));
+		}
     }
     
     /**

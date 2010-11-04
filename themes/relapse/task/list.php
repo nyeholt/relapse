@@ -11,7 +11,6 @@ $options->colModel = array(
 	array('display' => 'Estimate', 'name' => 'estimated', 'width' => '80', 'sortable' => true, 'align' => 'right'),
 	array('display' => 'Percent Complete', 'name' => 'getPercentage', 'width' => '100', 'sortable' => false, 'align' => 'left'),
 	array('display' => 'Due', 'name' => 'due' , 'width' => '170', 'sortable' => true, 'align' => 'right'),
-	
 );
 
 $options->searchitems = array(

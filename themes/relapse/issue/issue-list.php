@@ -4,14 +4,21 @@
 	$options = new stdClass();
 	$params = array('json' => 1);
 	$model = null;
+	$exportParams = array(0, 0);
 	if (isset($this->project)) {
 		$model = $this->project;
 		$params['projectid'] = $this->project->id;
+		// hhahahggrg hack
+		$exportParams[1] = $this->project->id;
 	}
 	if (isset($this->client)) {
 		$model = $this->client;
 		$params['clientid'] = $this->client->id;
+		// hhahahggrg hack
+		$exportParams[0] = $this->client->id;
 	}
+
+	$exportParams = implode(',', $exportParams);
 
 	$options->url = build_url('issue', 'list', $params);
 	$options->dataType = 'json';
@@ -38,11 +45,12 @@
 	$options->pagestat = 'Displaying: {from} to {to} of {total} items.';
 	$options->onError = "function() { if (true) {}; alert(data); }";
 	$options->buttons = array(
-		array('name' => 'Open', 'bclass' => 'viewbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.tableCommand(cmd, data) }'),
-		array('name' => 'Start', 'bclass' => 'timingbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.startTiming(data) }'),
 		array('name' => 'New', 'bclass' => 'newbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.tableCommand(cmd, data, "'.build_url('issue', 'edit', $params).'") }'),
+		array('name' => 'Edit', 'bclass' => 'editbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.editIssue(data) }'),
+		array('name' => 'Start', 'bclass' => 'timingbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.startTiming(data) }'),
+		array('name' => 'New Task', 'bclass' => 'taskbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.createTask(data) }'),
 		array('name' => 'Delete', 'bclass' => 'deletebutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.tableCommand(cmd, data) }'),
-		array('name' => 'Export All', 'bclass' => 'exportbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.tableCommand(cmd, data) }')
+		array('name' => 'Export', 'bclass' => 'exportbutton', 'onpress' => 'function(cmd, data) { Relapse.Issues.exportIssues('.$exportParams.') }')
 	);
 	$this->flexiGrid('issue-list', $options);
 	?>

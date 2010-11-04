@@ -84,6 +84,7 @@ legend { padding: 0.2em; background-color: #66ccff; color: #666; margin-left: 80
 .editbutton { background: transparent url(../../../resources/images/pencil.png) no-repeat; }
 
 .timingbutton { background: transparent url(../../../resources/images/clock_play.png) no-repeat; }
+.taskbutton { background: transparent url(../../../resources/images/cog.png) no-repeat; }
 .timesheetbutton { background: transparent url(../../../resources/images/clock_red.png) no-repeat; }
 .completebutton { background: transparent url(../../../resources/images/accept.png) no-repeat; }
 .deletebutton { background: transparent url(../../../resources/images/delete.png) no-repeat; }

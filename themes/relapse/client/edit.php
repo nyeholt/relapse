@@ -1,4 +1,4 @@
-<form method="post" action="<?php echo build_url('client', 'save');?>" class="data-form">
+<form method="post" action="<?php echo build_url('client', 'save');?>" class="data-form ajaxForm">
 <?php if ($this->model->id): ?>
     <input type="hidden" value="<?php echo $this->model->id?>" name="id" />
 <?php endif; ?>

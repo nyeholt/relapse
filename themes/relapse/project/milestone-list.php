@@ -86,25 +86,24 @@
 			</div>
 
 			<h4 class="milestone-title"><a href="#" onclick="$('#project-task-summary-<?php  echo $childProject->id?>').toggle(); return false;">Tasks (click to show)</a></h4>
+			<div id="project-task-summary-<?php  echo $childProject->id?>" style="display:none;">
 
-			<ul id="project-task-summary-<?php  echo $childProject->id?>" style="display:none;">
+			<?php
+			$taskListUrl = build_url('search', 'list', array('type' => 'Task', 'projectid' => $childProject->id));
+			include dirname(__FILE__).'/../task/list.php';
+			?>
+
+			</div>
+
 			<?php
 			$completed = 0;
 			$estimated = 0;
 			foreach ($childProject->getContainedTasks($this->projectuser) as $openTask):
 				$completed += $openTask->timespent;
 				$estimated += $openTask->estimated;
-			?>
-				<li>
-				<?php $this->percentageBar($openTask->getPercentage())?>
-				<span style="background-color: <?php echo $openTask->getStalenessColor() ?>" title="Task staleness (blue is older)">&nbsp;&nbsp;</span>
-				<?php foreach ($openTask->userid as $username): ?>
-				<span>[<?php $this->o($username)?>]</span>
-				<?php endforeach; ?>
-				<?php $this->dialogPopin('taskdialog', $this->escape($openTask->title), build_url('task', 'edit', array('id'=>$openTask->id)), array('title' => 'Edit Task')); ?>
-				</li>
-			<?php endforeach; ?>
-			</ul><br/>
+			endforeach; ?>
+			
+			<br/>
 			<p>Time spent on tasks: <?php $this->o(sprintf('%.2f', ($completed > 0 ? $completed / 3600 : 0))) ?> / <?php $this->o($estimated) ?></p>
 			</div>
 		<?php endforeach; ?>

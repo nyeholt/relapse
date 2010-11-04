@@ -25,10 +25,8 @@
 
 
 <div id="projects" class="std">
+	<h2>Projects</h2>
 	<?php include dirname(__FILE__).'/../project/list.php'; ?>
-	<p>
-	<a class="abutton" href="<?php echo build_url('project', 'edit', array('clientid' => $this->client->id))?>">Add Project</a>
-	</p>
 </div>
 
 <?php include dirname(__FILE__).'/../issue/issue-list.php'; ?>

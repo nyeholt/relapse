@@ -52,6 +52,14 @@
 			}
 		},
 
+		createTask: function (grid) {
+			$('.trSelected',grid).each (function () {
+				var id = $(this).attr('id').replace('row', '');
+				var url = BASE_URL + 'task/linkedtaskform/id/'+id+'/type/Feature';
+				Relapse.createDialog('newLinkedTask', {title: 'Add Task', url: url});
+			});
+		},
+
 		/**
 		 * Immediately start timing this feature
 		 */
